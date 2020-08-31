@@ -2,21 +2,32 @@
 
 namespace Adapterman;
 
-use Exception;  // Añadir tests, posiblemenente con behat
+use Exception;
 
 class Adapterman
 {
-    public const VERSION = "0.2";
+    public const VERSION = "0.3";
+
+    private const NAME = "Adapterman v". self::VERSION;
     
     private const FUNCTIONS = ['header', 'header_remove', 'http_response_code', 'setcookie', 'session_create_id', 'session_id', 'session_name', 'session_save_path', 'session_status', 'session_start', 'session_write_close', 'set_time_limit'];
 
     public static function init(): void
     {
-        self::checkVersion();
-        self::checkFunctionsDisabled();
+        try {
+            self::checkVersion();
+            self::checkFunctionsDisabled();
+            
+            // OK initialize the functions
+            require __DIR__ . '/AdapterFunctions.php';
 
-        // OK initialize the functions
-        require __DIR__ . '/AdapterFunctions.php';
+        } catch (Exception $e) {
+            echo self::NAME, " Error:\n\n";
+            echo $e->getMessage();
+            exit;
+        }
+        
+        echo self::NAME," OK\n\n";
     }
 
     /**
@@ -28,7 +39,7 @@ class Adapterman
     private static function checkVersion(): void
     {
         if (\PHP_MAJOR_VERSION < 8) {
-            throw new Exception("\n\n* PHP version must be 8 or higher.\n* Actual PHP version: " . \PHP_VERSION . "\n\n ");
+            throw new Exception("* PHP version must be 8 or higher.\n* Actual PHP version: " . \PHP_VERSION . "\n\n ");
         }
     }
 
@@ -43,7 +54,7 @@ class Adapterman
  
         foreach (self::FUNCTIONS as $function) {
             if (\function_exists($function)) {
-                throw new Exception("\n\nFunctions not disabled in php.ini.\n" . self::showConfiguration());
+                throw new Exception("Functions not disabled in php.ini.\n" . self::showConfiguration());
             }
         }
     }
