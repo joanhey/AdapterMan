@@ -13,4 +13,4 @@ Actually working with:
 - KumbiaHP
 - ...
 
-Actually testing with more fws and apps.
+Still testing with more fws and apps.
