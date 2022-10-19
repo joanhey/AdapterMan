@@ -94,3 +94,12 @@ To run your app.
 
 Workerman documentation:
 [https://github.com/walkor/workerman-manual](https://github.com/walkor/workerman-manual/blob/master/english/SUMMARY.md)
+
+
+### Help with issues
+I was using this lib internally, for more than 2 years, to run legacy apps with Workerman.
+
+Almost all apps are used like microservices.
+
+So the session is not well tested.
+
