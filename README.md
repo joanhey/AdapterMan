@@ -88,3 +88,6 @@ To run your app.
 ```php server.php restart  ```  
 ```php server.php reload  ```  
 ```php server.php reload -g  ```
+
+Workerman documentation:
+[https://github.com/walkor/workerman-manual](https://github.com/walkor/workerman-manual/blob/master/english/SUMMARY.md)
