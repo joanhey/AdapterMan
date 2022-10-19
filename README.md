@@ -69,7 +69,9 @@ It's different for any fw and app.
 
 We are creating recipes for popular apps and frameworks.
 
-start.php
+- [Symfony](recipes/symfony.md)
+- [Laravel](recipes/laravel.md)
+- [Slim](recipes/slim.md)
 
 Recommended `start.php` and leave `index.php` in public.
 
