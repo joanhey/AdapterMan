@@ -21,6 +21,18 @@ composer require adapterman/adapterman
 ```
 Automatically install Workerman too.
 
+## Tree
+Where to create the files (`server.php` and `start.php`)
+
+```
+.
+├── app(dir)
+├── public(dir)
+├── vendor(dir)
+├── server.php
+└── start.php
+```
+
 ## Server
 server.php
 ```php
