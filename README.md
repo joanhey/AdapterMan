@@ -74,3 +74,16 @@ Recommended `Start.php` and leave `index.php` in public.
 
 We can run the app with workerman and with a webserver at the same time.
 
+
+## Available commands in workerman
+To run your app.
+```php server.php start  ```  
+```php server.php start -d  ```  
+```php server.php status  ```  
+```php server.php status -d  ```  
+```php server.php connections```  
+```php server.php stop  ```  
+```php server.php stop -g  ```  
+```php server.php restart  ```  
+```php server.php reload  ```  
+```php server.php reload -g  ```
