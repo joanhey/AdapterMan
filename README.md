@@ -29,6 +29,7 @@ Where to create the files (`server.php` and `start.php`)
 ├── app(dir)
 ├── public(dir)
 ├── vendor(dir)
+├── composer.json
 ├── server.php
 └── start.php
 ```
@@ -70,9 +71,9 @@ We are creating recipes for popular apps and frameworks.
 
 start.php
 
-Recommended `Start.php` and leave `index.php` in public.
+Recommended `start.php` and leave `index.php` in public.
 
-We can run the app with workerman and with a webserver at the same time.
+We can run the app with Workerman and with a webserver at the same time.
 
 
 ## Available commands in workerman
