@@ -101,6 +101,6 @@ I was using this lib internally, for more than 2 years, to run legacy apps with 
 
 Almost all apps are used like microservices.
 
-So the session is not ~well tested~ working for now.
+So the session is not well tested.
 
 
