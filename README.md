@@ -17,7 +17,7 @@ Still testing with more fws and apps.
 
 ## Installation
 ```
-composer require adapterman/adapterman
+composer require joanhey/adapterman
 ```
 Automatically install Workerman too.
 
