@@ -22,12 +22,12 @@ class Adapterman
             require __DIR__ . '/AdapterFunctions.php';
 
         } catch (Exception $e) {
-            echo self::NAME, " Error:\n\n";
-            echo $e->getMessage();
+            fwrite(STDOUT, self::NAME . " Error:\n\n");
+            fwrite(STDOUT, $e->getMessage());
             exit;
         }
         
-        echo self::NAME," OK\n\n";
+        fwrite(STDOUT, self::NAME . " OK\n\n");
     }
 
     /**
