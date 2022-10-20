@@ -7,7 +7,7 @@ use Workerman\Protocols\Http;
  * 
  * @link https://php.net/manual/en/function.header.php
  */
-function header(string $content, bool $replace = true, int $http_response_code = null): void
+function header(string $content, bool $replace = true, ?int $http_response_code = null): void
 {
     Http::header($content, $replace, $http_response_code);
 }
@@ -17,6 +17,8 @@ function header(string $content, bool $replace = true, int $http_response_code =
  *
  * @param string $name  The header name to be removed. This parameter is case-insensitive.
  * @return void
+ * 
+ * @link https://php.net/manual/en/function.header-remove.php
  */
 function header_remove(string $name): void
 {
