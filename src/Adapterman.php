@@ -6,7 +6,7 @@ use Exception;
 
 class Adapterman
 {
-    public const VERSION = "0.4";
+    public const VERSION = "0.5.2";
 
     public const NAME = "Adapterman v". self::VERSION;
     
