@@ -24,17 +24,6 @@ function header_remove(string $name): void
 }
 
 /**
- * Checks if or where headers have been sent
- * Always false with Workerman and CLI, Fix problem with cli SAPI
- * 
- * @return bool
- */
-function headers_sent($file = null, $line = null): bool
-{
-    return false;
-}
-
-/**
  * Get or Set the HTTP response code
  *
  * @param integer $code [optional] The optional response_code will set the response code.
