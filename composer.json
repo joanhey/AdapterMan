@@ -5,7 +5,6 @@
         "workerman",
         "php"
     ],
-    "homepage": "https://kumbiaphp.com",
     "license": "MIT",
     "description": "Use any framework and application with Workerman.",
     "authors": [

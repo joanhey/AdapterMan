@@ -95,6 +95,19 @@ function session_write_close(): void
     Http::sessionWriteClose();
 }
 
+/**
+ * Update the current session id with a newly generated one
+ *
+ * @param bool $delete_old_session
+ * @return bool
+ * 
+ * @link https://www.php.net/manual/en/function.session-regenerate-id.php
+ */
+function session_regenerate_id(bool $delete_old_session = false): bool
+{
+    return Http::sessionRegenerateId($delete_old_session);
+}
+
 function set_time_limit(int $seconds): bool
 {
     // Disable set_time_limit to not stop the worker
