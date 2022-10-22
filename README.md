@@ -101,7 +101,7 @@ I was using this lib internally, for more than 2 years, to run legacy apps with 
 
 Almost all apps are used like microservices.
 
-We made id for APIs and microservices. So the session is not well tested.
+We made ii for APIs and microservices. So the session is not well tested.
 
 #### Login progress
 Start to work with Laravel, Orchid admin panel.
