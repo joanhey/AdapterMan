@@ -99,8 +99,6 @@ Workerman documentation:
 ### Help with session issues
 I was using this lib internally, for more than 2 years, to run legacy apps with Workerman.
 
-Almost all apps are used like microservices.
-
 We made it for APIs and microservices. So the session is not well tested.
 
 #### Login progress
