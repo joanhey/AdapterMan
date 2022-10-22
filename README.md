@@ -96,11 +96,17 @@ Workerman documentation:
 [https://github.com/walkor/workerman-manual](https://github.com/walkor/workerman-manual/blob/master/english/SUMMARY.md)
 
 
-### Help with issues
+### Help with session issues
 I was using this lib internally, for more than 2 years, to run legacy apps with Workerman.
 
 Almost all apps are used like microservices.
 
-So the session is not well tested.
+We made id for APIs and microservices. So the session is not well tested.
 
+#### Login progress
+Start to work with Laravel, Orchid admin panel.
+![image](https://user-images.githubusercontent.com/249085/197333441-74fff586-b984-492f-8cd1-58fb69774b1f.png)
+
+With Symfony still fail, but here Drupal working with the public pages.
+![image](https://user-images.githubusercontent.com/249085/197333512-0f840436-399f-4000-b9af-e6a05a7d30b2.png)
 
