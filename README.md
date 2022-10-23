@@ -16,7 +16,7 @@ Actually working with:
 Still testing with more fws and apps.
 
 ### Symfony demo with Workerman
-Symfony initialization 0ms
+Symfony initialization 0ms and half the time per request.
 
 https://user-images.githubusercontent.com/249085/197399760-5da8311e-5cf1-426a-a89d-ec2a2de43af0.mp4
 
