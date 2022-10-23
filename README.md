@@ -80,7 +80,7 @@ We are creating recipes for popular apps and frameworks.
 
 Recommended `start.php` and leave `index.php` in public.
 
-We can run the app with Workerman and with a webserver at the same time.
+We can run the app with Workerman and with php-fpm at the same time.
 
 
 ## Available commands in workerman
