@@ -105,6 +105,6 @@ We made it for APIs and microservices. So the session is not well tested.
 Start to work with Laravel, Orchid admin panel.
 ![image](https://user-images.githubusercontent.com/249085/197333441-74fff586-b984-492f-8cd1-58fb69774b1f.png)
 
-With Symfony still fail, but here Drupal working with the public pages.
+With Symfony still fail the login, but here Drupal working with the public pages.
 ![image](https://user-images.githubusercontent.com/249085/197333512-0f840436-399f-4000-b9af-e6a05a7d30b2.png)
 
