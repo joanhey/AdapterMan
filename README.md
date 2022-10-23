@@ -109,7 +109,7 @@ Symfony initialization 0ms
 
 https://user-images.githubusercontent.com/249085/197399760-5da8311e-5cf1-426a-a89d-ec2a2de43af0.mp4
 
-Start to work with Laravel, Orchid admin panel.
+Laravel Orchid admin panel.
 ![image](https://user-images.githubusercontent.com/249085/197333441-74fff586-b984-492f-8cd1-58fb69774b1f.png)
 
 Drupal working showing public pages.
