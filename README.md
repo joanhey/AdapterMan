@@ -112,6 +112,6 @@ https://user-images.githubusercontent.com/249085/197399760-5da8311e-5cf1-426a-a8
 Laravel Orchid admin panel.
 ![image](https://user-images.githubusercontent.com/249085/197333441-74fff586-b984-492f-8cd1-58fb69774b1f.png)
 
-Drupal working showing public pages.
+Drupal showing public pages.
 ![image](https://user-images.githubusercontent.com/249085/197333512-0f840436-399f-4000-b9af-e6a05a7d30b2.png)
 
