@@ -3,7 +3,8 @@
     "type": "library",
     "keywords": [
         "workerman",
-        "php"
+        "php",
+        "event"
     ],
     "license": "MIT",
     "description": "Use any framework and application with Workerman.",
