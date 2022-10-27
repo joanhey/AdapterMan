@@ -8,9 +8,10 @@ If your app or fw use a Front Controller, 99% that will work. Requires minimun P
 Actually working with:
 - Symfony
 - Laravel
+- CakePHP
 - Yii2
 - Slim
-- KumbiaHP
+- KumbiaPHP
 - ... (Your app?)
 
 Still testing with more fws and apps.
