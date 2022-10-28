@@ -1,5 +1,5 @@
 # AdapterMan for Workerman
-Faster and more scalable apps, also use it as Servesless.
+Faster and more scalable apps, also use it as Serverless.
 
 Run almost any PHP app with the async event driven Workerman, without touch 1 line of code in your fw or app.
 
