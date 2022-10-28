@@ -1,7 +1,7 @@
 # AdapterMan for Workerman
 Faster and more scalable apps, also use it like Servesless.
 
-Run almost any PHP app with async event driven Workerman, without touch 1 line of code in your fw or app.
+Run almost any PHP app with the async event driven Workerman, without touch 1 line of code in your fw or app.
 
 If your app or fw use a Front Controller, 99% that will work. Requires minimun PHP 8.0.
 
