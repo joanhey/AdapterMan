@@ -23,6 +23,7 @@ Results from Techempower benchmark.
 Without touch a line of code.
 
 ### Laravel 8
+With full ORM.
 
  Fw | Plaintext | Json | Single query | Multiple query | Updates | Fortunes
  -- | --| -- | -- | -- | -- | -- 
