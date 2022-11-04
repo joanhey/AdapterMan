@@ -16,6 +16,25 @@ Actually working with:
 
 Still testing with more fws and apps.
 
+
+## Performance bench
+Results from Techempower benchmark.
+
+Laravel 8, without touch a line of code.
+
+ Fw | Plaintext | Json | Single query | Multiple query | Updates | Fortunes
+ -- | --| -- | -- | -- | -- | -- 
+Laravel | 14,799 | 14,770 | 9,263 | 3,247 | 1,452 | 8,354
+Laravel Roadrunner | 482 | 478 | 474 | 375 | 359 | 472
+Laravel Swoole | 38,824 | 37,439 | 21,687 | 3,958 | 1,588 | 16,035 
+Laravel Laravel s | 54,617 | 49,372 | 23,677 | 2,917 | 1,255 | 16,696 
+**Laravel Workerman** | **103,004** | **99,891** | **46,001** | **5,828** | **1,666** | **27,158** 
+
+In 2 days Symfony. 
+
+The next week: 
+Laravel 9, Lumen 9, cakephp and slim. 
+
 ### Symfony demo with Workerman
 Symfony initialization 0ms and half the time per request.
 
