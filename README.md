@@ -33,6 +33,11 @@ Laravel Swoole | 38,824 | 37,439 | 21,687 | 3,958 | 1,588 | 16,035
 Laravel Laravel s | 54,617 | 49,372 | 23,677 | 2,917 | 1,255 | 16,696 
 **Laravel Workerman** | **103,004** | **99,891** | **46,001** | **5,828** | **1,666** | **27,158** 
 
+![image](https://user-images.githubusercontent.com/249085/200189417-06fa658b-92c3-4c6d-a6e4-1efb3446a513.png)
+Latency
+![image](https://user-images.githubusercontent.com/249085/200189427-99977bb7-5910-4d17-a47c-7242e8f95f8f.png)
+
+
 In 2 days Symfony. 
 
 The next week: 
