@@ -19,8 +19,8 @@ Without touch a line of code.
 
 
 ## Performance bench
-Results from Techempower benchmark.
-Without touch a line of code.
+Results from **Techempower benchmark.
+Without touch a line of code.**
 
 
 ### Symfony 6
