@@ -38,7 +38,15 @@ Latency
 ![image](https://user-images.githubusercontent.com/249085/200189427-99977bb7-5910-4d17-a47c-7242e8f95f8f.png)
 
 
-In 2 days Symfony. 
+### Symfony 6
+![image](https://user-images.githubusercontent.com/249085/200204652-95c9477a-c249-48a8-b53f-29a59ee803c8.png)
+Latency
+![image](https://user-images.githubusercontent.com/249085/200204701-17a8554b-a7bc-4891-8149-fbd525701920.png)
+
+Fw | Plaintext | Json | Single query | Multiple query | Updates | Fortunes
+ -- | --| -- | -- | -- | -- | -- 
+Symfony | 38,231 | 37,557 | 12,578 | 10,741 | 3,420 | 10,741
+**Symfony Workerman** | **210,796** | **197,059** | **107,050** | **13,401** | **4,062** | **71,092**
 
 The next week: 
 Laravel 9, Lumen 9, cakephp and slim. 
