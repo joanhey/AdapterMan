@@ -57,7 +57,7 @@ Latency
 Without ORM
 Framework | Plaintext | JSON | 1-query | 20-query | Updates | Fortunes 
 -- | -- | -- | -- | -- | -- | --
-Slim 4   | 35,251 | 38,305 | 34,272 | 12,579 | 32,634 | 2,097  
+Slim 4   | 35,251 | 38,305 | 34,272 | 12,579 | 2,097 | 32,634  
 **Slim 4 Workerman** | **134,531** | **129,393** | **81,889** | **15,803** | **2,456** | **73,212** 
 Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752 
 
