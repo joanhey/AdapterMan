@@ -51,6 +51,18 @@ Laravel Laravel s | 54,617 | 49,372 | 23,677 | 2,917 | 1,255 | 16,696
 Latency
 ![image](https://user-images.githubusercontent.com/249085/200189427-99977bb7-5910-4d17-a47c-7242e8f95f8f.png)
 
+
+
+### Slim with Workerman
+Without ORM
+Framework | Plaintext | JSON | 1-query | 20-query | Updates | Fortunes 
+-- | -- | -- | -- | -- | -- | --
+Slim 4   | 35,251 | 38,305 | 34,272 | 12,579 | 32,634 | 2,097  
+**Slim 4 Workerman** | **134,531** | **129,393** | **81,889** | **15,803** | **2,456** | **73,212** 
+Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752 
+
+* Without ORM and db class optimized for Workerman
+
 The next week: 
 Laravel 9, Lumen 9, cakephp and slim. 
 
