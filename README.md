@@ -55,6 +55,8 @@ Latency
 
 ### Slim with Workerman
 Without ORM
+![image](https://user-images.githubusercontent.com/249085/201919385-ad25e41b-9887-42b7-92c0-d524a5e6aeae.png)
+
 Framework | Plaintext | JSON | 1-query | 20-query | Updates | Fortunes 
 -- | -- | -- | -- | -- | -- | --
 Slim 4   | 35,251 | 38,305 | 34,272 | 12,579 | 2,097 | 32,634  
@@ -62,6 +64,9 @@ Slim 4   | 35,251 | 38,305 | 34,272 | 12,579 | 2,097 | 32,634
 Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752 
 
 * Without ORM and db class optimized for Workerman
+
+
+
 
 The next week: 
 Laravel 9, Lumen 9, cakephp and slim. 
