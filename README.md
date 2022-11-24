@@ -156,6 +156,9 @@ To run your app.
 Workerman documentation:
 [https://github.com/walkor/workerman-manual](https://github.com/walkor/workerman-manual/blob/master/english/SUMMARY.md)
 
+You can also select a diferent cli php.ini directly:
+
+```php -c cli-php.ini server.php start```
 
 ### Help with session issues
 I was using this lib internally, for more than 2 years, to run legacy apps with Workerman.
