@@ -24,6 +24,8 @@ Without touch a line of code.
 Results from **Techempower benchmark.
 Without touch a line of code.**
 
+Follow https://twitter.com/adaptermanphp for more updates.
+
 
 ### Symfony 6
 With full ORM
