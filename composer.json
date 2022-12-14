@@ -22,7 +22,7 @@
     },
     "require": {
         "php": "^8",
-        "workerman/workerman": "^3.5"
+        "workerman/workerman": "^3.5|^4.0"
     },
     "suggest": {
         "ext-event": "For better performance. "
