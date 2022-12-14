@@ -101,8 +101,8 @@ Where to create the files (`server.php` and `start.php`)
 server.php
 ```php
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
 
+require_once __DIR__ . '/vendor/autoload.php';
 
 use Adapterman\Adapterman;
 use Workerman\Worker;
