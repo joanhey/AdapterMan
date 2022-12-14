@@ -80,9 +80,9 @@ function session_save_path(string $path = ''): string
 function session_status(): int
 {
     if (Http::sessionStarted() === false) {
-        return 1;
+        return PHP_SESSION_NONE;
     }
-    return 2;
+    return PHP_SESSION_ACTIVE;
 }
 
 function session_start(array $options = []): bool
