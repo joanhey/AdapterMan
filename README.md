@@ -68,7 +68,7 @@ Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752
 * Without ORM and db class optimized for Workerman
 
 ### Workerman without worker mode
-We started to test it. Every request include the .php file.
+We started to test it. Every request include the .php file, like with PHP-FPM.
 
 Added to the Techempower benchmark, when we have the results we'll add it here.
 
