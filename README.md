@@ -70,7 +70,7 @@ Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752
 ### Workerman without worker mode
 We started to test it. Every request include the .php file.
 
-Added to the Techempower bencmark, when we have the results we'll add it here.
+Added to the Techempower benchmark, when we have the results we'll add it here.
 
 In the meantime, a local benchmark with the json.php test with 100 concurrent connections.
 
