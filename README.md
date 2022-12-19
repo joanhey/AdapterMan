@@ -67,11 +67,15 @@ Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752
 
 * Without ORM and db class optimized for Workerman
 
+### Workerman without worker mode
+We started to test it. Every request include the .php file.
 
+Added to the Techempower bencmark, when we have the results we'll add it here.
 
+In the meantime, a local benchmark with the json.php test with 100 concurrent connections.
 
-The next week: 
-Laravel 9, Lumen 9, cakephp and slim. 
+![image](https://user-images.githubusercontent.com/249085/208427435-96afab97-cccf-4e6e-9e13-52f6dddb00fb.png)
+
 
 ### Symfony demo with Workerman
 Symfony initialization 0ms and half the time per request.
