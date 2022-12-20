@@ -140,6 +140,7 @@ We are creating recipes for popular apps and frameworks.
 
 - [Symfony](recipes/symfony.md)
 - [Laravel](recipes/laravel.md)
+- [Lumen](recipes/lumen.md)
 - [Slim](recipes/slim.md)
 
 Recommended `start.php` and leave `index.php` in public.
