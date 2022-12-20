@@ -8,6 +8,7 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
+    # Change to your public dir
     root /var/www/html/your-app/public;
     index index.html index.htm;
 
