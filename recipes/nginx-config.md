@@ -1,6 +1,10 @@
 Example Nginx config
 
-Nginx can do: the TLS termination, serve static files, proxy all your workerman apps in the same domain, ....
+Nginx can do:
+* the TLS termination
+* serve static files
+* proxy all your workerman apps in the same domain
+* ....
 
 nginx.conf
 ```nginx
