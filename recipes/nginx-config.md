@@ -17,6 +17,7 @@ server {
     try_files $uri $uri/ @backend;
     }
 
+    # Add the ip:port of your app
     location @backend {
          proxy_pass 127.0.0.1:8080; // or localhost:8080;
          proxy_http_version 1.1;
