@@ -5,6 +5,6 @@ Adapterman is for now an App Server.
 
 
 
-Help us to create more recipes
+### Help us to create more recipes
 
 Add your recipe!!
