@@ -22,7 +22,7 @@ Without touch a line of code.
 ### NEW !!! Workerman shared nothing mode
 We started to test it.
 
-Each request is independent and include the .php file, like with PHP-FPM.
+Each request is independent and load the .php file, like with PHP-FPM.
 
 Added to the Techempower benchmark, when we have the results we'll add it here.
 
