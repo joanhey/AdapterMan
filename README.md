@@ -19,8 +19,20 @@ Actually working with:
 Still testing with more fws and apps.
 Without touch a line of code.
 
+### NEW !!! Workerman shared nothing mode
+We started to test it.
 
-## Performance bench
+Each request is independent and include the .php file, like with PHP-FPM.
+
+Added to the Techempower benchmark, when we have the results we'll add it here.
+
+In the meantime, a local benchmark with the json.php test with 100 concurrent connections.
+
+![image](https://user-images.githubusercontent.com/249085/208427435-96afab97-cccf-4e6e-9e13-52f6dddb00fb.png)
+
+
+
+## Performance bench Worker mode
 Results from **Techempower benchmark.
 Without touch a line of code.**
 
@@ -66,18 +78,6 @@ Slim 4   | 35,251 | 38,305 | 34,272 | 12,579 | 2,097 | 32,634
 Slim 4 Workerman pgsql * |   |   | 102,926 | 19,637 | 14,875 | 92,752 
 
 * Without ORM and db class optimized for Workerman
-
-### NEW !!! Workerman shared nothing mode
-We started to test it.
-
-Each request is independent and include the .php file, like with PHP-FPM.
-
-Added to the Techempower benchmark, when we have the results we'll add it here.
-
-In the meantime, a local benchmark with the json.php test with 100 concurrent connections.
-
-![image](https://user-images.githubusercontent.com/249085/208427435-96afab97-cccf-4e6e-9e13-52f6dddb00fb.png)
-
 
 ### Symfony demo with Workerman
 Symfony initialization 0ms and half the time per request.
