@@ -52,8 +52,16 @@ function http_response_code(int $code = null): int
  * 
  * @link https://php.net/manual/en/function.setcookie.php
  */
-function setcookie(string $name, string $value = '', int $expires = 0, string $path = '', string $domain = '', bool $secure = FALSE, bool $httponly = FALSE): bool
+function setcookie(string $name, string $value = '', int|array $expires = 0, string $path = '', string $domain = '', bool $secure = FALSE, bool $httponly = FALSE): bool
 {
+    if(is_array($expires)){
+        $expires = $expires['expires']??0;
+        $path = $expires['path']??'';
+        $domain = $expires['domain']??'';
+        $secure = $expires['secure']??FALSE;
+        $httponly = $expires['httponly']??FALSE;
+        return Http::setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+    }
     return Http::setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
 }
 
