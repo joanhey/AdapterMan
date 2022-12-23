@@ -43,7 +43,7 @@ function http_response_code(int $code = null): int
  *
  * @param string $name
  * @param string $value
- * @param integer $expires
+ * @param int|array $expires
  * @param string $path
  * @param string $domain
  * @param boolean $secure
