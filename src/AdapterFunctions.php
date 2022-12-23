@@ -54,14 +54,14 @@ function http_response_code(int $code = null): int
  */
 function setcookie(string $name, string $value = '', int|array $expires = 0, string $path = '', string $domain = '', bool $secure = FALSE, bool $httponly = FALSE): bool
 {
-    if (is_array($expires)) {
+    if (is_array($expires)) { // Alternative signature available as of PHP 7.3.0 (not supported with named parameters)
         $expires  = $expires['expires'] ?? 0;
         $path     = $expires['path'] ?? '';
         $domain   = $expires['domain'] ?? '';
         $secure   = $expires['secure'] ?? FALSE;
         $httponly = $expires['httponly'] ?? FALSE;
     }
-    
+
     return Http::setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
 }
 
