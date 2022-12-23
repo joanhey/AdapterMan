@@ -41,9 +41,10 @@ Follow https://twitter.com/adaptermanphp for more updates.
 
 ### Symfony 6
 With full ORM
-![image](https://user-images.githubusercontent.com/249085/200204652-95c9477a-c249-48a8-b53f-29a59ee803c8.png)
+![image](https://user-images.githubusercontent.com/249085/209320777-13d1cc25-f350-43a4-ba2f-4db0a92c7b7a.png)
 Latency
-![image](https://user-images.githubusercontent.com/249085/200204701-17a8554b-a7bc-4891-8149-fbd525701920.png)
+![image](https://user-images.githubusercontent.com/249085/209321052-6dab2d0e-c630-48d8-a25c-5f1906f08b8f.png)
+
 
 Fw | Plaintext | Json | Single query | Multiple query | Updates | Fortunes
  -- | --| -- | -- | -- | -- | -- 
