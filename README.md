@@ -23,12 +23,15 @@ Without touch a line of code.
 We started to test it.
 
 Each request is independent and load the .php file, like with PHP-FPM.
+Using the same .php files.
 
-Added to the Techempower benchmark, when we have the results we'll add it here.
+![image](https://user-images.githubusercontent.com/249085/209589643-5b464656-4d44-4879-9bbc-deb49582a57b.png)
 
-In the meantime, a local benchmark with the json.php test with 100 concurrent connections.
 
-![image](https://user-images.githubusercontent.com/249085/208427435-96afab97-cccf-4e6e-9e13-52f6dddb00fb.png)
+Framework | JSON | 1-query | Multiple queries | Fortunes | Updates | Plaintext
+-- | -- | -- | -- | -- | -- | --
+php php-fpm| 187,747 | 97,658 | 12,784 | 79,309 | 2,010 | 195,283
+php workerman | 822,930 | 134,475 | 15,648 | 124,923 | 4,683 | 1,161,016
 
 
 
