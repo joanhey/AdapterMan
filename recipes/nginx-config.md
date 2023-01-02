@@ -18,7 +18,7 @@ server {
 
     server_name localhost;
 
-    location ^~ / {
+    location / {
         try_files $uri $uri/ @backend;
     }
 
