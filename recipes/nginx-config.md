@@ -19,7 +19,7 @@ server {
     server_name localhost;
 
     location / {
-    try_files $uri $uri/ @backend;
+        try_files $uri $uri/ @backend;
     }
 
     # Add the ip:port of your app
