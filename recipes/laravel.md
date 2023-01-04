@@ -1,6 +1,6 @@
 # Laravel with Workerman
 
-Copy your `app/index.php` to `start.php`.
+Copy your `public/index.php` to `public/start.php`.
 
 ## Change the code
 In `start.php`
