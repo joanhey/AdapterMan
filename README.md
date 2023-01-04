@@ -20,7 +20,7 @@ Still testing with more fws and apps.
 Without touch a line of code.
 
 ### NEW !!! Workerman shared nothing mode
-We started to test it.
+We started to test it. Experimental still.
 
 Each request is independent and load the .php file, like with PHP-FPM.
 Using the same .php files.
