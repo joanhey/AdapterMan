@@ -1,0 +1,1 @@
+/usr/bin/env php -c vendor/joanhey/adapterman/cli-php.ini vendor/joanhey/adapterman/src/start.php "$@"

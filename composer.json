@@ -22,8 +22,9 @@
     },
     "require": {
         "php": "^8",
-        "workerman/workerman": "^3.5"
+        "workerman/workerman": "^4.1"
     },
+    "bin": ["adapterman"],
     "suggest": {
         "ext-event": "For better performance. "
     },
