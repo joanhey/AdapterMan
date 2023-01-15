@@ -199,7 +199,6 @@ class Http
         static::$status = 'HTTP/1.1 200 OK';
         static::$headers = [
             'Content-Type' => 'Content-Type: text/html;charset=utf-8',
-            'Connection' => 'Connection: keep-alive',
             'Server' => 'Server: workerman'
         ];
         static::$cookies = [];
