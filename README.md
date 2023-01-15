@@ -14,6 +14,7 @@ Actually working with:
 - Yii2
 - Slim
 - KumbiaPHP
+- ThinkPHP
 - ... (Your app?)
 
 Still testing with more fws and apps.
