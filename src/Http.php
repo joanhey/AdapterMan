@@ -237,14 +237,7 @@ class Http
      * The supported HTTP methods
      * @var array
      */
-    public static array $availableMethods = [
-        'GET' => 'GET',
-        'POST' => 'POST',
-        'PUT' => 'PUT',
-        'DELETE' => 'DELETE',
-        'HEAD' => 'HEAD',
-        'OPTIONS' => 'OPTIONS'
-    ];
+    const AVAILABLE_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'];
 
     /**
      * Send a raw HTTP header.
@@ -570,7 +563,7 @@ class Http
         $head_len = $crlf_post + 4;
 
         $method = \substr($recv_buffer, 0, \strpos($recv_buffer, ' '));
-        if (!isset(static::$availableMethods[$method])) {
+        if (!\in_array($method, static::AVAILABLE_METHODS)) {
             $connection->send("HTTP/1.1 400 Bad Request\r\n\r\n", true);
             $connection->consumeRecvBuffer($recv_len);
             return 0;
