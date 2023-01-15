@@ -327,9 +327,9 @@ class Http
     ): bool
     {
         static::$cookies[] = 'Set-Cookie: ' . $name . '=' . rawurlencode($value)
-            . (empty($domain) ? '' : '; Domain=' . $domain)
-            . (empty($maxage) ? '' : '; Max-Age=' . $maxage)
-            . (empty($path) ? '' : '; Path=' . $path)
+            . ($domain ?: '; Domain=' . $domain)
+            . (($maxage === 0) ? '' : '; Max-Age=' . $maxage)
+            . ($path ?: '; Path=' . $path)
             . (!$secure ? '' : '; Secure')
             . (!$HTTPOnly ? '' : '; HttpOnly');
 
@@ -442,7 +442,7 @@ class Http
      */
     public static function sessionWriteClose(): bool
     {
-        if (!empty(static::$sessionStarted)) {
+        if (static::$sessionStarted) {
             $session_str = \serialize($_SESSION);
             if ($session_str && static::$sessionFile) {
                 return (bool)\file_put_contents(static::$sessionFile, $session_str);
