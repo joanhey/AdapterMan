@@ -136,9 +136,11 @@ function session_start(array $options = []): bool
 /**
  * Write session data and end session
  *
- * @return void
+ * @return bool
+ * 
+ * @link https://www.php.net/manual/en/function.session-write-close.php
  */
-function session_write_close(): void
+function session_write_close(): bool
 {
     Http::sessionWriteClose();
 }
