@@ -234,7 +234,7 @@ class Http
 
     /**
      * The supported HTTP methods
-     * @var array
+     * @var array<int,string>
      */
     const AVAILABLE_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'];
 
