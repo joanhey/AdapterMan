@@ -68,7 +68,7 @@ class Http
 
     /**
      * Session cookie secure.
-     * @var string
+     * @var bool
      */
     public static bool $sessionCookieSecure;
 
@@ -343,7 +343,7 @@ class Http
      * @param string|null $id
      * @return string|null
      */
-    public static function sessionId(string $id = null): ?string
+    public static function sessionId(string $id = null): string
     {
         if (static::sessionStarted() && static::$sessionFile) {
             return \str_replace('ses_', '', \basename(static::$sessionFile));
