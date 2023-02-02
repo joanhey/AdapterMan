@@ -19,6 +19,14 @@ use think\View;
 
 class Http extends think\Http
 {
+    protected function loadMiddleware(): void
+    {
+        if (is_file($this->app->getBasePath() . 'middleware.php')) {
+            // Change include to include_once
+            $this->app->middleware->import(include_once $this->app->getBasePath() . 'middleware.php');
+        }
+    }
+
     protected function loadRoutes(): void
     {
         $routePath = $this->getRoutePath();
