@@ -686,7 +686,7 @@ class Http
                     static::parseUploadFiles($http_body, $http_post_boundary);
                     break;
                 case 'application/json':
-                    $_POST = \json_decode($http_body, true);
+                    $_POST = \json_decode($http_body, true) ?? [];
                     break;
                 case 'application/x-www-form-urlencoded':
                     \parse_str($http_body, $_POST);
@@ -700,7 +700,7 @@ class Http
             if ($_SERVER['CONTENT_TYPE'] === "application/x-www-form-urlencoded") {
                 \parse_str($http_body, $data);
             } elseif ($_SERVER['CONTENT_TYPE'] === "application/json") {
-                $data = \json_decode($http_body, true);
+                $data = \json_decode($http_body, true) ?? [];
             }
             $_REQUEST = \array_merge($_REQUEST, $data);
         }
