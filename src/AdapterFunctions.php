@@ -81,6 +81,8 @@ function session_create_id(string $prefix = ''): string
  *
  * @param string $id
  * @return string
+ * 
+ * @link https://www.php.net/manual/en/function.session-id.php
  */
 function session_id(string $id = ''): string
 {
