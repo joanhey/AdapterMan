@@ -513,6 +513,7 @@ class Http
                         else {
                             // Parse $_POST.
                             if (\preg_match('/name="(.*?)"$/', $header_value, $match)) {
+                                //TODO search a fast solution
                                 $post_encode_string .= urlencode($match[1]) . '=' . urlencode($boundary_value) . '&';
                             }
                         }
