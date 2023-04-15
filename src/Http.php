@@ -488,6 +488,7 @@ class Http
             unset($boundary_data_array[0]);
         }
         $key = -1;
+        $post_encode_string = '';
         foreach ($boundary_data_array as $boundary_data_buffer) {
             list($boundary_header_buffer, $boundary_value) = \explode("\r\n\r\n", $boundary_data_buffer, 2);
             // Remove \r\n from the end of buffer.
@@ -512,7 +513,7 @@ class Http
                         else {
                             // Parse $_POST.
                             if (\preg_match('/name="(.*?)"$/', $header_value, $match)) {
-                                $_POST[$match[1]] = $boundary_value;
+                                $post_encode_string .= urlencode($match[1]) . '=' . urlencode($boundary_value) . '&';
                             }
                         }
                         break;
@@ -521,6 +522,9 @@ class Http
                         $_FILES[$key]['file_type'] = \trim($header_value);
                         break;
                 }
+            }
+            if($post_encode_string) {
+                \parse_str($post_encode_string, $_POST);
             }
         }
     }
