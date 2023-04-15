@@ -595,11 +595,8 @@ class Http
     public static function decode(string $recv_buffer, TcpConnection $connection): array
     {
         static::reset();
-        $microtime = \microtime(true);
         if (isset(static::$cache[$recv_buffer]['decode'])) {
             $cache = static::$cache[$recv_buffer]['decode'];
-            $cache['server']['REQUEST_TIME_FLOAT'] =  $microtime;
-            $cache['server']['REQUEST_TIME'] =  (int)$microtime;
             $_SERVER = $cache['server'];
             $_POST = $cache['post'];
             $_GET = $cache['get'];
@@ -624,9 +621,7 @@ class Http
             'HTTP_ACCEPT_ENCODING' => '',
             'HTTP_COOKIE' => '',
             'HTTP_CONNECTION' => '',
-            'CONTENT_TYPE' => '',
-            'REQUEST_TIME' => (int)$microtime,
-            'REQUEST_TIME_FLOAT' => $microtime
+            'CONTENT_TYPE' => ''
         ];
 
         // Parse headers.
