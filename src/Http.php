@@ -335,7 +335,7 @@ class Http
     public static function sessionCreateId(): string
     {
         \mt_srand();
-        return bin2hex(\pack('d', \microtime(true)) . \pack('N', \mt_rand(0, 2147483647)));
+        return bin2hex(\pack('d', \hrtime(true)) . \pack('N', \mt_rand(0, 2147483647)));
     }
 
     /**
