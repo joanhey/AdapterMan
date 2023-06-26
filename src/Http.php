@@ -275,6 +275,7 @@ class Http
 
     /**
      * Remove previously set headers.
+     * 
      * @param string $name
      * @return void
      */
@@ -282,6 +283,7 @@ class Http
     {
         if ($name === null) {
             static::$headers = [];
+            static::$cookies = [];
             return;
         }
 
