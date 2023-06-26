@@ -242,23 +242,23 @@ class Http
      * Send a raw HTTP header.
      * @param string $content
      * @param bool $replace
-     * @param int|null $http_response_code
-     * @return bool
+     * @param int $http_response_code
+     * @return void
      */
-    public static function header(string $content, bool $replace = true, int $http_response_code = null): bool
+    public static function header(string $content, bool $replace = true, int $http_response_code = 0): void
     {
         if (str_starts_with($content, 'HTTP')) {
             static::$status = $content;
-            return true;
+            return;
         }
 
         $key = \strstr($content, ':', true);
         if (empty($key)) {
-            return false;
+            return;
         }
 
         if ('location' === \strtolower($key)) {
-            if (!$http_response_code) {
+            if ($http_response_code === 0) {
                 $http_response_code = 302;
             }
             static::responseCode($http_response_code);
@@ -270,7 +270,7 @@ class Http
             static::$headers[$key] = $content;
         }
 
-        return true;
+        return;
     }
 
     /**

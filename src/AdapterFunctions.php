@@ -7,7 +7,7 @@ use Adapterman\Http;
  *
  * @link https://php.net/manual/en/function.header.php
  */
-function header(string $content, bool $replace = true, ?int $http_response_code = null): void
+function header(string $content, bool $replace = true, int $http_response_code = 0): void
 {
     Http::header($content, $replace, $http_response_code);
 }
