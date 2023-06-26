@@ -769,16 +769,11 @@ class Http
         // http-code status line.
         $header = static::$status . "\r\n";
 
-        // Cookie headers
-        if (static::$cookies) {
-            $header .= \implode("\r\n", static::$cookies) . "\r\n";
+        // create headers
+        if ($headers = self::headers_list()) {
+            $header .= \implode("\r\n", $headers) . "\r\n";
         }
-
-        // other headers
-        if (static::$headers) {
-            $header .= \implode("\r\n", static::$headers) . "\r\n";
-        }
-
+        
         if (!empty($connection->gzip)) {
             $header .= "Content-Encoding: gzip\r\n";
             $content = \gzencode($content, $connection->gzip);
