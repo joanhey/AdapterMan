@@ -39,6 +39,18 @@ function http_response_code(int $code = null): int
 }
 
 /**
+ * Returns a list of response headers sent (or ready to send)
+ *
+ * @return array<string>
+ * 
+ * @link https://www.php.net/manual/en/function.headers-list.php
+ */
+function headers_list(): array
+{
+    return Http::headers_list();
+}
+
+/**
  * Send a cookie
  *
  * @param string $name

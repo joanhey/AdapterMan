@@ -329,6 +329,16 @@ class Http
     }
 
     /**
+     * Returns a list of response headers sent (or ready to send)
+     *
+     * @return array<string>
+     */
+    public static function headers_list(): array
+    {
+        return static::$cookies + static::$headers;
+    }
+
+    /**
      * Session create id.
      * @return string
      */
