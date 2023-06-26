@@ -278,8 +278,13 @@ class Http
      * @param string $name
      * @return void
      */
-    public static function headerRemove(string $name)
+    public static function headerRemove(?string $name = null): void
     {
+        if ($name === null) {
+            static::$headers = [];
+            return;
+        }
+
         unset(static::$headers[$name]);
     }
 

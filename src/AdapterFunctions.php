@@ -20,7 +20,7 @@ function header(string $content, bool $replace = true, int $http_response_code =
  *
  * @link https://php.net/manual/en/function.header-remove.php
  */
-function header_remove(string $name): void
+function header_remove(?string $name = null): void
 {
     Http::headerRemove($name);  //TODO fix case-insensitive
 }
