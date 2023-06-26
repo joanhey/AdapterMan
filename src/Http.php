@@ -335,7 +335,7 @@ class Http
      */
     public static function headers_list(): array
     {
-        return static::$cookies + static::$headers;
+        return [...static::$cookies, ...static::$headers];
     }
 
     /**
