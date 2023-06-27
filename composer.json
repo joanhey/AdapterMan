@@ -24,6 +24,11 @@
         "php": "^8",
         "workerman/workerman": "^4.1"
     },
+    "require-dev": {
+        "pestphp/pest": "^2.8",
+        "mockery/mockery": "2.0.x-dev",
+        "guzzlehttp/guzzle": "^7.0"
+    },
     "bin": ["adapterman"],
     "suggest": {
         "ext-event": "For better performance. "
@@ -31,6 +36,16 @@
     "autoload": {
         "psr-4": {
             "Adapterman\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }
