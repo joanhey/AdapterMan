@@ -9,12 +9,13 @@ it('tests POST', function () {
     $response = HttpClient()->post('/post', [
             'form_params' => $data,
     ]);
-    
+
     expect($response->getBody()->getContents())
         ->toBeJson()
         ->json()
         ->toBe($data);
 });
+
 
 it('tests POST JSON', function () {
     $data = [
@@ -32,6 +33,7 @@ it('tests POST JSON', function () {
         ->toBe($data);
    
 });
+
 
 it('tests POST Multipart', function () {
     $data = [

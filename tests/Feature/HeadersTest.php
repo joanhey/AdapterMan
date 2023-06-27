@@ -29,8 +29,8 @@ it('tests Headers', function () {
         ->toBeJson()
         ->json()
         ->toMatchArray($data);
-    //->toBe($data);
 });
+
 
 it('tests Headers Case Insensitive', function () {
     $data = [
