@@ -9,6 +9,7 @@ it('tests POST', function () {
     $response = HttpClient()->post('/post', [
             'form_params' => $data,
     ]);
+    
     expect($response->getBody()->getContents())
         ->toBeJson()
         ->json()
@@ -24,6 +25,7 @@ it('tests POST JSON', function () {
     $response = HttpClient()->post('/post', [
         'json' => $data
     ]);
+
     expect($response->getBody()->getContents())
         ->toBeJson()
         ->json()

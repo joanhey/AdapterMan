@@ -8,6 +8,7 @@ it('tests Header', function () {
     $response = HttpClient()->get('/headers', [
         'headers' => $data,
     ]);
+
     expect($response->getBody()->getContents())
         ->json()
         ->toMatchArray($data);
@@ -28,7 +29,7 @@ it('tests Headers', function () {
         ->toBeJson()
         ->json()
         ->toMatchArray($data);
-        //->toBe($data);
+    //->toBe($data);
 });
 
 it('tests Headers Case Insensitive', function () {
