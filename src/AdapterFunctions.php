@@ -49,6 +49,26 @@ function headers_list(): array
 {
     return Http::headers_list();
 }
+if (!function_exists('getallheaders')) {
+/**
+ * Fetch all HTTP request headers
+ *
+ * @return array
+ * 
+ * @link https://www.php.net/manual/en/function.getallheaders.php
+ */
+function getallheaders(): array
+{
+    $headers = [];
+    foreach ($_SERVER as $key => $value) {
+        if(str_starts_with($key, 'HTTP_')) {
+            $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))))] = $value;
+        }
+    }
+
+    return $headers;
+}
+}
 
 /**
  * Send a cookie
