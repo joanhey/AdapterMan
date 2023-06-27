@@ -33,4 +33,4 @@ jobs:
           command: composer update --prefer-dist --no-interaction --no-progress --ansi
 
       - name: Execute tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --colors=always
