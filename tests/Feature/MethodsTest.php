@@ -19,7 +19,7 @@ it('tests HTTP HEAD method', function () {
 });
 
 
-it('tests PATCH method', function () {
+it('tests HTTP PATCH method', function () {
     $response = HttpClient()->patch('/method');
 
     expect($response->getBody()->getContents())
@@ -27,7 +27,7 @@ it('tests PATCH method', function () {
 })->todo();
 
 
-it('tests BAD method', function () {
+it('tests HTTP BAD method', function () {
     $response = HttpClient()->request('BAD','/method');
 
     expect($response->getBody()->getContents())
