@@ -701,27 +701,22 @@ class Http
 
         // Parse $_POST.
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['CONTENT_TYPE']) {
-            switch ($_SERVER['CONTENT_TYPE']) {
-                case 'multipart/form-data':
-                    static::parseUploadFiles($http_body, $http_post_boundary);
-                    break;
-                case 'application/json':
-                    $_POST = \json_decode($http_body, true) ?? [];
-                    break;
-                case 'application/x-www-form-urlencoded':
-                    \parse_str($http_body, $_POST);
-                    break;
-            }
+            match($_SERVER['CONTENT_TYPE']) {
+                'multipart/form-data' => static::parseUploadFiles($http_body, $http_post_boundary),
+                'application/json'    => $_POST = \json_decode($http_body, true) ?? [],
+                'application/x-www-form-urlencoded' => \parse_str($http_body, $_POST),
+                default => ''
+            };
         }
 
         // Parse other HTTP action parameters
         if ($_SERVER['REQUEST_METHOD'] !== 'GET' && $_SERVER['REQUEST_METHOD'] !== "POST") {
             $data = [];
-            if ($_SERVER['CONTENT_TYPE'] === "application/x-www-form-urlencoded") {
-                \parse_str($http_body, $data);
-            } elseif ($_SERVER['CONTENT_TYPE'] === "application/json") {
-                $data = \json_decode($http_body, true) ?? [];
-            }
+            match($_SERVER['CONTENT_TYPE']) {
+                'application/x-www-form-urlencoded' => \parse_str($http_body, $data),
+                'application/json' => $data = \json_decode($http_body, true) ?? [],
+                default => ''
+            };
             $_REQUEST = \array_merge($_REQUEST, $data);
         }
 
