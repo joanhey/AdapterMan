@@ -234,9 +234,9 @@ class Http
 
     /**
      * The supported HTTP methods
-     * @var array<int,string>
+     * @var string[]
      */
-    const AVAILABLE_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'];
+    const AVAILABLE_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
 
     /**
      * Send a raw HTTP header.
@@ -597,7 +597,7 @@ class Http
 
         $match = [];
         if (\preg_match("/\r\nContent-Length: ?(\d+)/i", $recv_buffer, $match)) {
-            $content_length = isset($match[1]) ? $match[1] : 0;
+            $content_length = $match[1] ?? 0;
             $total_length = $content_length + $head_len;
             if (!isset($recv_buffer[1024])) {
                 static::$cache[$recv_buffer]['input'] = $total_length;
