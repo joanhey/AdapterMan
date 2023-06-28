@@ -18,6 +18,8 @@ $worker->onMessage = static function (TcpConnection $connection, $request) {
         '/post' => $connection->send(json_encode($_POST)),
         '/headers' => $connection->send(json_encode(getallheaders())),
         '/method' => $connection->send($_SERVER['REQUEST_METHOD']),
+        '/server_ip' => $connection->send($_SERVER['SERVER_ADDR']),
+        '/ip' => $connection->send($_SERVER['REMOTE_ADDR']),
         '/file' => $connection->send(json_encode($request->file('file'))),
 
         default => (function () use ($connection) {
@@ -28,3 +30,4 @@ $worker->onMessage = static function (TcpConnection $connection, $request) {
 };
 
 Worker::runAll();
+
