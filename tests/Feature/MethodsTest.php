@@ -1,6 +1,6 @@
 <?php
 
-it('tests HTTP Methods', function (string $method) {
+it('tests HTTP methods', function (string $method) {
     $response = HttpClient()->request($method,'/method');
 
     expect($response->getBody()->getContents())
@@ -9,7 +9,7 @@ it('tests HTTP Methods', function (string $method) {
 })->with(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
 
 
-it('tests HEAD method', function () {
+it('tests HTTP HEAD method', function () {
     $response = HttpClient()->head('/method');
 
     expect($response->getStatusCode())
