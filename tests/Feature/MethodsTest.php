@@ -5,7 +5,18 @@ it('tests HTTP Methods', function (string $method) {
 
     expect($response->getBody()->getContents())
         ->toBe($method);
-})->with(['GET', 'POST', 'PUT', 'DELETE']);
+
+})->with(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
+
+
+it('tests HEAD method', function () {
+    $response = HttpClient()->head('/method');
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getBody()->getContents())
+        ->toBe('');
+});
 
 
 it('tests PATCH method', function () {
