@@ -732,13 +732,8 @@ class Http
             $_SERVER['QUERY_STRING'] = '';
         }
 
-        if (\is_array($_POST)) {
-            // REQUEST
-            $_REQUEST = \array_merge($_GET, $_POST, $_REQUEST);
-        } else {
-            // REQUEST
-            $_REQUEST = \array_merge($_GET, $_REQUEST);
-        }
+        // REQUEST
+        $_REQUEST = \array_merge($_GET, $_POST, $_REQUEST);
 
         $ret = [
             'get' => $_GET,
