@@ -585,7 +585,7 @@ class Http
 
         $method = \substr($recv_buffer, 0, \strpos($recv_buffer, ' '));
         if (!\in_array($method, static::AVAILABLE_METHODS)) {
-            $connection->send("HTTP/1.1 400 Bad Request\r\n\r\n", true);
+            $connection->send("HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\n\r\n", true);
             $connection->consumeRecvBuffer($recv_len);
             return 0;
         }
