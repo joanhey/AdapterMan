@@ -636,6 +636,8 @@ class Http
             'SERVER_PROTOCOL' => '',
             'SERVER_ADDR' => $connection->getLocalIp(),
             'SERVER_PORT' => $connection->getLocalPort(),
+            'REMOTE_ADDR' => $connection->getRemoteIp(),
+            'REMOTE_PORT' => $connection->getRemotePort(),
             'SERVER_SOFTWARE' => 'workerman',
             'SERVER_NAME' => '',
             'HTTP_HOST' => '',
@@ -743,9 +745,6 @@ class Http
             $_REQUEST = \array_merge($_GET, $_REQUEST);
         }
 
-        // REMOTE_ADDR REMOTE_PORT
-        $_SERVER['REMOTE_ADDR'] = $connection->getRemoteIp();
-        $_SERVER['REMOTE_PORT'] = $connection->getRemotePort();
         $ret = [
             'get' => $_GET,
             'post' => $_POST,
@@ -754,6 +753,7 @@ class Http
             'files' => $_FILES,
             'request' => $_REQUEST
         ];
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             static::$cache[$recv_buffer]['decode'] = $ret;
             if (\count(static::$cache) > 256) {
