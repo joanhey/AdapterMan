@@ -1,9 +1,11 @@
 <?php
 
-it('tests HTTP methods', function (string $method) {
+it('tests HTTP method', function (string $method) {
     $response = HttpClient()->request($method,'/method');
 
-    expect($response->getBody()->getContents())
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and($response->getBody()->getContents())
         ->toBe($method);
 
 })->with(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
