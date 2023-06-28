@@ -48,6 +48,7 @@ function HttpClient()
     return new Client([
         'base_uri' => 'http://127.0.0.1:8080',
         'cookies' => true,
+        "User-Agent" => "Testing/1.0",
         'http_errors' => false,
     ]);
 }
