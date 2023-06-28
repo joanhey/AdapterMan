@@ -32,7 +32,9 @@ it('tests HTTP PATCH method', function () {
 it('tests HTTP BAD method', function () {
     $response = HttpClient()->request('BAD','/method');
 
-    expect($response->getBody()->getContents())
-        ->toBe('POST');
-})->todo();
+    expect($response->getStatusCode())
+        ->toBe(400)
+        ->and($response->getBody()->getContents())
+        ->toBe('');
+});
 
