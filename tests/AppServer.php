@@ -17,6 +17,7 @@ $worker->onMessage = static function (TcpConnection $connection, $request) {
         '/get' => $connection->send(json_encode($_GET)),
         '/post' => $connection->send(json_encode($_POST)),
         '/headers' => $connection->send(json_encode(getallheaders())),
+        '/method' => $connection->send($_SERVER['REQUEST_METHOD']),
         '/file' => $connection->send(json_encode($request->file('file'))),
 
         default => (function () use ($connection) {
