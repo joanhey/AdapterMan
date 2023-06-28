@@ -1,19 +1,11 @@
 <?php
 
-it('tests GET method', function () {
-    $response = HttpClient()->get('/method');
+it('tests HTTP Methods', function (string $method) {
+    $response = HttpClient()->request($method,'/method');
 
     expect($response->getBody()->getContents())
-        ->toBe('GET');
-});
-
-
-it('tests POST method', function () {
-    $response = HttpClient()->post('/method');
-
-    expect($response->getBody()->getContents())
-        ->toBe('POST');
-});
+        ->toBe($method);
+})->with(['GET', 'POST', 'PUT', 'DELETE']);
 
 
 it('tests PATCH method', function () {
@@ -22,22 +14,6 @@ it('tests PATCH method', function () {
     expect($response->getBody()->getContents())
         ->toBe('PATCH');
 })->todo();
-
-
-it('tests PUT method', function () {
-    $response = HttpClient()->put('/method');
-
-    expect($response->getBody()->getContents())
-        ->toBe('PUT');
-});
-
-
-it('tests DELETE method', function () {
-    $response = HttpClient()->delete('/method');
-
-    expect($response->getBody()->getContents())
-        ->toBe('DELETE');
-});
 
 
 it('tests BAD method', function () {
