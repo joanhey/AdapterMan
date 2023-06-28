@@ -634,6 +634,8 @@ class Http
             'REQUEST_METHOD' => '',
             'REQUEST_URI' => '',
             'SERVER_PROTOCOL' => '',
+            'SERVER_ADDR' => $connection->getLocalIp(),
+            'SERVER_PORT' => $connection->getLocalPort(),
             'SERVER_SOFTWARE' => 'workerman',
             'SERVER_NAME' => '',
             'HTTP_HOST' => '',
@@ -650,8 +652,7 @@ class Http
         list($http_header, $http_body) = \explode("\r\n\r\n", $recv_buffer, 2);
         $header_data = \explode("\r\n", $http_header);
 
-        list($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'], $_SERVER['SERVER_PROTOCOL']) = \explode(' ',
-            $header_data[0]);
+        list($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'], $_SERVER['SERVER_PROTOCOL']) = \explode(' ', $header_data[0]);
 
         $http_post_boundary = '';
         unset($header_data[0]);
