@@ -38,3 +38,34 @@ it('tests HTTP BAD method', function () {
         ->toBe('');
 });
 
+
+it('tests HTTP lowercase method return 400', function (string $method) {
+    
+    $response = HttpClient()->request($method,'/method', [
+        // force to use lowercase methods
+        'curl' => [
+            CURLOPT_CUSTOMREQUEST  => $method,
+        ]
+    ]);
+
+    expect($response->getStatusCode())
+        ->toBe(400)
+        ->and($response->getBody()->getContents())
+        ->toBe('');
+})->with([
+    'get',
+    'Get',
+    'post',
+    'Post',
+    'put',
+    'Put',
+    'delete',
+    'Delete',
+    'patch',
+    'Patch',
+    'head',
+    'Head',
+    'options',
+    'Options'
+]);
+
