@@ -1,26 +1,14 @@
 <?php
 
-it('tests Header', function () {
-    $data = [
-        'Foo' => 'bar'
-    ];
-
-    $response = HttpClient()->get('/headers', [
-        'headers' => $data,
-    ]);
-
-    expect($response->getBody()->getContents())
-        ->json()
-        ->toMatchArray($data);
-});
+$requestHeaders = [
+    'one var'           => [['Foo' => 'bar']],
+    'two vars'          => [['Foo' => 'bar', 'Key' => 'hello Adapterman']],
+    //'case insensitive'     => [['Foo' => 'bar', 'foo' => 'hello Adapterman']],
+    // 'mixed'
+];
 
 
-it('tests Headers', function () {
-    $data = [
-        'Foo' => 'bar',
-        'Key' => 'Adapterman'
-    ];
-
+it('tests Request Headers', function (array $data) {
     $response = HttpClient()->get('/headers', [
         'headers' => $data,
     ]);
@@ -29,22 +17,4 @@ it('tests Headers', function () {
         ->toBeJson()
         ->json()
         ->toMatchArray($data);
-});
-
-
-it('tests Headers Case Insensitive', function () {
-    $data = [
-        'foo' => 'bar',
-        'key' => 'Adapterman'
-    ];
-
-    $response = HttpClient()->get('/headers', [
-        'headers' => $data,
-    ]);
-
-    expect($response->getBody()->getContents())
-        ->toBeJson()
-        ->json()
-        //->toMatchArray($data);
-        ->toBe($data);
-})->todo();
+})->with($requestHeaders);
