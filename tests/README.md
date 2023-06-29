@@ -5,4 +5,4 @@ To run the feature tests
 vendor/bin/pest
 ```
 
-Need PHP8.1 or greater.
+Need PHP8.1 or greater and curl extension.
