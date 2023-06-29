@@ -25,6 +25,7 @@
         "workerman/workerman": "^4.1"
     },
     "require-dev": {
+        "ext-curl": "*",
         "pestphp/pest": "^2.8",
         "mockery/mockery": "2.0.x-dev",
         "guzzlehttp/guzzle": "^7.0"
