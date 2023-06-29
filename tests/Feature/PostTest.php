@@ -1,6 +1,6 @@
 <?php
 
-$post = [
+$postDataset = [
     'one var'           => [['foo' => 'bar']],
     'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
     'indexed-array'     => [['indexed-array' => ['this', 'is', 'an', 'array']]],
@@ -33,7 +33,7 @@ it('tests POST', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with($post);
+})->with($postDataset);
 
 
 it('tests POST JSON', function (array $data) {
@@ -47,7 +47,7 @@ it('tests POST JSON', function (array $data) {
         ->json()
         ->toBe($data);
    
-})->with($post);
+})->with($postDataset);
 
 
 it('tests POST Multipart', function (array $data) {
@@ -79,4 +79,4 @@ it('tests POST Multipart', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with($post);
+})->with($postDataset);
