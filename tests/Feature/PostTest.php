@@ -1,27 +1,42 @@
 <?php
 
-it('tests POST', function () {
-    $data = [
-        'foo' => 'bar',
-        'key' => ['hello', 'Adapterman']
-    ];
+$post = [
+    'one var'           => [['foo' => 'bar']],
+    'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
+    'indexed-array'     => [['indexed-array' => ['this', 'is', 'an', 'array']]],
+    'associative-array' => [['associative-array' => [
+        'foo'   => 'bar',
+        'hello' => 'Adapterman', 
+        ]
+    ]],
+    //'multidimensional-array' => [[]],
+    'all mixed' => [[
+            'foo' => 'bar',
+            'key' => 'hello Adapterman',
+            'indexed-array' => ['this', 'is', 'an', 'array'],
+            'associative-array' => [
+                'foo' => 'bar',
+                'hello' => 'Adapterman', 
+            ],
+        ]],
+        
+       // with headers ...
+];
 
+
+it('tests POST', function (array $data) {
     $response = HttpClient()->post('/post', [
-            'form_params' => $data,
+        'form_params' => $data,
     ]);
 
     expect($response->getBody()->getContents())
         ->toBeJson()
         ->json()
         ->toBe($data);
-});
+})->with($post);
 
 
-it('tests POST JSON', function () {
-    $data = [
-        'foo' => 'bar',
-        'key' => ['hello', 'Adapterman']
-    ];
+it('tests POST JSON', function (array $data) {
 
     $response = HttpClient()->post('/post', [
         'json' => $data
@@ -32,21 +47,36 @@ it('tests POST JSON', function () {
         ->json()
         ->toBe($data);
    
-});
+})->with($post);
 
 
-it('tests POST Multipart', function () {
-    $data = [
-        'foo' => 'bar',
-        'key' => ['hello', 'Adapterman']
-    ];
+it('tests POST Multipart', function (array $data) {
+
+    $multipart = [];
+    foreach($data as $key => $value) {
+        if(is_array($value)) {
+            foreach($value as $key2 => $value2) {
+                $calcKey = array_is_list($value) ? '[]' : "[$key2]";
+                $multipart[] = [
+                    'name'     => $key . $calcKey,
+                    'contents' => $value2,
+                ];
+            }
+            continue;
+        }
+
+        $multipart[] = [
+            'name'     => $key,
+            'contents' => $value,
+        ];
+    }
 
     $response = HttpClient()->post('/post', [
-            'form_params' => $data,
+            'multipart' => $multipart
     ]);
     
     expect($response->getBody()->getContents())
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->todo();
+})->with($post);
