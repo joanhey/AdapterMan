@@ -1,6 +1,11 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/249085/200214022-c2c45753-368c-4e28-8415-2b3cadca9907.png" />
+  
 </p>
+
+[![tests](https://github.com/joanhey/AdapterMan/actions/workflows/test.yml/badge.svg)](https://github.com/joanhey/AdapterMan/actions/workflows/test.yml)
+[![GitHub release](https://img.shields.io/github/release/joanhey/adapterman.svg)](https://github.com/joanhey/adapterman/releases/latest)
+
 Faster and more scalable apps, also use it as Serverless.
 
 Run almost any PHP app with the async event driven Workerman, without touch 1 line of code in your fw or app.
