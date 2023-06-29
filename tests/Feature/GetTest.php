@@ -14,7 +14,7 @@ it('tests GET', function () {
 });
 
 
-it('tests GET with query', function (array $data) {
+it('tests GET Query string', function (array $data) {
     $response = HttpClient()->get('/get', [
         'query' => $data
     ]);
