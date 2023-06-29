@@ -13,12 +13,8 @@ it('tests GET', function () {
         ->toBe('Hello Adapterman');
 });
 
-it('tests GET with query', function () {
-    $data = [
-        'foo' => 'bar',
-        'key' => ['hello', 'Adapterman']
-    ];
 
+it('tests GET with query', function (array $data) {
     $response = HttpClient()->get('/get', [
         'query' => $data
     ]);
@@ -27,4 +23,23 @@ it('tests GET with query', function () {
         ->toBeJson()
         ->json()
         ->toBe($data);
-});
+})->with([
+    'one var'           => [['foo' => 'bar']],
+    'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
+    'indexed-array'     => [['indexed-array' => ['this', 'is', 'an', 'array']]],
+    'associative-array' => [['associative-array' => [
+        'foo'   => 'bar',
+        'hello' => 'Adapterman', 
+        ]
+    ]],
+    //'multidimensional-array' => [[]],
+    'all mixed' => [[
+            'foo' => 'bar',
+            'key' => 'hello Adapterman',
+            'indexed-array' => ['this', 'is', 'an', 'array'],
+            'associative-array' => [
+                'foo' => 'bar',
+                'hello' => 'Adapterman', 
+            ],
+        ]],
+]);
