@@ -24,6 +24,10 @@ class RunAdapterman
 
     public static function stop(): void
     {
+        if (!isset(self::$adapterman)) {
+            return;
+        }
+        
         self::$adapterman->stop();
     }
 }
