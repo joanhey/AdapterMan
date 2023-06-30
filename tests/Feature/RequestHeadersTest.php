@@ -1,8 +1,9 @@
 <?php
 
 const REQUEST_HEADERS = [
+    'empty'             => [[]],
     'one var'           => [['Foo' => 'bar']],
-    'two vars'          => [['Foo' => 'bar', 'Key' => 'hello Adapterman']],
+    'two vars'          => [['Foo' => 'bar', 'Key' => 'Hello Adapterman']],
     //'case insensitive'     => [['Foo' => 'bar', 'foo' => 'hello Adapterman']],
     // 'mixed'
 ];
