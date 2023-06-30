@@ -14,7 +14,7 @@ class RunServer
             return;
         }
 
-        self::$server = new Process(['php', '-c', __DIR__ . '/../cli-php.ini',  __DIR__ . '/AppServer.php',  'start']);
+        self::$server = new Process(['php', '-c', __DIR__ . '/../cli-php.ini',  __DIR__ . '/AdaptermanServer.php',  'start']);
         self::$server->setTimeout(null);
         self::$server->start();
         sleep(1);
