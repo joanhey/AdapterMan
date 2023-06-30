@@ -1,6 +1,7 @@
 <?php
 
 const POST_DATA = [
+    'empty'             => [[]], 
     'one var'           => [['foo' => 'bar']],
     'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
     'indexed-array'     => [['indexed-array' => ['this', 'is', 'an', 'array']]],
@@ -12,7 +13,7 @@ const POST_DATA = [
     //'multidimensional-array' => [[]],
     'all mixed' => [[
             'foo' => 'bar',
-            'key' => 'hello Adapterman',
+            'key' => 'Hello Adapterman',
             'indexed-array' => ['this', 'is', 'an', 'array'],
             'associative-array' => [
                 'foo' => 'bar',
