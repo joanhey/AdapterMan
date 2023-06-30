@@ -8,9 +8,9 @@ it('tests GET', function () {
         ->and($response->getHeaderLine('Server'))
         ->tobe('workerman')
         ->and($response->getHeaderLine('Content-Length'))
-        ->tobe('16')
+        ->tobe('12')
         ->and($response->getBody()->getContents())
-        ->toBe('Hello Adapterman');
+        ->toBe('Hello World!');
 });
 
 
@@ -25,7 +25,7 @@ it('tests GET Query string', function (array $data) {
         ->toBe($data);
 })->with([
     'one var'           => [['foo' => 'bar']],
-    'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
+    'two vars'          => [['foo' => 'bar', 'key' => 'Hello Adapterman']],
     'indexed-array'     => [['indexed-array' => ['this', 'is', 'an', 'array']]],
     'associative-array' => [['associative-array' => [
         'foo'   => 'bar',
@@ -35,7 +35,7 @@ it('tests GET Query string', function (array $data) {
     //'multidimensional-array' => [[]],
     'all mixed' => [[
             'foo' => 'bar',
-            'key' => 'hello Adapterman',
+            'key' => 'Hello Adapterman',
             'indexed-array' => ['this', 'is', 'an', 'array'],
             'associative-array' => [
                 'foo' => 'bar',

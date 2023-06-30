@@ -1,9 +1,10 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
 
 use Adapterman\Adapterman;
 use Workerman\Worker;
 use Workerman\Connection\TcpConnection;
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 Adapterman::init();
 
@@ -13,7 +14,7 @@ $worker->count = 2;
 
 $worker->onMessage = static function (TcpConnection $connection, $request) {
     match (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
-        '/' => $connection->send('Hello Adapterman'),
+        '/' => $connection->send('Hello World!'),
         '/get' => $connection->send(json_encode($_GET)),
         '/post' => $connection->send(json_encode($_POST)),
         '/headers' => $connection->send(json_encode(getallheaders())),
