@@ -3,13 +3,13 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Tests\RunAdapterman;
+use Tests\RunServer;
 
 abstract class ServerTestCase extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
-        RunAdapterman::start();
+        RunServer::start();
     }
 
     public static function tearDownAfterClass(): void
@@ -17,6 +17,6 @@ abstract class ServerTestCase extends TestCase
         //RunAdapterman::stop();
     }
     public function __destruct() {
-        RunAdapterman::stop();
+        RunServer::stop();
     }
 }
