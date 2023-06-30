@@ -43,7 +43,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function HttpClient()
+function HttpClient(): Client
 {
     return new Client([
         'base_uri' => 'http://127.0.0.1:8080',
