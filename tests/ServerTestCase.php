@@ -5,7 +5,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use Tests\RunAdapterman;
 
-abstract class WorkerTest extends TestCase
+abstract class ServerTestCase extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

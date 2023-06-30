@@ -10,12 +10,12 @@
 | need to change it using the "uses()" function to bind a different classes or traits.
 |
 */
-use Tests\WorkerTest;
+use Tests\ServerTestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Psr7\Utils;
 
-uses(WorkerTest::class)->in('Feature');
+uses(ServerTestCase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
