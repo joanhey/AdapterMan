@@ -1,6 +1,6 @@
 <?php
 
-$requestHeaders = [
+const REQUEST_HEADERS = [
     'one var'           => [['Foo' => 'bar']],
     'two vars'          => [['Foo' => 'bar', 'Key' => 'hello Adapterman']],
     //'case insensitive'     => [['Foo' => 'bar', 'foo' => 'hello Adapterman']],
@@ -8,7 +8,7 @@ $requestHeaders = [
 ];
 
 
-it('tests Request Headers', function (array $data) {
+it('get Request Headers', function (array $data) {
     $response = HttpClient()->get('/headers', [
         'headers' => $data,
     ]);
@@ -17,4 +17,4 @@ it('tests Request Headers', function (array $data) {
         ->toBeJson()
         ->json()
         ->toMatchArray($data);
-})->with($requestHeaders);
+})->with(REQUEST_HEADERS);

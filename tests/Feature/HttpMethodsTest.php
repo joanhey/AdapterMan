@@ -1,6 +1,6 @@
 <?php
 
-it('tests HTTP method', function (string $method) {
+it('get HTTP method', function (string $method) {
     $response = HttpClient()->request($method,'/method');
 
     expect($response->getStatusCode())
@@ -11,7 +11,7 @@ it('tests HTTP method', function (string $method) {
 })->with(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
 
 
-it('tests HTTP HEAD method', function () {
+it('get HTTP HEAD method and not return body', function () {
     $response = HttpClient()->head('/method');
 
     expect($response->getStatusCode())
@@ -21,7 +21,7 @@ it('tests HTTP HEAD method', function () {
 });
 
 
-it('tests HTTP PATCH method', function () {
+it('get HTTP PATCH method', function () {
     $response = HttpClient()->patch('/method');
 
     expect($response->getBody()->getContents())
@@ -29,7 +29,7 @@ it('tests HTTP PATCH method', function () {
 })->todo();
 
 
-it('tests HTTP BAD method', function () {
+it('get HTTP BAD method return 400', function () {
     $response = HttpClient()->request('BAD','/method');
 
     expect($response->getStatusCode())
@@ -39,7 +39,7 @@ it('tests HTTP BAD method', function () {
 });
 
 
-it('tests HTTP lowercase method return 400', function (string $method) {
+it('get HTTP lowercase method return 400', function (string $method) {
     
     $response = HttpClient()->request($method,'/method', [
         // force to use lowercase methods

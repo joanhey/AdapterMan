@@ -1,6 +1,6 @@
 <?php
 
-$postDataset = [
+const POST_DATA = [
     'one var'           => [['foo' => 'bar']],
     'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
     'indexed-array'     => [['indexed-array' => ['this', 'is', 'an', 'array']]],
@@ -24,7 +24,7 @@ $postDataset = [
 ];
 
 
-it('tests POST', function (array $data) {
+it('get POST', function (array $data) {
     $response = HttpClient()->post('/post', [
         'form_params' => $data,
     ]);
@@ -33,10 +33,10 @@ it('tests POST', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with($postDataset);
+})->with(POST_DATA);
 
 
-it('tests POST JSON', function (array $data) {
+it('get POST JSON', function (array $data) {
 
     $response = HttpClient()->post('/post', [
         'json' => $data
@@ -47,10 +47,10 @@ it('tests POST JSON', function (array $data) {
         ->json()
         ->toBe($data);
    
-})->with($postDataset);
+})->with(POST_DATA);
 
 
-it('tests POST Multipart', function (array $data) {
+it('get POST Multipart', function (array $data) {
 
     $multipart = [];
     foreach($data as $key => $value) {
@@ -79,4 +79,4 @@ it('tests POST Multipart', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with($postDataset);
+})->with(POST_DATA);
