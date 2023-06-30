@@ -605,7 +605,7 @@ class Http
             return $total_length;
         }
 
-        return $method === 'DELETE' ? $head_len : 0;
+        return ($method === 'DELETE' || $method === 'PATCH') ? $head_len : 0;
     }
 
     /**

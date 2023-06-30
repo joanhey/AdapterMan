@@ -8,7 +8,7 @@ it('get HTTP method', function (string $method) {
         ->and($response->getBody()->getContents())
         ->toBe($method);
 
-})->with(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
+})->with(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH']);
 
 
 it('get HTTP HEAD method and not return body', function () {
@@ -19,15 +19,6 @@ it('get HTTP HEAD method and not return body', function () {
         ->and($response->getBody()->getContents())
         ->toBe('');
 });
-
-
-it('get HTTP PATCH method', function () {
-    $response = HttpClient()->patch('/method');
-
-    expect($response->getBody()->getContents())
-        ->toBe('PATCH');
-})->todo();
-
 
 it('get HTTP BAD method return 400', function () {
     $response = HttpClient()->request('BAD','/method');
