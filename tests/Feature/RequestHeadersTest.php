@@ -1,12 +1,12 @@
 <?php
 
-const REQUEST_HEADERS = [
+dataset('REQUEST HEADERS', [
     'empty'             => [[]],
     'one var'           => [['Foo' => 'bar']],
     'two vars'          => [['Foo' => 'bar', 'Key' => 'Hello Adapterman']],
     //'case insensitive'     => [['Foo' => 'bar', 'foo' => 'hello Adapterman']],
     // 'mixed'
-];
+]);
 
 
 it('get Request Headers', function (array $data) {
@@ -18,4 +18,5 @@ it('get Request Headers', function (array $data) {
         ->toBeJson()
         ->json()
         ->toMatchArray($data);
-})->with(REQUEST_HEADERS);
+        //->toBe($data);
+})->with('REQUEST HEADERS');

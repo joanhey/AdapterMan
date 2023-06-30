@@ -1,6 +1,6 @@
 <?php
 
-const POST_DATA = [
+dataset('POST DATA', [
     'empty'             => [[]], 
     'one var'           => [['foo' => 'bar']],
     'two vars'          => [['foo' => 'bar', 'key' => 'hello Adapterman']],
@@ -22,7 +22,7 @@ const POST_DATA = [
         ]],
         
        // with headers ...
-];
+]);
 
 
 it('get POST', function (array $data) {
@@ -34,7 +34,7 @@ it('get POST', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with(POST_DATA);
+})->with('POST DATA');
 
 
 it('get POST JSON', function (array $data) {
@@ -48,7 +48,7 @@ it('get POST JSON', function (array $data) {
         ->json()
         ->toBe($data);
    
-})->with(POST_DATA);
+})->with('POST DATA');
 
 
 it('get POST Multipart', function (array $data) {
@@ -80,4 +80,4 @@ it('get POST Multipart', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with(POST_DATA);
+})->with('POST DATA');
