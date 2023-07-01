@@ -9,10 +9,6 @@ use Workerman\Worker;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-// if (!defined('STDIN')) define('STDIN', fopen('php://stdin', 'r'));
-// if (!defined('STDOUT')) define('STDOUT', fopen('php://stdout', 'w'));
-// if (!defined('STDERR')) define('STDERR', fopen('php://stderr', 'w'));
-
 $worker = new Worker('http://0.0.0.0:8080');
 $worker->name  = "Workerman Tests";
 
@@ -23,6 +19,9 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
         '/post' => $connection->send(json_encode($request->post())),
         '/headers' => $connection->send(json_encode($request->header())),
         '/method' => $connection->send($request->method()),
+        '/cookies' => $connection->send(cookies($request), true),
+        '/ip' => $connection->send($connection->getLocalIp()),
+        '/server_ip' => $connection->send($connection->getRemoteIp()),
         '/setSession' => (function () use ($connection, $request) {
             $request->session()->set('foo', 'bar');
             $connection->send('');
@@ -51,3 +50,28 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
 };
 
 Worker::runAll();
+
+function cookies(Request $request): string
+{
+    if($request->get() === []) {
+        return new Response(body: json_encode($request->cookie()));
+    }
+
+    $response = new Response();
+    if($set = $request->get('set')) {
+        foreach($set as $name => $value) {
+            $response->cookie($name, $value);
+        }
+        return $response->withBody(json_encode($request->cookie()));
+    }
+
+    if($delete = $request->get('delete')) {
+        foreach($delete as $name) {
+            if ($request->cookie($name)) {
+                //unset($_COOKIE[$name]); 
+                $response->cookie($name, '', -1);
+            }
+        }
+        return $response->withBody(json_encode($request->cookie()));
+    }
+}
