@@ -25,7 +25,7 @@ dataset('POST DATA', [
 ]);
 
 
-it('get POST', function (array $data) {
+it('get POST "application/x-www-form-urlencoded"', function (array $data) {
     $response = HttpClient()->post('/post', [
         'form_params' => $data,
     ]);
@@ -37,7 +37,7 @@ it('get POST', function (array $data) {
 })->with('POST DATA');
 
 
-it('get POST JSON', function (array $data) {
+it('get POST "application/json"', function (array $data) {
 
     $response = HttpClient()->post('/post', [
         'json' => $data
@@ -51,7 +51,7 @@ it('get POST JSON', function (array $data) {
 })->with('POST DATA');
 
 
-it('get POST Multipart', function (array $data) {
+it('get POST "multipart/form-data"', function (array $data) {
 
     $multipart = [];
     foreach($data as $key => $value) {
