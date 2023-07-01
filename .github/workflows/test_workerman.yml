@@ -1,4 +1,4 @@
-name: tests
+name: test Workerman
 
 on: [ push, pull_request ]
 
@@ -36,7 +36,7 @@ jobs:
       - name: Start Workerman
         run: |
             sed -i "s|uses(ServerTestCase::class)|//uses(ServerTestCase::class)|g" tests/Pest.php
-            php tests/Servers/Workerman.php start
+            php tests/Servers/Workerman.php start -d
 
       - name: Execute tests
         run: vendor/bin/pest --colors=always
