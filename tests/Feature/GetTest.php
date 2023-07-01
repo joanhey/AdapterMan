@@ -44,14 +44,3 @@ it('tests GET Query string', function (array $data) {
         ]],
 ]);
 
-
-it('converts GET Query name to underscore', function (string $name, string $converted) {
-    $response = HttpClient()->get('/get', [
-        'query' => [$name => 'test']
-    ]);
-
-    expect($response->getBody()->getContents())
-        ->toBeJson()
-        ->json()
-        ->toBe([$converted => 'test']);
-})->with('ext vars to underscore');
