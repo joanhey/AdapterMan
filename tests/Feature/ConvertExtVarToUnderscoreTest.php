@@ -12,7 +12,7 @@ it('converts GET Query var name to underscore', function (string $name, string $
 })->with('ext vars to underscore');
 
 
-it('convert POST name to underscore', function (string $name, string $converted) {
+it('convert POST var name to underscore', function (string $name, string $converted) {
     $response = HttpClient()->post('/post', [
         'form_params' => [$name, 'test']
     ]);
@@ -22,4 +22,18 @@ it('convert POST name to underscore', function (string $name, string $converted)
         ->json()
         ->toBe([$converted, 'test']);
 })->with('ext vars to underscore')
-  ->todo();
+->todo();
+
+it('convert POST multipart var name to underscore', function (string $name, string $converted) {
+    $response = HttpClient()->post('/post', [
+        'multipart' => [[
+            'name'     => $name,
+            'contents' => 'test',
+        ]]
+    ]);
+
+    expect($response->getBody()->getContents())
+        ->toBeJson()
+        ->json()
+        ->toBe([$converted => 'test']);
+})->with('ext vars to underscore');
