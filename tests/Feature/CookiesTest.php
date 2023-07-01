@@ -40,13 +40,7 @@ it('set COOKIES', function () {
             'hello' => 'Adapterman', 
         ]);
 
-    //$response = HttpClient()->get('/cookies', [
-    //    'cookies' => $cookie
-    //]);
-
     expect($cookie->getCookieByName('foo')->toArray())
-        //->toBeObject()
-        //->toBe(['Name' => 'foo', 'Value' => 'bar']);
         ->toMatchArray([
             'Name' => 'foo',
             'Value' => 'bar',
@@ -56,22 +50,7 @@ it('set COOKIES', function () {
             'Name' => 'hello',
             'Value' => 'Adapterman',
         ]);
-        //->toHaveProperty('Name', 'foo');
-        //->toHaveProperties(['Name' => 'foo', 'Value' => 'bar']);
-        //->toMatchObject([
-            //     'Name' => 'foo',
-            //     'Value' => 'bar',
-            // ]
-        //   [
-        //         'Name' => 'hello',
-        //         'Value' => 'Adapterman',
-        //     ], 
-        // ]
-    //);
-    //$cookie->clear();
-    //expect($response->getBody()->getContents())
-    //    ->toBe('');
-});//->with('COOKIES');
+});
 
 
 it('delete COOKIES', function () {
@@ -130,8 +109,6 @@ it('delete COOKIES', function () {
         ]);
 
     expect($cookie->getCookieByName('foo')->toArray())
-        //->toBeObject()
-        //->toBe(['Name' => 'foo', 'Value' => 'bar']);
         ->not->toMatchArray([
             'Name' => 'foo',
             'Value' => 'bar',
