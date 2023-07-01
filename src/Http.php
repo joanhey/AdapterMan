@@ -317,9 +317,9 @@ class Http
      */
     public static function setCookie(
         string $name,
-        string $value = '',
+        string $value  = '',
         int    $maxage = 0,
-        string $path = '',
+        string $path   = '',
         string $domain = '',
         bool   $secure = false,
         bool $HTTPOnly = false
