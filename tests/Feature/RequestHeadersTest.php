@@ -14,9 +14,18 @@ it('get Request Headers', function (array $data) {
         'headers' => $data,
     ]);
 
-    expect($response->getBody()->getContents())
+    $content = $response->getBody()->getContents();
+    expect($content)
         ->toBeJson()
         ->json()
+        ->toBeArray();
+
+    // convert all keys to lowercase in validation
+    // header names are case insensitive according to the HTTP specification
+    $data = array_change_key_case($data);
+    $content = array_change_key_case(json_decode($content, true));
+
+    expect($content)
         ->toMatchArray($data);
-        //->toBe($data);
+
 })->with('REQUEST HEADERS');
