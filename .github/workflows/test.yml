@@ -1,4 +1,4 @@
-name: test Adapterman
+name: Tests Adapterman
 
 on: [ push, pull_request ]
 
@@ -25,7 +25,7 @@ jobs:
           extensions: json, posix, pcntl
           ini-values: error_reporting=E_ALL
           tools: composer:v2
-          #coverage: xdebug
+          coverage: none
 
       - name: Install dependencies
         uses: nick-fields/retry@v2
