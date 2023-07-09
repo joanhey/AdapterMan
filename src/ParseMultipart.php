@@ -75,7 +75,7 @@ trait ParseMultipart
     protected static function saveTempFile($data): string
     {
         $tmp_file = \tempnam(sys_get_temp_dir(), 'php');
-        file_put_contents($tmp_file,$file);
+        file_put_contents($tmp_file,$data);
         // delete tmp_file after send()
         
         return $tmp_file;
