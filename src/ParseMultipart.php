@@ -41,14 +41,13 @@ trait ParseMultipart
             }
 
             foreach (\explode("\r\n", $boundary_header_buffer) as $item) {
-                [$header_key, $header_value] = \explode(': ', $item);
-                $header_key = \strtolower($header_key);
-                switch ($header_key) {
+                [$key, $value] = \explode(': ', $item);
+                switch (strtolower($key)) {
                     case 'content-disposition':
-                        if (\preg_match('/"; filename="(.*?)"/', $header_value, $match)) {
+                        if (\preg_match('/"; filename="(.*?)"/', $value, $match)) {
                             // Parse $_FILES.
                             $_FILES[$name] = [
-                                'name'      => \basename($match[1]),
+                                'name'      => $match[1],
                                 'full_path' => $match[1],
                                 'size'      => \strlen($boundary_value),
                                 'tmp_name'  => static::saveTempFile($boundary_value),
@@ -56,10 +55,16 @@ trait ParseMultipart
                             ];
                             break;
                         }
+                    
                     case 'content-type':
                         // add file_type
-                        $_FILES[$name]['type'] = \trim($header_value);
+                        $_FILES[$name]['type'] = \trim($value);
                         break;
+
+                    case 'webkitrelativepath':
+                        $_FILES[$name]['full_path'] = \trim($value);
+                        break;
+                        
                     case 'Content-Lenght':
                 }
             }
