@@ -1,0 +1,53 @@
+{
+    "name": "joanhey/adapterman",
+    "type": "library",
+    "keywords": [
+        "workerman",
+        "php",
+        "event"
+    ],
+    "license": "MIT",
+    "description": "Use any framework and application with Workerman.",
+    "authors": [
+        {
+            "name": "Joanhey",
+            "email": "joanhey@kumbiaphp.com",
+            "homepage": "https://kumbiaphp.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/joanhey/adapterman/issues",
+        "source": "https://github.com/joanhey/adapterman"
+    },
+    "require": {
+        "php": "^8",
+        "workerman/workerman": "^4.1"
+    },
+    "require-dev": {
+        "php": ">= 8.1.0",
+        "ext-curl": "*",
+        "pestphp/pest": "^2.8",
+        "mockery/mockery": "2.0.x-dev",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "bin": ["adapterman"],
+    "suggest": {
+        "ext-event": "For better performance. "
+    },
+    "autoload": {
+        "psr-4": {
+            "Adapterman\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
