@@ -7,10 +7,10 @@ use Workerman\Protocols\Http\ServerSentEvents;
 use Workerman\Timer;
 use Workerman\Worker;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__.'/../../vendor/autoload.php';
 
 $worker = new Worker('http://0.0.0.0:8080');
-$worker->name  = "Workerman Tests";
+$worker->name = 'Workerman Tests';
 
 $worker->onMessage = function (TcpConnection $connection, Request $request) {
     match ($request->path()) {
@@ -33,17 +33,20 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
             $timer_id = Timer::add(0.001, function () use ($connection, &$timer_id, &$i) {
                 if ($connection->getStatus() !== TcpConnection::STATUS_ESTABLISHED) {
                     Timer::del($timer_id);
+
                     return;
                 }
                 if ($i >= 5) {
                     Timer::del($timer_id);
                     $connection->close();
+
                     return;
                 }
                 $i++;
                 $connection->send(new ServerSentEvents(['data' => "hello$i"]));
             });
         })(),
+        '/upload' => $connection->send(json_encode($request->file())),
         '/file' => $connection->send(json_encode($request->file('file'))),
         default => $connection->send(new Response(404, [], '404 Not Found'))
     };
@@ -53,25 +56,27 @@ Worker::runAll();
 
 function cookies(Request $request): string
 {
-    if($request->get() === []) {
+    if ($request->get() === []) {
         return new Response(body: json_encode($request->cookie()));
     }
 
     $response = new Response();
-    if($set = $request->get('set')) {
-        foreach($set as $name => $value) {
+    if ($set = $request->get('set')) {
+        foreach ($set as $name => $value) {
             $response->cookie($name, $value);
         }
+
         return $response->withBody(json_encode($request->cookie()));
     }
 
-    if($delete = $request->get('delete')) {
-        foreach($delete as $name) {
+    if ($delete = $request->get('delete')) {
+        foreach ($delete as $name) {
             if ($request->cookie($name)) {
-                //unset($_COOKIE[$name]); 
+                //unset($_COOKIE[$name]);
                 $response->cookie($name, '', -1);
             }
         }
+
         return $response->withBody(json_encode($request->cookie()));
     }
 }
