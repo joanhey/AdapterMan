@@ -7,11 +7,12 @@ dataset('UPLOAD', [
         'file'     => 'file_composer',
         'contents' => Psr7\Utils::tryFopen(__DIR__ .'/Stub/composer.json', 'r'),
         'expect'   => [
-                'file_name' => 'composer.json',
+                'name' => 'composer.json',
                 'full_path' => 'composer.json',
-                'file_size' => 1230,
+                'size' => 1230,
                 'error' => 0,
-                'file_type' => 'application/json',
+                'type' => 'application/json',
+                //'tmp_name' is random each time
         ]
     ]]
 ]);
@@ -33,7 +34,10 @@ it('check $_FILES with composer.json', function ($data) {
         ->toHaveCount(1)
         ->toHaveKey($data['file'])
         ->and(json_decode($expect, true)[$data['file']])
-        ->toMatchArray($data['expect']);
+        ->toMatchArray($data['expect'])
+        ->toHaveKey('tmp_name')
+        ->and(json_decode($expect, true)[$data['file']]['tmp_name'])
+        ->toStartWith('/tmp/php');
 
 })->with('UPLOAD');
 
