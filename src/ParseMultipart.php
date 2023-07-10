@@ -11,7 +11,7 @@ trait ParseMultipart
     protected static function parseMultipart(string $http_body, string $http_post_boundary): void
     {
         $http_body = \substr($http_body, 0, \strlen($http_body) - (\strlen($http_post_boundary) + 4));
-        $boundary_data_array = \explode($http_post_boundary."\r\n", $http_body);
+        $boundary_data_array = \explode($http_post_boundary . "\r\n", $http_body);
         if ($boundary_data_array[0] === '') {
             unset($boundary_data_array[0]);
         }
@@ -23,12 +23,12 @@ trait ParseMultipart
             $boundary_value = \substr($boundary_value, 0, -2);
 
             // Is post field
-            if (! strpos($boundary_header_buffer, '"; filename="')) {
+            if (!strpos($boundary_header_buffer, '"; filename="')) {
                 // Parse $_POST.
                 $item =  \explode("\r\n", $boundary_header_buffer)[0];
                 $header_value = \explode(': ', $item)[1];
                 if (\preg_match('/name="(.*?)"$/', $header_value, $match)) {
-                    $post_encode_string .= urlencode($match[1]).'='.urlencode($boundary_value).'&';
+                    $post_encode_string .= urlencode($match[1]) . '=' . urlencode($boundary_value) . '&';
                 }
                 continue;
             };
@@ -48,10 +48,9 @@ trait ParseMultipart
                         if (\preg_match('/"; filename="(.*?)"/', $header_value, $match)) {
                             // Parse $_FILES.
                             $_FILES[$name] = [
-                                'file_name' => \basename($match[1]),
+                                'name'      => \basename($match[1]),
                                 'full_path' => $match[1],
-                                //'file_data' => $boundary_value,
-                                'file_size' => \strlen($boundary_value),
+                                'size'      => \strlen($boundary_value),
                                 'tmp_name'  => static::saveTempFile($boundary_value),
                                 'error'     => \UPLOAD_ERR_OK, // test 
                             ];
@@ -59,10 +58,9 @@ trait ParseMultipart
                         }
                     case 'content-type':
                         // add file_type
-                        $_FILES[$name]['file_type'] = \trim($header_value);
+                        $_FILES[$name]['type'] = \trim($header_value);
                         break;
                     case 'Content-Lenght':
-
                 }
             }
         }
@@ -74,11 +72,12 @@ trait ParseMultipart
 
     protected static function saveTempFile($data): string
     {
+        $tmp_file = \tempnam(\sys_get_temp_dir(), 'php');
         $tmp_file = \tempnam(sys_get_temp_dir(), 'php');
         file_put_contents($tmp_file,$data);
         // delete tmp_file after send()
-        
+
         return $tmp_file;
     }
-
 }
+
