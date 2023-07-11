@@ -4,6 +4,7 @@ dataset('REQUEST HEADERS', [
     'empty'             => [[]],
     'one var'           => [['Foo' => 'bar']],
     'two vars'          => [['Foo' => 'bar', 'Key' => 'Hello Adapterman']],
+    'indexed-array'     => [['this', 'is', 'an', 'array']],
     //'case insensitive'     => [['Foo' => 'bar', 'foo' => 'hello Adapterman']],
     // 'mixed'
 ]);
