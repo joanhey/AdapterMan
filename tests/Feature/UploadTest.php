@@ -27,17 +27,15 @@ it('check $_FILES with composer.json', function ($data) {
         ],
     ]);
 
-    $expect = $response->getBody()->getContents();
-    expect($expect)
+    expect($response->getBody()->getContents())
         ->toBeJson()
         ->json()
         ->toHaveCount(1)
         ->toHaveKey($data['file'])
-        ->and(json_decode($expect, true)[$data['file']])
+        ->{$data['file']}
         ->toMatchArray($data['expect'])
         ->toHaveKey('tmp_name')
-        ->and(json_decode($expect, true)[$data['file']]['tmp_name'])
-        ->toStartWith('/tmp/php');
+        ->{$data['file']}->tmp_name->toStartWith('/tmp/');
 
 })->with('UPLOAD');
 
