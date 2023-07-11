@@ -33,9 +33,10 @@ it('check $_FILES with composer.json', function ($data) {
         ->toHaveCount(1)
         ->toHaveKey($data['file'])
         ->{$data['file']}
-        ->toMatchArray($data['expect'])
-        ->toHaveKey('tmp_name')
-        ->{$data['file']}->tmp_name->toStartWith('/tmp/');
+            ->toMatchArray($data['expect'])
+            ->toHaveKey('tmp_name')
+        ->{$data['file']}->tmp_name
+            ->toStartWith('/tmp/');
 
 })->with('UPLOAD');
 
