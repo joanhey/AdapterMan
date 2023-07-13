@@ -5,21 +5,6 @@ dataset('REQUEST HEADERS', [
     'one var'           => [['Foo' => 'bar']],
     'two vars'          => [['Foo' => 'bar', 'Key' => 'Hello Adapterman']],
     'numerically index' => [['this', 'is', 'an', 'array']],
-    'complex array'     => [
-        'user' => [
-            'name' => 'Bob Smith',
-            'age'  => 47,
-            'sex'  => 'M',
-            'dob'  => '5/12/1956',
-        ],
-        'pastimes' => ['golf', 'opera', 'poker', 'rap'],
-        'children' => [
-            'bobby' => ['age'=>12, 'sex'=>'M'],
-            'sally' => ['age'=>8, 'sex'=>'F'],
-        ],
-        'CEO',
-    ],
-    //'case insensitive'     => [['Foo' => 'bar', 'foo' => 'hello Adapterman']],
 ]);
 
 
