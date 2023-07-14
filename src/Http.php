@@ -298,19 +298,19 @@ class Http
     /**
      * Parse $_POST、$_GET、$_COOKIE.
      */
-    public static function decode(string $recv_buffer, TcpConnection $connection): array
+    public static function decode(string $recv_buffer, TcpConnection $connection): void
     {
         static::reset();
         if (isset(static::$cache[$recv_buffer]['decode'])) {
             $cache = static::$cache[$recv_buffer]['decode'];
-            $_SERVER = $cache['server'];
-            $_POST = $cache['post'];
-            $_GET = $cache['get'];
-            $_COOKIE = $cache['cookie'];
+            $_SERVER  = $cache['server'];
+            $_POST    = $cache['post'];
+            $_GET     = $cache['get'];
+            $_COOKIE  = $cache['cookie'];
             $_REQUEST = $cache['request'];
             $GLOBALS['HTTP_RAW_POST_DATA'] = $GLOBALS['HTTP_RAW_REQUEST_DATA'] = '';
 
-            return static::$cache[$recv_buffer]['decode'];
+            return;
         }
         // Init.
         $_POST = $_GET = $_COOKIE = $_REQUEST = $_SESSION = $_FILES = [];
@@ -420,23 +420,19 @@ class Http
         // REQUEST
         $_REQUEST = \array_merge($_GET, $_POST, $_REQUEST);
 
-        $ret = [
-            'get' => $_GET,
-            'post' => $_POST,
-            'cookie' => $_COOKIE,
-            'server' => $_SERVER,
-            'files' => $_FILES,
-            'request' => $_REQUEST,
-        ];
-
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            static::$cache[$recv_buffer]['decode'] = $ret;
+            static::$cache[$recv_buffer]['decode'] = [
+                'get'    => $_GET,
+                'post'   => $_POST,
+                'cookie' => $_COOKIE,
+                'server' => $_SERVER,
+                'files'  => $_FILES,
+                'request'=> $_REQUEST,
+            ];
             if (\count(static::$cache) > 256) {
                 unset(static::$cache[key(static::$cache)]);
             }
         }
-
-        return $ret;
     }
 
     /**
