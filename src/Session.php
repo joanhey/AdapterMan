@@ -85,11 +85,11 @@ trait Session
         }
 
         if (! static::$sessionSavePath) {
-            $savePath = ini_get('session.save_path');
-            if (preg_match('/^\d+;(.*)$/', $savePath, $match)) {
+            $savePath = \ini_get('session.save_path');
+            if (\preg_match('/^\d+;(.*)$/', $savePath, $match)) {
                 $savePath = $match[1];
             }
-            if (! $savePath || str_starts_with($savePath, 'tcp://')) {
+            if (! $savePath || \str_starts_with($savePath, 'tcp://')) {
                 $savePath = \sys_get_temp_dir();
             }
             static::$sessionSavePath = $savePath;
@@ -105,11 +105,9 @@ trait Session
         static::$sessionCookieSecure = (bool) \ini_get('session.cookie_secure');
         static::$sessionCookieHttponly = (bool) \ini_get('session.cookie_httponly');
 
-        if (class_exists(Timer::class)) {
-            Timer::add(static::$sessionGcInterval, function () {
-                static::tryGcSessions();
-            });
-        }
+        Timer::add(static::$sessionGcInterval, function () {
+            static::tryGcSessions();
+        });
     }
 
     /**
@@ -119,7 +117,7 @@ trait Session
     {
         \mt_srand();
 
-        return bin2hex(\pack('d', \hrtime(true)).\pack('N', \mt_rand(0, 2147483647)));
+        return \bin2hex(\pack('d', \hrtime(true)).\pack('N', \mt_rand(0, 2147483647)));
     }
 
     /**
@@ -254,7 +252,7 @@ trait Session
     public static function tryGcSessions()
     {
         $time_now = \time();
-        foreach (glob(static::$sessionSavePath.'/ses*') as $file) {
+        foreach (\glob(static::$sessionSavePath.'/ses*') as $file) {
             if (\is_file($file) && $time_now - \filemtime($file) > static::$sessionGcMaxLifeTime) {
                 \unlink($file);
             }
