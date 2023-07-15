@@ -130,9 +130,8 @@ class Http
     /**
      * Reset.
      *
-     * @return void
      */
-    public static function reset()
+    public static function reset(): void
     {
         static::$status = 'HTTP/1.1 200 OK';
         static::$headers = [
@@ -141,7 +140,7 @@ class Http
         ];
         static::$cookies = [];
         static::$sessionFile = '';
-        static::$sessionStarted = false;
+        static::$sessionStarted = false; 
     }
 
     /**
@@ -156,7 +155,7 @@ class Http
      */
     public static function header(string $content, bool $replace = true, int $http_response_code = 0): void
     {
-        if (str_starts_with($content, 'HTTP')) {
+        if (\str_starts_with($content, 'HTTP')) {
             static::$status = $content;
 
             return;
@@ -184,7 +183,6 @@ class Http
     /**
      * Remove previously set headers.
      *
-     * @param  string  $name
      */
     public static function headerRemove(?string $name = null): void
     {
@@ -227,7 +225,7 @@ class Http
         bool $secure = false,
         bool $HTTPOnly = false
     ): bool {
-        static::$cookies[] = 'Set-Cookie: ' . $name . '=' . rawurlencode($value)
+        static::$cookies[] = 'Set-Cookie: ' . $name . '=' . \rawurlencode($value)
             . ($domain ?: '; Domain=' . $domain)
             . (($maxage === 0) ? '' : '; Max-Age=' . $maxage)
             . ($path ?: '; Path=' . $path)
@@ -284,7 +282,7 @@ class Http
         $match = [];
         if (\preg_match("/\r\nContent-Length: ?(\d+)/i", $recv_buffer, $match)) {
             $content_length = $match[1] ?? 0;
-            $total_length = $content_length + $head_len;
+            $total_length = (int) $content_length + $head_len;
             if (!isset($recv_buffer[1024])) {
                 static::$cache[$recv_buffer]['input'] = $total_length;
             }
@@ -349,7 +347,7 @@ class Http
                 continue;
             }
             [$key, $value] = \explode(':', $content, 2);
-            $key = \str_replace('-', '_', strtoupper($key));
+            $key = \str_replace('-', '_', \strtoupper($key));
             $value = \trim($value);
             $_SERVER['HTTP_' . $key] = $value;
             switch ($key) {
@@ -430,7 +428,7 @@ class Http
                 'request'=> $_REQUEST,
             ];
             if (\count(static::$cache) > 256) {
-                unset(static::$cache[key(static::$cache)]);
+                unset(static::$cache[\key(static::$cache)]);
             }
         }
     }
@@ -440,9 +438,9 @@ class Http
      *
      * @param  string  $content
      */
-    public static function encode(?string $content, TcpConnection $connection): string
+    public static function encode(string $content, TcpConnection $connection): string
     {
-        $content = (string) $content;
+        //$content = (string) $content;
 
         // http-code status line.
         $header = static::$status . "\r\n";
