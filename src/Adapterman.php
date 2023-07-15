@@ -22,7 +22,24 @@ class Adapterman
 
     public const NAME = "Adapterman v". self::VERSION;
 
-    private const FUNCTIONS = ['header', 'header_remove', 'headers_sent', 'http_response_code', 'setcookie', 'session_create_id', 'session_id', 'session_name', 'session_save_path', 'session_status', 'session_start', 'session_write_close', 'session_regenerate_id', 'set_time_limit'];
+    private const FUNCTIONS = [
+        'header',
+        'header_remove',
+        'headers_sent',
+        'headers_list',
+        'http_response_code',
+        
+        'setcookie',
+        'session_create_id',
+        'session_id',
+        'session_name',
+        'session_save_path',
+        'session_status',
+        'session_start',
+        'session_write_close',
+        'session_regenerate_id',
+        'set_time_limit'
+    ];
 
     public static function init(): void
     {
