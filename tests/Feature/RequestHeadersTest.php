@@ -5,6 +5,7 @@ dataset('REQUEST HEADERS', [
     'one var'           => [['Foo' => 'bar']],
     'two vars'          => [['Foo' => 'bar', 'Key' => 'Hello Adapterman']],
     'numerically index' => [['this', 'is', 'an', 'array']],
+    'key start with X'  => [['X-Powered-By' => 'Adapterman']],
 ]);
 
 
