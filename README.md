@@ -21,6 +21,7 @@ Actually working with:
 - Slim
 - KumbiaPHP
 - ThinkPHP
+- Leaf
 - ... (Your app?)
 
 Still testing with more fws and apps.
