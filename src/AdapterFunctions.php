@@ -188,7 +188,7 @@ function session_start(array $options = []): bool
  */
 function session_write_close(): bool
 {
-    Http::sessionWriteClose();
+    return Http::sessionWriteClose();
 }
 
 /**
