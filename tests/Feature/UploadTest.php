@@ -36,7 +36,7 @@ it('check $_FILES with composer.json', function ($data) {
             ->toMatchArray($data['expect'])
             ->toHaveKey('tmp_name')
         ->{$data['file']}->tmp_name
-            ->toStartWith(sys_get_temp_dir());
+            ->toBeFile();
 
 })->with('UPLOAD');
 
