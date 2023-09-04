@@ -9,7 +9,7 @@ dataset('UPLOAD', [
         'expect'   => [
                 'name' => 'composer.json',
                 'full_path' => 'composer.json',
-                'size' => 1230,
+                'size' => filesize(__DIR__ .'/Stub/composer.json'),
                 'error' => 0,
                 'type' => 'application/json',
                 //'tmp_name' is random each time
