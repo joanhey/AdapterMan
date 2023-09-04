@@ -37,7 +37,6 @@ it('check $_FILES with composer.json', function ($data) {
             ->toHaveKey('tmp_name')
         ->{$data['file']}->tmp_name
             ->toBeFile();
-
 })->with('UPLOAD');
 
 
