@@ -98,3 +98,19 @@ function session_regenerate_id(bool $delete_old_session = false): bool
     return Http::sessionRegenerateId($delete_old_session);
 }
 
+
+/**
+ * Free all session variables
+ *
+ * @link https://www.php.net/manual/en/function.session-unset.php
+ */
+function session_unset(): bool
+{
+    if(session_status() === PHP_SESSION_ACTIVE) {
+        $_SESSION = [];
+        
+        return true;
+    }
+
+    return false;
+}
