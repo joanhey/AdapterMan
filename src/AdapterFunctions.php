@@ -249,12 +249,12 @@ function cpu_count(): int
 } // exit and die are language constructors, change your code with an empty ExitException
  */
 
-/** CONSTANTS */
+/** add CONSTANTS not enabled in cli SAPI */
 
 /** SESSION */
 const PHP_SESSION_DISABLED = 0;
 const PHP_SESSION_NONE = 1;
 const PHP_SESSION_ACTIVE = 2;
 
-//const SID // Not possible
+//const SID // Not possible, use session_status();
 
