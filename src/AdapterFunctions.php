@@ -157,14 +157,10 @@ function session_save_path(?string $path = null): string|false
 /**
  * Returns the current session status
  *
- * @return int
  */
 function session_status(): int
 {
-    if (Http::sessionStarted() === false) {
-        return PHP_SESSION_NONE;
-    }
-    return PHP_SESSION_ACTIVE;
+    return Http::sessionStatus();
 }
 
 /**
@@ -252,3 +248,13 @@ function cpu_count(): int
     Http::end($status);
 } // exit and die are language constructors, change your code with an empty ExitException
  */
+
+/** CONSTANTS */
+
+/** SESSION */
+const PHP_SESSION_DISABLED = 0;
+const PHP_SESSION_NONE = 1;
+const PHP_SESSION_ACTIVE = 2;
+
+//const SID // Not possible
+

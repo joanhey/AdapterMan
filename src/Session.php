@@ -111,6 +111,25 @@ trait Session
     }
 
     /**
+     * Returns the current session status
+     *
+     * @see https://www.php.net/manual/en/function.session-status.php
+     */
+    public static function sessionStatus(): int
+    {
+        if (static::sessionStarted()) {
+            if (static::$sessionFile) {
+                return \PHP_SESSION_ACTIVE;
+            }
+
+            return \PHP_SESSION_NONE;
+        }             
+
+
+        return \PHP_SESSION_DISABLED;
+    }
+
+    /**
      * Session create id.
      */
     public static function sessionCreateId(): string
