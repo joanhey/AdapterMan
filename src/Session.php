@@ -134,15 +134,21 @@ trait Session
 
     /**
      * Get and/or set the current session name.
+     * @see https://www.php.net/manual/en/function.session-name.php
      */
-    public static function sessionName(string $name = null): string
+    public static function sessionName(?string $name = null): string|false
     {
-        $session_name = static::$sessionName;
-        if ($name && ! static::sessionStarted()) {
-            static::$sessionName = $name;
+        if ($name === null) {
+            return static::$sessionName;
         }
 
-        return $session_name;
+        if (! static::sessionStarted() && ! ctype_digit($name) && ctype_alnum($name)) {
+            $session_name = static::$sessionName;
+            static::$sessionName = $name;
+            return $session_name;
+        } 
+
+        return false;
     }
 
     /**

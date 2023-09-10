@@ -136,10 +136,9 @@ function session_id(string $id = ''): string
 /**
  * Get and/or set the current session name
  *
- * @param string $name
- * @return string
+ * @link https://www.php.net/manual/en/function.session-name.php
  */
-function session_name(string $name = ''): string
+function session_name(?string $name = null): string|false
 {
     return Http::sessionName($name);
 }
