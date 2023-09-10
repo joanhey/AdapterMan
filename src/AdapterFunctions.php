@@ -150,7 +150,7 @@ function session_name(string $name = ''): string
  * @param string $path
  * @return string
  */
-function session_save_path(string $path = ''): string
+function session_save_path(?string $path = null): string|false
 {
     return Http::sessionSavePath($path);
 }

@@ -147,14 +147,20 @@ trait Session
 
     /**
      * Get and/or set the current session save path.
+     * 
+     * @see https://www.php.net/manual/en/function.session-save-path.php
      */
-    public static function sessionSavePath(string $path = null): string
+    public static function sessionSavePath(?string $path = null): string|false
     {
-        if ($path && \is_dir($path) && \is_writable($path) && ! static::sessionStarted()) {
-            static::$sessionSavePath = $path;
+        if ($path === null) {
+            return static::$sessionSavePath;
         }
 
-        return static::$sessionSavePath;
+        if (! static::sessionStarted() && \is_dir($path) && \is_writable($path)) {
+            return static::$sessionSavePath = $path;
+        }
+
+        return false;
     }
 
     /**
