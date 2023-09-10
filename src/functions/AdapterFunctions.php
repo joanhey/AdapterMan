@@ -109,95 +109,7 @@ function setcookie(string $name, string $value = '', int|array $expires = 0, str
     return Http::setCookie($name, $value, $expires, $path, $domain, $secure, $httponly);
 }
 
-/**
- * Create new session id
- *
- * @param string $prefix
- * @return string
- */
-function session_create_id(string $prefix = ''): string
-{
-    return Http::sessionCreateId();  //TODO fix to use $prefix
-}
 
-/**
- * Get and/or set the current session id
- *
- * @param string $id
- * @return string
- * 
- * @link https://www.php.net/manual/en/function.session-id.php
- */
-function session_id(string $id = ''): string
-{
-    return Http::sessionId($id);   //TODO fix return session name or '' if not exists session
-}
-
-/**
- * Get and/or set the current session name
- *
- * @link https://www.php.net/manual/en/function.session-name.php
- */
-function session_name(?string $name = null): string|false
-{
-    return Http::sessionName($name);
-}
-
-/**
- * Get and/or set the current session save path
- *
- * @param string $path
- * @return string
- */
-function session_save_path(?string $path = null): string|false
-{
-    return Http::sessionSavePath($path);
-}
-
-/**
- * Returns the current session status
- *
- */
-function session_status(): int
-{
-    return Http::sessionStatus();
-}
-
-/**
- * Start new or resume existing session
- *
- * @param array $options
- * @return bool
- */
-function session_start(array $options = []): bool
-{
-    return Http::sessionStart();   //TODO fix $options
-}
-
-/**
- * Write session data and end session
- *
- * @return bool
- * 
- * @link https://www.php.net/manual/en/function.session-write-close.php
- */
-function session_write_close(): bool
-{
-    return Http::sessionWriteClose();
-}
-
-/**
- * Update the current session id with a newly generated one
- *
- * @param bool $delete_old_session
- * @return bool
- *
- * @link https://www.php.net/manual/en/function.session-regenerate-id.php
- */
-function session_regenerate_id(bool $delete_old_session = false): bool
-{
-    return Http::sessionRegenerateId($delete_old_session);
-}
 
 /**
  * Limits the maximum execution time
@@ -227,7 +139,6 @@ function headers_sent(string &$filename = null, int &$line = null): bool
 /**
  * Get cpu count
  *
- * @return int
  */
 function cpu_count(): int
 {
@@ -250,13 +161,3 @@ function cpu_count(): int
     Http::end($status);
 } // exit and die are language constructors, change your code with an empty ExitException
  */
-
-/** add CONSTANTS not enabled in cli SAPI */
-
-/** SESSION */
-const PHP_SESSION_DISABLED = 0;
-const PHP_SESSION_NONE = 1;
-const PHP_SESSION_ACTIVE = 2;
-
-//const SID // Not possible, use session_status();
-

@@ -48,7 +48,8 @@ class Adapterman
             self::checkFunctionsDisabled();
 
             // OK initialize the functions
-            require __DIR__ . '/AdapterFunctions.php';
+            require __DIR__ . '/functions/AdapterFunctions.php';
+            require __DIR__ . '/functions/AdapterSessionFunctions.php';
             class_alias(Http::class, \Protocols\Http::class);
             Http::init();
 
