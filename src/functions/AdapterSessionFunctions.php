@@ -21,8 +21,7 @@
  /**
  * Create new session id
  *
- * @param string $prefix
- * @return string|false
+ * @link https://www.php.net/manual/en/function.session-create-id.php
  */
 function session_create_id(string $prefix = ""): string|false
 {
@@ -31,9 +30,6 @@ function session_create_id(string $prefix = ""): string|false
 
 /**
  * Get and/or set the current session id
- *
- * @param string $id
- * @return string
  * 
  * @link https://www.php.net/manual/en/function.session-id.php
  */
@@ -55,8 +51,7 @@ function session_name(?string $name = null): string|false
 /**
  * Get and/or set the current session save path
  *
- * @param string $path
- * @return string
+ * @link https://www.php.net/manual/en/function.session-save-path.php
  */
 function session_save_path(?string $path = null): string|false
 {
@@ -66,6 +61,7 @@ function session_save_path(?string $path = null): string|false
 /**
  * Returns the current session status
  *
+ * @link https://www.php.net/manual/en/function.session-status.php
  */
 function session_status(): int
 {
@@ -75,8 +71,7 @@ function session_status(): int
 /**
  * Start new or resume existing session
  *
- * @param array $options
- * @return bool
+ * @link https://www.php.net/manual/en/function.session-start.php
  */
 function session_start(array $options = []): bool
 {
@@ -85,8 +80,6 @@ function session_start(array $options = []): bool
 
 /**
  * Write session data and end session
- *
- * @return bool
  * 
  * @link https://www.php.net/manual/en/function.session-write-close.php
  */
@@ -97,9 +90,6 @@ function session_write_close(): bool
 
 /**
  * Update the current session id with a newly generated one
- *
- * @param bool $delete_old_session
- * @return bool
  *
  * @link https://www.php.net/manual/en/function.session-regenerate-id.php
  */
