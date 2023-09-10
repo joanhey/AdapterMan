@@ -30,6 +30,7 @@ class Adapterman
         'http_response_code',
         
         'setcookie',
+
         'session_create_id',
         'session_id',
         'session_name',
@@ -38,7 +39,9 @@ class Adapterman
         'session_start',
         'session_write_close',
         'session_regenerate_id',
-        'set_time_limit'
+        'session_unset',
+
+        'set_time_limit',
     ];
 
     public static function init(): void
