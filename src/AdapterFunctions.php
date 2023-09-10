@@ -215,9 +215,11 @@ function set_time_limit(int $seconds): bool
 /**
  * Checks if or where headers have been sent
  *
- * @return bool
+ * @link https://www.php.net/manual/en/function.headers-sent.php
+ * 
+ * @return bool Always false with Adapterman
  */
-function headers_sent(): bool
+function headers_sent(string &$filename = null, int &$line = null): bool
 {
     return false;
 }
