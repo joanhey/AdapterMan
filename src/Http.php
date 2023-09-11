@@ -223,23 +223,23 @@ class Http
     public static function setCookie(
         string $name,
         string $value = '',
-        int $expires = 0,
+        int    $expires = 0,
         string $path = '',
         string $domain = '',
-        bool $secure = false,
-        bool $httponly = false,
+        bool   $secure = false,
+        bool   $httponly = false,
         string $samesite = '',
     ): bool
     {
         if (! static::checkCookieSamesite($samesite)) {
             $samesite = '';
         }
-        //Unix timestamp, as opposed to the date format Wdy, DD-Mon-YYYY HH:MM:SS GMT, this is because PHP does this conversion internally.
+
         static::$cookies[] = 'Set-Cookie: ' . $name . '=' . \rawurlencode($value)
-            . ($domain ?: '; Domain=' . $domain)
+            . ($domain   ? '; Domain=' . $domain : '')
             . (($expires === 0) ? '' : '; Max-Age=' . $expires)
-            . ($path ?: '; Path=' . $path)
-            . ($secure ? '; Secure' : '')
+            . ($path     ? '; Path=' . $path : '')
+            . ($secure   ? '; Secure' : '')
             . ($httponly ? '; HttpOnly' : '')
             . ($samesite ? "; SameSite=$samesite" : '');
 
