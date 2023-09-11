@@ -114,3 +114,29 @@ function session_unset(): bool
 
     return false;
 }
+
+/**
+ * Get the session cookie parameters
+ *
+ * @link https://www.php.net/manual/en/function.session-get-cookie-params.php
+ */
+function session_get_cookie_params(): array
+{
+    return Http::sessionGetCookieParams();
+}
+
+/**
+ * Set the session cookie parameters
+ *
+ * @link https://www.php.net/manual/en/function.session-set-cookie-params.php
+ */
+function session_set_cookie_params(
+    int|array $lifetime_or_options,
+    ?string $path = null,
+    ?string $domain = null,
+    ?bool $secure = null,
+    ?bool $httponly = null
+): bool
+{
+    return Http::sessionSetCookieParams($lifetime_or_options, $path, $domain, $secure, $httponly);
+}
