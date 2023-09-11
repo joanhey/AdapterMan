@@ -215,24 +215,48 @@ class Http
 
     /**
      * Set cookie.
+     * 
+     * @see https://www.php.net/manual/en/function.setcookie
+     * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+     * @see https://github.com/GoogleChromeLabs/samesite-examples/blob/master/php.md
      */
     public static function setCookie(
         string $name,
         string $value = '',
-        int $maxage = 0,
+        int $expires = 0,
         string $path = '',
         string $domain = '',
         bool $secure = false,
-        bool $HTTPOnly = false
-    ): bool {
+        bool $httponly = false,
+        string $samesite = '',
+    ): bool
+    {
+        if (! static::checkCookieSamesite($samesite)) {
+            $samesite = '';
+        }
+        //Unix timestamp, as opposed to the date format Wdy, DD-Mon-YYYY HH:MM:SS GMT, this is because PHP does this conversion internally.
         static::$cookies[] = 'Set-Cookie: ' . $name . '=' . \rawurlencode($value)
             . ($domain ?: '; Domain=' . $domain)
-            . (($maxage === 0) ? '' : '; Max-Age=' . $maxage)
+            . (($expires === 0) ? '' : '; Max-Age=' . $expires)
             . ($path ?: '; Path=' . $path)
             . ($secure ? '; Secure' : '')
-            . ($HTTPOnly ? '; HttpOnly' : '');
+            . ($httponly ? '; HttpOnly' : '')
+            . ($samesite ? "; SameSite=$samesite" : '');
 
         return true;
+    }
+
+    // TODO: add setrawcookie
+
+    protected static function checkCookieSamesite(string $samesite): bool
+    {
+        $valid = ['None', 'Lax', 'Strict'];
+
+        if(\in_array($samesite, $valid)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

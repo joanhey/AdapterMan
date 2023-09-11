@@ -96,17 +96,19 @@ if (! function_exists('getallheaders')) { // It's declared in a dev lib
  *
  * @link https://php.net/manual/en/function.setcookie.php
  */
-function setcookie(string $name, string $value = '', int|array $expires = 0, string $path = '', string $domain = '', bool $secure = FALSE, bool $httponly = FALSE): bool
+function setcookie(string $name, string $value = '', int|array $expires = 0, string $path = '', string $domain = '', bool $secure = false, bool $httponly = false): bool
 {
+    $samesite = '';
     if (is_array($expires)) { // Alternative signature available as of PHP 7.3.0 (not supported with named parameters)
         $expires  = $expires['expires'] ?? 0;
         $path     = $expires['path'] ?? '';
         $domain   = $expires['domain'] ?? '';
-        $secure   = $expires['secure'] ?? FALSE;
-        $httponly = $expires['httponly'] ?? FALSE;
+        $secure   = $expires['secure'] ?? false;
+        $httponly = $expires['httponly'] ?? false;
+        $samesite = $expires['samesite'] ?? '';
     }
 
-    return Http::setCookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+    return Http::setCookie($name, $value, $expires, $path, $domain, $secure, $httponly, $samesite);
 }
 
 
