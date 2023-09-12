@@ -40,6 +40,8 @@ class Adapterman
         'session_write_close',
         'session_regenerate_id',
         'session_unset',
+        'session_get_cookie_params',
+        'session_set_cookie_params',
 
         'set_time_limit',
     ];
