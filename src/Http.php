@@ -394,18 +394,40 @@ class Http
     public static function sessionStart(): bool
     {
         if (static::$sessionStarted) {
+            trigger_error('session_start(): Ignoring session_start() because a session is already active', E_USER_NOTICE);
             return true;
         }
         static::$sessionStarted = true;
+
+        $should_regenerate = ! isset($_COOKIE[static::$sessionName]) || empty($_COOKIE[static::$sessionName]);
+        if (! $should_regenerate) {
+            // https://www.php.net/manual/session.configuration.php#ini.session.use-strict-mode
+            $strict = \ini_get('session.use_strict_mode') == '1';
+            if (static::sessionValidateId($_COOKIE[static::$sessionName])) {
+                static::$sessionFile = static::$sessionSavePath . '/ses_' . $_COOKIE[static::$sessionName];
+                $session_file_exists = \is_file(static::$sessionFile);
+                if ($strict) {
+                    $should_regenerate = ! $session_file_exists;
+                }
+            } else {
+                if ($strict) {
+                    $should_regenerate = true;
+                } else {
+                    trigger_error('session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, and 0-9 characters are allowed', E_USER_WARNING);
+                    return static::$sessionStarted = false;
+                }
+            }
+        }
+
         // Generate a SID.
-        if (!isset($_COOKIE[static::$sessionName]) || !\is_file(static::$sessionSavePath . '/ses_' . $_COOKIE[static::$sessionName])) {
+        if ($should_regenerate) {
             // Create a unique session_id and the associated file name.
             while (true) {
                 $session_id = static::sessionCreateId();
                 if (!\is_file($file_name = static::$sessionSavePath . '/ses_' . $session_id)) break;
             }
             static::$sessionFile = $file_name;
-            return static::setcookie(
+            return static::$sessionStarted = static::setcookie(
                 static::$sessionName
                 , $session_id
                 , static::$sessionCookieLifetime
@@ -415,17 +437,25 @@ class Http
                 , static::$sessionCookieHttponly
             );
         }
-        if (!static::$sessionFile) {
-            static::$sessionFile = static::$sessionSavePath . '/ses_' . $_COOKIE[static::$sessionName];
-        }
         // Read session from session file.
-        if (static::$sessionFile) {
+        if ($session_file_exists) {
             $raw = \file_get_contents(static::$sessionFile);
             if ($raw) {
                 $_SESSION = \unserialize($raw);
             }
         }
         return true;
+    }
+
+    /**
+     * Check whether a session ID is valid.
+     *
+     * @return bool
+     */
+    protected static function sessionValidateId(string $session_id): bool
+    {
+        // Limit the file name (ses_$session_id) length to 255 characters
+        return \strlen($session_id) <= 251 && \ctype_alnum($session_id);
     }
 
     /**
