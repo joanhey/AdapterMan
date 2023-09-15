@@ -20,9 +20,14 @@ trait Session
 {
     
     /**
-     * Session Cookie params
+     * Session Handler
      */
-    public static array $sessionCookie = [
+    //private static SessionHandler $handler = 'File';
+
+    /**
+     * Default Session Cookie params
+     */
+    private static array $defaultSessionCookie = [
             'lifetime' => 0,
             'path'     => '/',
             'domain'   => '',
@@ -30,6 +35,11 @@ trait Session
             'httponly' => false,
             'samesite' => 'Lax',
     ];
+
+    /**
+     * Session Cookie params
+     */
+    public static array $sessionCookie = [];
 
     /**
      * Session save path.
@@ -62,40 +72,59 @@ trait Session
     protected static string $sessionFile = '';
 
     /**
+     * Session ID
+     */
+    protected static string $sessionId = '';
+
+    /**
+     * New Session ID
+     */
+    protected static string $newSessionId = '';
+
+
+    /**
+     * Reset Session values
+     */
+    protected static function sessionReset()
+    {
+        static::$sessionFile = '';
+        static::$sessionStarted = false;
+        static::$newSessionId = '';
+        static::$sessionCookie = static::$defaultSessionCookie;
+    }
+
+    /**
      * Init.
      *
      * @return void
      */
     public static function sessionInit()
     {
-        if (! static::$sessionName) {
-            static::$sessionName = \ini_get('session.name');
-        }
+        static::$sessionName = \ini_get('session.name') ?? 'PHPSESSID';
 
-        if (! static::$sessionSavePath) {
-            $savePath = \ini_get('session.save_path');
-            if (\preg_match('/^\d+;(.*)$/', $savePath, $match)) {
-                $savePath = $match[1];
-            }
-            if (! $savePath || \str_starts_with($savePath, 'tcp://')) {
-                $savePath = \sys_get_temp_dir();
-            }
-            static::$sessionSavePath = $savePath;
+        $savePath = \ini_get('session.save_path');
+        if (\preg_match('/^\d+;(.*)$/', $savePath, $match)) {
+            $savePath = $match[1];
         }
+        if (! $savePath || \str_starts_with($savePath, 'tcp://')) {
+            $savePath = \sys_get_temp_dir();
+        }
+        static::$sessionSavePath = $savePath;
 
         if ($gc_max_life_time = \ini_get('session.gc_maxlifetime')) {
             static::$sessionGcMaxLifeTime = (int) $gc_max_life_time;
         }
 
-        static::$sessionCookie['lifetime'] = (int) \ini_get('session.cookie_lifetime');
-        static::$sessionCookie['path'] = (string) \ini_get('session.cookie_path');
-        static::$sessionCookie['domain'] = (string) \ini_get('session.cookie_domain');
-        static::$sessionCookie['secure'] = (bool) \ini_get('session.cookie_secure');
-        static::$sessionCookie['httponly'] = (bool) \ini_get('session.cookie_httponly');
+        static::$defaultSessionCookie['lifetime'] = (int) \ini_get('session.cookie_lifetime');
+        static::$defaultSessionCookie['path'] = (string) \ini_get('session.cookie_path');
+        static::$defaultSessionCookie['domain'] = (string) \ini_get('session.cookie_domain');
+        static::$defaultSessionCookie['secure'] = (bool) \ini_get('session.cookie_secure');
+        static::$defaultSessionCookie['httponly'] = (bool) \ini_get('session.cookie_httponly');
         if (static::checkCookieSamesite(\ini_get('session.cookie_samesite'))) {
-            static::$sessionCookie['samesite'] = \ini_get('session.cookie_samesite');
+            static::$defaultSessionCookie['samesite'] = \ini_get('session.cookie_samesite');
         }
-            
+
+        static::$sessionCookie = static::$defaultSessionCookie;
 
         Timer::add(static::$sessionGcInterval, function () {
             static::tryGcSessions();
@@ -115,6 +144,11 @@ trait Session
             static::$sessionCookie['samesite']
         );
     }
+
+    // protected static function populateSessionCookie(array $sessionCookie)
+    // {
+
+    // }
 
     /**
      * Returns the current session status
@@ -154,12 +188,18 @@ trait Session
      */
     public static function sessionId(?string $id = null): string|false
     {
+        // Get
         if ($id === null) {
             if (static::sessionStarted() && static::$sessionFile) {
                 return \str_replace('ses_', '', \basename(static::$sessionFile));
             }
             return '';
         }
+        // Set
+        if (static::sessionStarted()) {
+            return false;
+        }
+
         if (static::sessionStarted() && static::$sessionFile) {
             return \str_replace('ses_', '', \basename(static::$sessionFile));
         }
@@ -332,7 +372,7 @@ trait Session
 
         if (\is_array($lifetime_or_options)) {
             //Validate keys
-            if (\array_diff_key($lifetime_or_options, static::$sessionCookie) === []) {
+            if (\array_diff_key($lifetime_or_options, static::$defaultSessionCookie) === []) {
                 $options = \array_filter($lifetime_or_options, fn ($value) => !\is_null($value));
                 
                 if(isset($options['samesesite']) && $options['samesesite'] && !static::checkSession($options['samesesite'])) {
@@ -374,5 +414,3 @@ trait Session
         return static::$sessionCookie;
     }
 }
-
-
