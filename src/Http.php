@@ -16,7 +16,7 @@ namespace Adapterman;
 
 use Workerman\Connection\TcpConnection;
 //use Workerman\Timer;
-
+use Adapterman\HttpStatusCodes as Status;
 /**
  * http protocol
  */
