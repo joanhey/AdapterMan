@@ -22,7 +22,7 @@ use Adapterman\HttpStatusCodes as Status;
  */
 class Http
 {
-    use ParseMultipart, Session;
+    use ParseMultipart;
 
     /**
      * Http status.
@@ -51,7 +51,7 @@ class Http
 
     public static function init(): void
     {
-        static::sessionInit();
+        //static::sessionInit();
         //static::uploadInit();
     }
 
@@ -63,12 +63,14 @@ class Http
     {
         static::$status = 'HTTP/1.1 200 OK';
         static::$headers = [
-            'Content-Type' => 'Content-Type: text/html;charset=utf-8',
-            'Server' => 'Server: workerman',
+            'Content-Type' => 'text/html;charset=utf-8',
+            'Server' => 'workerman',
         ];
         static::$cookies = [];
-        static::$sessionFile = '';
-        static::$sessionStarted = false; 
+
+        //static::$requestHeaders = [];
+
+        //static::sessionReset();
     }
 
     /**
@@ -81,30 +83,30 @@ class Http
     /**
      * Send a raw HTTP header.
      */
-    public static function header(string $content, bool $replace = true, int $http_response_code = 0): void
+    public static function header(string $header, bool $replace = true, int $response_code = 0): void
     {
-        if (\str_starts_with($content, 'HTTP')) {
-            static::$status = $content;
+        if (\str_starts_with($header, 'HTTP')) {
+            static::$status = $header;
 
             return;
         }
 
-        $key = \strstr($content, ':', true);
+        $key = \strstr($header, ':', true);
         if (empty($key)) {
             return;
         }
 
         if ('location' === \strtolower($key)) {
-            if ($http_response_code === 0) {
-                $http_response_code = 302;
+            if ($response_code === 0) {
+                $response_code = 302;
             }
-            static::responseCode($http_response_code);
+            static::responseCode($response_code);
         }
 
         if ($key === 'Set-Cookie') {
-            static::$cookies[] = $content;
+            static::$cookies[] = $header;
         } else {
-            static::$headers[$key] = $content;
+            static::$headers[$key] = $header;
         }
     }
 
@@ -194,7 +196,11 @@ class Http
      */
     public static function headers_list(): array
     {
-        return [...static::$cookies, ...static::$headers];
+        $headers = [];
+        foreach(static::$headers as $key => $value) {
+            $headers[] = "$key: $value";
+        }
+        return array_merge($headers, static::$cookies);
     }
 
     /**
@@ -246,7 +252,7 @@ class Http
     }
 
     /**
-     * Parse $_POST、$_GET、$_COOKIE.
+     * Parse $_GET、$_POST、$_FILES、$_COOKIE.
      */
     public static function decode(string $recv_buffer, TcpConnection $connection): void
     {
@@ -259,11 +265,12 @@ class Http
             $_COOKIE  = $cache['cookie'];
             $_REQUEST = $cache['request'];
             $GLOBALS['HTTP_RAW_POST_DATA'] = $GLOBALS['HTTP_RAW_REQUEST_DATA'] = '';
+            //deprecated in php 5.6 check with nginx, apache, ... first
 
             return;
         }
-        // Init.
-        $_POST = $_GET = $_COOKIE = $_REQUEST = $_SESSION = $_FILES = [];
+        // Init Superglobals
+        $_GET = $_POST = $_FILES = $_COOKIE = $_REQUEST = $_SESSION = [];
         // $_SERVER
         $_SERVER = [
             'REQUEST_METHOD' => '',
@@ -299,6 +306,9 @@ class Http
                 continue;
             }
             [$key, $value] = \explode(':', $content, 2);
+            
+            //static::$requestHeaders[$key] = $value;
+
             $key = \str_replace('-', '_', \strtoupper($key));
             $value = \trim($value);
             $_SERVER['HTTP_' . $key] = $value;
@@ -392,6 +402,27 @@ class Http
      */
     public static function encode(string $content, TcpConnection $connection): string
     {
+        //testing with php own session
+        // send cookie if changed and write_close if it's open
+        //https://www.php.net/manual/es/function.session-status.php#123404
+
+        //Check if session_id or session_name changed
+        //TODO: if name or id changed expire the old cookie
+        if(\session_id() && isset($_COOKIE[\session_name()])) {
+            if(\session_id() !== $_COOKIE[\session_name()]) {
+                \setCookie(
+                    \session_name(),
+                    \session_id(),
+                    \session_get_cookie_params(),
+                );
+            }
+        }
+
+        if (\session_status() === \PHP_SESSION_ACTIVE) {
+            \session_write_close();
+            //\session_destroy();
+        }
+        
         //$content = (string) $content;
 
         // http-code status line.
@@ -410,7 +441,7 @@ class Http
         $header .= 'Content-Length: ' . \strlen($content) . "\r\n\r\n";
 
         // save session
-        static::sessionWriteClose();
+        //static::sessionWriteClose();
 
         // the whole http package
         return $header . $content;

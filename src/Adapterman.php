@@ -14,7 +14,7 @@
 
 namespace Adapterman;
 
-use Exception;
+use \Exception;
 
 class Adapterman
 {
@@ -31,17 +31,17 @@ class Adapterman
         
         'setcookie',
 
-        'session_create_id',
-        'session_id',
-        'session_name',
-        'session_save_path',
-        'session_status',
-        'session_start',
-        'session_write_close',
-        'session_regenerate_id',
-        'session_unset',
-        'session_get_cookie_params',
-        'session_set_cookie_params',
+        //'session_create_id',
+        //'session_id',
+        //'session_name',
+        //'session_save_path',
+        //'session_status',
+        //'session_start',
+        //'session_write_close',
+        //'session_regenerate_id',
+        //'session_unset',
+        //'session_get_cookie_params',
+        //'session_set_cookie_params',
 
         'set_time_limit',
     ];
@@ -54,17 +54,27 @@ class Adapterman
 
             // OK initialize the functions
             require __DIR__ . '/functions/AdapterFunctions.php';
-            require __DIR__ . '/functions/AdapterSessionFunctions.php';
-            class_alias(Http::class, \Protocols\Http::class);
+            //require __DIR__ . '/functions/AdapterSessionFunctions.php';
+            \class_alias(Http::class, \Protocols\Http::class);
             Http::init();
 
         } catch (Exception $e) {
-            fwrite(STDERR, self::NAME . ' Error:' . PHP_EOL);
-            fwrite(STDERR, $e->getMessage());
+            \fwrite(\STDERR, self::NAME . ' Error:' . \PHP_EOL);
+            \fwrite(\STDERR, $e->getMessage());
             exit;
         }
+        
+        /**
+         * Don't output to the standar buffer
+         * to avoid "headers have already been sent"
+         */
+        set_error_handler(
+            function ($code, $msg, $file, $line) {
+                \fwrite(\STDERR, "$msg in file $file on line $line\n");
+            }
+        );
 
-        fwrite(STDOUT, self::NAME . ' OK' . PHP_EOL);
+        \fwrite(\STDOUT, self::NAME . ' OK' . \PHP_EOL);
     }
 
     /**
@@ -91,7 +101,7 @@ class Adapterman
 
         foreach (self::FUNCTIONS as $function) {
             if (\function_exists($function)) {
-                throw new Exception("Functions not disabled in php.ini." . PHP_EOL . self::showConfiguration());
+                throw new Exception("Functions not disabled in php.ini." . \PHP_EOL . self::showConfiguration());
             }
         }
     }
@@ -101,7 +111,7 @@ class Adapterman
         $inipath = \php_ini_loaded_file();
         $methods = \implode(',', self::FUNCTIONS);
 
-        return "Add in file: $inipath" . PHP_EOL . "disable_functions=$methods" . PHP_EOL;
+        return "Add in file: $inipath" . \PHP_EOL . "disable_functions=$methods" . \PHP_EOL;
     }
 }
 
