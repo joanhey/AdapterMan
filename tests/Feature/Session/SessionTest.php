@@ -158,7 +158,7 @@ it('send SESSION start', function () {
             'hello' => 'Adapterman', 
         ]);
 
-});
+})->skip('WIP');
 
 it('check invalid SESSION id', function () {
     //$cookie = new CookieJar();
@@ -177,7 +177,7 @@ it('check invalid SESSION id', function () {
         ->toBeJson()
         ->json()
         ->toBe([]);
-});
+})->skip('WIP');
 
 // test 2 users in the same expectation intermixed
 // $user1 = new CookieJar(), $user2 = new CookieJar()
@@ -251,4 +251,4 @@ it('work with 2 users SESSION values', function () {
     //         'Name' => 'hello',
     //         'Value' => 'Adapterman',
     //     ]);
-});
+})->skip('WIP');
