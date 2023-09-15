@@ -12,57 +12,49 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-use Adapterman\Adapterman;
-use Workerman\Worker;
-use Workerman\Connection\TcpConnection;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// php -S 127.0.0.1:8080 tests/Servers/Php.php
 
-Adapterman::init();
+// Parse JSON
+if(isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json') {
+    $_POST = \json_decode(file_get_contents('php://input'), true) ?? [];
+    file_put_contents("php://stdout", "\nRequested: $_POST");
+}
 
-$worker = new Worker('http://0.0.0.0:8080');
-$worker->name  = "Adapterman Tests";
-//$worker->count = 2;
 
-const TESTMAN_VERSION = '0.1';
+// Router
+$response = match (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
+    // Tests
+    '/'          => 'Hello World!',
+    '/get'       => encode($_GET),
+    '/post'      => encode($_POST),
+    '/headers'   => encode(getallheaders()),
+    '/method'    => $_SERVER['REQUEST_METHOD'],
+    '/server_ip' => $_SERVER['SERVER_ADDR'],
+    '/ip'        => $_SERVER['REMOTE_ADDR'],
+    '/cookies'   => cookies(),
+    '/session'   => session(),
+    '/session/destroy' => sessionDestroy(),
+    '/upload'    => encode($_FILES),
 
-$worker->onMessage = static function (TcpConnection $connection): void {
+    // Info for debug
+    '/debug'      => debugLinks(),
+    '/info'      => info(),
+    '/globals'   => globals(),
+    '/extensions'=> encode(get_loaded_extensions()),
+    '/phpinfo'   => php_info(),
+    '/getallheaders' => encode(getallheaders()),
+    '/echo'      => requestEcho(),
 
-    $response = match (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
-        // Tests
-        '/'          => 'Hello World!',
-        '/get'       => encode($_GET),
-        '/post'      => encode($_POST),
-        '/headers'   => encode(getallheaders()),
-        '/method'    => $_SERVER['REQUEST_METHOD'],
-        '/server_ip' => $_SERVER['SERVER_ADDR'],
-        '/ip'        => $_SERVER['REMOTE_ADDR'],
-        '/cookies'   => cookies(),
-        '/session'   => session(),
-        '/session/destroy' => sessionDestroy(),
-        '/upload'    => encode($_FILES),
+    '/session/info' => SessionInfo(),
 
-        // Info for debug
-        '/debug'     => debugLinks(),
-        '/info'      => info(),
-        '/globals'   => globals(),
-        '/extensions'=> encode(get_loaded_extensions()),
-        '/phpinfo'   => php_info(),
-        '/getallheaders' => encode(getallheaders()),
-        '/echo'      => requestEcho(),
-        // to check also session path
-        '/session/info' => sessionInfo(),
-
-        default => (static function (): string {
-            http_response_code(404);
-            return '404 Not Found';
-        })(),
-    };
-
-    $connection->send($response);
+    default => (static function (): string {
+        http_response_code(404);
+        return '404 Not Found';
+    })(),
 };
 
-Worker::runAll();
+echo $response;
 
 
 function encode(mixed $data): string
@@ -72,8 +64,6 @@ function encode(mixed $data): string
     return json_encode($data, JSON_PRETTY_PRINT);
 }
 
-// Only for info not for automatic tests
-// mmm also to check ext, modules, before run some tests
 function info(): string
 {
     return encode([
@@ -85,15 +75,13 @@ function info(): string
         'PHP_OS'            => PHP_OS,
         'PHP_OS_FAMILY'     => PHP_OS_FAMILY,
 
-        'TESTMAN_VERSION' => TESTMAN_VERSION,
-        
         //Manual change
         'PSR-7'             => false,
-        'SERVER'            => 'Workerman',
-        'FRAMEWORK'         => 'Adapterman',
-        'FRAMEWORk_VERSION' => Adapterman::VERSION,
+        'SERVER'            => 'cli-server',
+        'FRAMEWORK'         => '',
+        'FRAMEWORK_VERSION' => '',
 
-        //'GLOBALS'           => print_r($GLOBALS),
+        //'GLOBALS'           => $GLOBALS,
         //'PHP_CLI_PROCESS_TITLE' => PHP_CLI_PROCESS_TITLE,
     ]);
 }
@@ -106,20 +94,12 @@ function globals(): string
     return ob_get_clean();
 }
 
-function php_info(): string
-{
-    header('Content-Type: text/plain');
-    ob_start();
-    phpinfo();
-    return ob_get_clean();
-}
-
 function requestEcho(): string
 {
     
     return encode([
         'headers' => getallheaders(),
-        'body'    => file_get_contents('php://input'), //TODO change
+        'body'    => file_get_contents('php://input'),
     ]);
 }
 
@@ -173,6 +153,22 @@ function sessionInfo(): string
     ]);
 }
 
+function sessionDestroy(): string
+{
+    session_start();
+    
+    return encode([
+        'destroy'=> session_destroy(),
+        'name'   => session_name(),
+        'id'     => session_id(),
+        'status' => sessionStatus(session_status()),
+        'cookies'=> $_COOKIE,
+        'default-cookie-params' => session_get_cookie_params(),
+        'headers-to-send' => headers_list(),
+        'data'   => $_SESSION,
+    ]);
+}
+
 function session(): string
 {
     session_start();
@@ -200,37 +196,17 @@ function session(): string
 
 }
 
-function sessionDestroy(): string
+function php_info(): string
 {
-    session_start();
-
-    return encode([
-        'destroy'=> session_destroy(),
-        //'close'  => session_write_close(),
-        //'regenerate' => regenerate_id(),
-        'name'   => session_name(),
-        'id'     => session_id(),
-        'status' => sessionStatus(session_status()),
-        'cookies'=> $_COOKIE,
-        'default-cookie-params' => session_get_cookie_params(),
-        'headers-to-send' => headers_list(),
-        'data'   => $_SESSION,
-    ]);
+    ob_start();
+    phpinfo();
+    return ob_get_clean();
 }
 
 function debugLinks(): string
 {
-    ob_start();
-    print_r(json_decode(info()));
-    $info = ob_get_clean();
-
-    $TESMAN_VERSION = TESTMAN_VERSION;
-
-    // TODO create a file with extra info and nicer
     $output = <<<EOD
-    <h1>TestMan</h1>
-    <pre>$info</pre>
-    <h2>Debug links</h2>
+    <h1>Debug links</h1>
     <ul>
         <li><a href="/info">Info</a></li>
         <li><a href="/globals">GLOBALS</a></li>
@@ -242,7 +218,7 @@ function debugLinks(): string
         <li><a href="/echo">Echo request</a></li>
     </ul>
 
-    <p>TestMan v$TESMAN_VERSION</p>
+    <p>Name tests v0.1</p>
     EOD;
 
     return $output;
