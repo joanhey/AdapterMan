@@ -44,14 +44,8 @@ class Http
      */
     protected static array $cache = [];
 
-    /**
-     * Request Headers.
-     */
-    //protected static array $requestHeaders = [];
-
     public static function init(): void
     {
-        //static::sessionInit();
         //static::uploadInit();
     }
 
@@ -67,10 +61,6 @@ class Http
             'Server' => 'workerman',
         ];
         static::$cookies = [];
-
-        //static::$requestHeaders = [];
-
-        //static::sessionReset();
     }
 
     /**
@@ -420,11 +410,8 @@ class Http
 
         if (\session_status() === \PHP_SESSION_ACTIVE) {
             \session_write_close();
-            //\session_destroy();
         }
         
-        //$content = (string) $content;
-
         // http-code status line.
         $header = static::$status . "\r\n";
 
@@ -439,9 +426,6 @@ class Http
         }
         // header
         $header .= 'Content-Length: ' . \strlen($content) . "\r\n\r\n";
-
-        // save session
-        //static::sessionWriteClose();
 
         // the whole http package
         return $header . $content;
