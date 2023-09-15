@@ -19,16 +19,13 @@ use Adapterman\Http;
  *
  * @link https://php.net/manual/en/function.header.php
  */
-function header(string $content, bool $replace = true, int $http_response_code = 0): void
+function header(string $header, bool $replace = true, int $response_code = 0): void
 {
-    Http::header($content, $replace, $http_response_code);
+    Http::header($header, $replace, $response_code);
 }
 
 /**
  * Remove previously set headers
- *
- * @param string $name  The header name to be removed. This parameter is case-insensitive.
- * @return void
  *
  * @link https://php.net/manual/en/function.header-remove.php
  */
@@ -39,9 +36,6 @@ function header_remove(?string $name = null): void
 
 /**
  * Get or Set the HTTP response code
- *
- * @param integer $code [optional] The optional response_code will set the response code.
- * @return integer      The current response code. By default the return value is int(200).
  *
  * @link https://www.php.net/manual/en/function.http-response-code.php
  */
@@ -85,22 +79,13 @@ if (! function_exists('getallheaders')) { // It's declared in a dev lib
 /**
  * Send a cookie
  *
- * @param string $name
- * @param string $value
- * @param int|array $expires
- * @param string $path
- * @param string $domain
- * @param boolean $secure
- * @param boolean $httponly
- * @return boolean
- *
  * @link https://php.net/manual/en/function.setcookie.php
  */
 function setcookie(string $name, string $value = '', int|array $expires = 0, string $path = '', string $domain = '', bool $secure = false, bool $httponly = false): bool
 {
     $samesite = '';
     if (is_array($expires)) { // Alternative signature available as of PHP 7.3.0 (not supported with named parameters)
-        $expires  = $expires['expires'] ?? 0;
+        $expires  = $expires['lifetime'] ?? 0;
         $path     = $expires['path'] ?? '';
         $domain   = $expires['domain'] ?? '';
         $secure   = $expires['secure'] ?? false;
@@ -116,8 +101,7 @@ function setcookie(string $name, string $value = '', int|array $expires = 0, str
 /**
  * Limits the maximum execution time
  *
- * @param int $seconds
- * @return bool
+ * @link https://php.net/manual/en/function.set-time-limit.php
  */
 function set_time_limit(int $seconds): bool
 {
