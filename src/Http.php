@@ -383,14 +383,12 @@ class Http
 
         //Check if session_id or session_name changed
         //TODO: if name or id changed expire the old cookie
-        if(\session_id() && isset($_COOKIE[\session_name()])) {
-            if(\session_id() !== $_COOKIE[\session_name()]) {
+        if(\session_id() && \session_id() !== $_COOKIE[\session_name()] ?? '') {
                 \setCookie(
                     \session_name(),
                     \session_id(),
                     \session_get_cookie_params(),
                 );
-            }
         }
 
         if (\session_status() === \PHP_SESSION_ACTIVE) {
