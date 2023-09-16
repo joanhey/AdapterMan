@@ -27,20 +27,7 @@ class Adapterman
         'header_remove',
         'headers_sent',
         'headers_list',
-        
         'setcookie',
-
-        //'session_create_id',
-        //'session_id',
-        //'session_name',
-        //'session_save_path',
-        //'session_status',
-        //'session_start',
-        //'session_write_close',
-        //'session_regenerate_id',
-        //'session_unset',
-        //'session_get_cookie_params',
-        //'session_set_cookie_params',
 
         'set_time_limit',
     ];
