@@ -37,7 +37,7 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
 
         // Info for debug
         '/debug'      => $connection->send(debugLinks()),
-        '/info'       => $connection->send(info()),
+        '/info'       => $connection->send(encode(info())),
         '/globals'    => $connection->send(globals()),
         '/extensions' => $connection->send(encode(get_loaded_extensions())),
         '/phpinfo'    => $connection->send(php_info()),
@@ -45,6 +45,7 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
         '/echo'       => $connection->send(requestEcho($request)),
         // to check also session path
         '/session/info' => $connection->send(sessionInfo()),
+        '/session/destroy' => $connection->send(sessionDestroy()),
 
 
         default => $connection->send(new Response(404, [], '404 Not Found'))
@@ -66,9 +67,9 @@ function encode(mixed $data): Response
 
 // Only for info not for automatic tests
 // mmm also to check ext, modules, before run some tests
-function info(): Response
+function info(): string
 {
-    return encode([
+    return json_encode([
         'PHP_VERSION'       => PHP_VERSION,
         'PHP_VERSION_ID'    => PHP_VERSION_ID,
         'PHP_MAJOR_VERSION' => PHP_MAJOR_VERSION,
@@ -149,6 +150,75 @@ function cookies(Request $request): string
     }
 }
 
+function sessionStatus(int $code): string
+{
+    $status = [ 
+        PHP_SESSION_DISABLED => 'PHP_SESSION_DISABLED',
+        PHP_SESSION_NONE     => 'PHP_SESSION_NONE',
+        PHP_SESSION_ACTIVE   => 'PHP_SESSION_ACTIVE',
+    ];
+
+    return $status[$code];
+}
+
+function sessionInfo(): Response
+{
+    return encode([
+        'start'  => session_start(),
+        'name'   => session_name(),
+        'id'     => session_id(),
+        'status' => sessionStatus(session_status()),
+        'cookies'=> $_COOKIE,
+        'default-cookie-params' => session_get_cookie_params(),
+        'headers-to-send' => headers_list(),
+        'data'   => $_SESSION,
+    ]);
+}
+
+function session(): Response
+{
+    session_start();
+
+    if($_GET === []) {
+        return encode($_SESSION);
+    }
+
+    if(isset($_GET['set'])) {
+        foreach($_GET['set'] as $name => $value) {
+            $_SESSION[$name] = $value;
+        }
+        //Worker::safeEcho(print_r($_SESSION));
+        return encode($_SESSION);
+    }
+
+    if(isset($_GET['delete'])) {
+        foreach($_GET['delete'] as $name) {
+            if (isset($_SESSION[$name])) {
+                unset($_SESSION[$name]); 
+            }
+        }
+        return encode($_SESSION);
+    }
+
+}
+
+function sessionDestroy(): Response
+{
+    session_start();
+
+    return encode([
+        'destroy'=> session_destroy(),
+        //'close'  => session_write_close(),
+        //'regenerate' => regenerate_id(),
+        'name'   => session_name(),
+        'id'     => session_id(),
+        'status' => sessionStatus(session_status()),
+        'cookies'=> $_COOKIE,
+        'default-cookie-params' => session_get_cookie_params(),
+        'headers-to-send' => headers_list(),
+        'data'   => $_SESSION,
+    ]);
+}
 
 
 
