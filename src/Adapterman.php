@@ -27,7 +27,6 @@ class Adapterman
         'header_remove',
         'headers_sent',
         'headers_list',
-        'http_response_code',
         
         'setcookie',
 

@@ -56,6 +56,7 @@ class Http
     public static function reset(): void
     {
         static::$status = 'HTTP/1.1 200 OK';
+        \http_response_code(200);
         static::$headers = [
             'Content-Type' => 'text/html;charset=utf-8',
             'Server' => 'workerman',
@@ -76,7 +77,8 @@ class Http
     public static function header(string $header, bool $replace = true, int $response_code = 0): void
     {
         if (\str_starts_with($header, 'HTTP')) {
-            static::$status = $header;
+            $code = \explode(' ', $header)[1];
+            \http_response_code((int) $code);
 
             return;
         }
@@ -114,23 +116,6 @@ class Http
         }
 
         unset(static::$headers[$name]);
-    }
-
-    /**
-     * Sets the HTTP response status code.
-     *
-     * @param  int  $code The response code
-     * @return bool|int The valid status code or FALSE if code is not provided and it is not invoked in a web server environment
-     */
-    public static function responseCode(int $code): bool|int
-    {
-        if (isset(Status::CODES[$code])) {
-            static::$status = "HTTP/1.1 $code " . Status::CODES[$code];
-
-            return $code;
-        }
-
-        return false;
     }
 
     /**
@@ -413,6 +398,10 @@ class Http
         }
         
         // http-code status line.
+        $code = \http_response_code();
+        if ($code !== 200) {
+            static::$status = "HTTP/1.1 $code " . Status::CODES[$code];
+        }
         $header = static::$status . "\r\n";
 
         // create headers

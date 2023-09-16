@@ -35,16 +35,6 @@ function header_remove(?string $name = null): void
 }
 
 /**
- * Get or Set the HTTP response code
- *
- * @link https://www.php.net/manual/en/function.http-response-code.php
- */
-function http_response_code(int $code = null): int
-{ // int|bool
-    return Http::responseCode($code); // Fix to return actual status when void
-}
-
-/**
  * Returns a list of response headers sent (or ready to send)
  *
  * @return array<string>
