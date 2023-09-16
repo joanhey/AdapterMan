@@ -35,10 +35,10 @@ jobs:
           max_attempts: 5
           command: composer update --prefer-dist --no-interaction --no-progress --ansi
 
-      - name: Start Workerman
+      - name: Start Workerman 4
         run: |
             sed -i "s|uses(ServerTestCase::class)|//uses(ServerTestCase::class)|g" tests/Pest.php
-            php tests/Servers/Workerman.php start -d
+            php tests/Servers/Workerman4.php start -d
 
       - name: Execute tests
         run: vendor/bin/pest --colors=always

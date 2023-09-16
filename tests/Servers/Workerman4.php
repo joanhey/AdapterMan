@@ -37,7 +37,10 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
 
         // Info for debug
         '/debug'      => $connection->send(debugLinks()),
-        '/info'       => $connection->send(encode(info())),
+        '/info'       => $connection->send(new Response(
+            200,
+            ['Content-Type' => 'application/json'],
+            info())),
         '/globals'    => $connection->send(globals()),
         '/extensions' => $connection->send(encode(get_loaded_extensions())),
         '/phpinfo'    => $connection->send(php_info()),
@@ -88,7 +91,7 @@ function info(): string
 
         //'GLOBALS'           => print_r($GLOBALS),
         //'PHP_CLI_PROCESS_TITLE' => PHP_CLI_PROCESS_TITLE,
-    ]);
+    ], JSON_PRETTY_PRINT);
 }
 
 function globals(): Response
