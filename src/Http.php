@@ -155,9 +155,8 @@ class Http
 
     protected static function checkCookieSamesite(string $samesite): bool
     {
-        $valid = ['None', 'Lax', 'Strict'];
 
-        if(\in_array($samesite, $valid)) {
+        if(\in_array($samesite, ['None', 'Lax', 'Strict'])) {
             return true;
         }
 
@@ -383,12 +382,15 @@ class Http
 
         //Check if session_id or session_name changed
         //TODO: if name or id changed expire the old cookie
-        if(\session_id() && \session_id() !== $_COOKIE[\session_name()] ?? '') {
+        if (\session_id()) {
+            $sessionCookie = $_COOKIE[\session_name()] ?? '';
+            if (\session_id() !== $sessionCookie) {
                 \setCookie(
                     \session_name(),
                     \session_id(),
                     \session_get_cookie_params(),
                 );
+            }  
         }
 
         if (\session_status() === \PHP_SESSION_ACTIVE) {
