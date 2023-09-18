@@ -92,13 +92,16 @@ class Http
             if ($response_code === 0) {
                 $response_code = 302;
             }
-            static::responseCode($response_code);
         }
 
         if ($key === 'Set-Cookie') {
             static::$cookies[] = $header;
         } else {
             static::$headers[$key] = $header;
+        }
+
+        if ($response_code !== 0) {
+            \http_response_code($response_code);
         }
     }
 
@@ -155,7 +158,6 @@ class Http
 
     protected static function checkCookieSamesite(string $samesite): bool
     {
-
         if(\in_array($samesite, ['None', 'Lax', 'Strict'])) {
             return true;
         }
@@ -367,12 +369,13 @@ class Http
                 unset(static::$cache[\key(static::$cache)]);
             }
         }
+
+        //isset($_COOKIE[\session_name()]) ? session_id($_COOKIE[\session_name()]) : '';
     }
 
     /**
      * Http encode.
      *
-     * @param  string  $content
      */
     public static function encode(string $content, TcpConnection $connection): string
     {
@@ -390,7 +393,7 @@ class Http
                     \session_id(),
                     \session_get_cookie_params(),
                 );
-            }  
+            }
         }
 
         if (\session_status() === \PHP_SESSION_ACTIVE) {
