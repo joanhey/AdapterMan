@@ -55,14 +55,17 @@ class Adapterman
          * to avoid "headers have already been sent"
          */
         set_error_handler(
-            function ($code, $msg, $file, $line) {
+            function (int $code, string $msg, string $file, int $line): bool
+            {
                 if (ob_get_level()) {
                     //TODO: check if php.ini show errors first
-                    echo "$msg in file $file on line $line\n";
-                    return;
+                    echo "Error $code: $msg in file $file on line $line\n";
+                    return true;
                 }
                 
-                \fwrite(\STDERR, "$msg in file $file on line $line\n");
+                \fwrite(\STDERR, "Error $code: $msg in file $file on line $line\n");
+
+                return true;
             }
         );
 
