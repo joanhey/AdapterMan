@@ -56,6 +56,12 @@ class Adapterman
          */
         set_error_handler(
             function ($code, $msg, $file, $line) {
+                if (ob_get_level()) {
+                    //TODO: check if php.ini show errors first
+                    echo "$msg in file $file on line $line\n";
+                    return;
+                }
+                
                 \fwrite(\STDERR, "$msg in file $file on line $line\n");
             }
         );
