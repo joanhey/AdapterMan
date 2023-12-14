@@ -9,7 +9,7 @@ use Workerman\Worker;
 
 require __DIR__.'/../../vendor/autoload.php';
 
-$worker = new Worker('http://0.0.0.0:8080');
+$worker = new Worker('http://0.0.0.0:18080');
 $worker->name = 'Workerman Tests';
 
 $worker->onMessage = function (TcpConnection $connection, Request $request) {

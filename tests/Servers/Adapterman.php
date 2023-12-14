@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 Adapterman::init();
 
-$worker = new Worker('http://0.0.0.0:8080');
+$worker = new Worker('http://0.0.0.0:18080');
 $worker->name  = "Adapterman Tests";
 //$worker->count = 2;
 
