@@ -14,13 +14,14 @@
 
 namespace Adapterman;
 
+use Workerman\Worker;
 use Exception;
 
 class Adapterman
 {
     public const VERSION = "0.6.1";
 
-    public const NAME = "Adapterman v". self::VERSION;
+    public const NAME = 'Adapterman/'. self::VERSION. ' (Workerman/'. Worker::VERSION. ')';
 
     private const FUNCTIONS = [
         'header',

@@ -345,7 +345,7 @@ class Http
             'SERVER_PORT' => $connection->getLocalPort(),
             'REMOTE_ADDR' => $connection->getRemoteIp(),
             'REMOTE_PORT' => $connection->getRemotePort(),
-            'SERVER_SOFTWARE' => 'workerman',
+            'SERVER_SOFTWARE' => Adapterman::NAME,
             'SERVER_NAME' => '',
             'HTTP_HOST' => '',
             'HTTP_USER_AGENT' => '',
