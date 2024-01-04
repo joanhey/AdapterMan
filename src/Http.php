@@ -424,7 +424,7 @@ class Http
                 'application/json' => $data = \json_decode($http_body, true) ?? [],
                 default => ''
             };
-            $_REQUEST = \array_merge($_REQUEST, $data);
+            $_REQUEST = [...$_REQUEST, ...$data];
         }
 
         // HTTP_RAW_REQUEST_DATA HTTP_RAW_POST_DATA
