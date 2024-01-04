@@ -345,7 +345,7 @@ class Http
             'SERVER_PORT' => $connection->getLocalPort(),
             'REMOTE_ADDR' => $connection->getRemoteIp(),
             'REMOTE_PORT' => $connection->getRemotePort(),
-            'SERVER_SOFTWARE' => 'workerman',
+            'SERVER_SOFTWARE' => Adapterman::NAME,
             'SERVER_NAME' => '',
             'HTTP_HOST' => '',
             'HTTP_USER_AGENT' => '',
@@ -424,7 +424,7 @@ class Http
                 'application/json' => $data = \json_decode($http_body, true) ?? [],
                 default => ''
             };
-            $_REQUEST = \array_merge($_REQUEST, $data);
+            $_REQUEST = [...$_REQUEST, ...$data];
         }
 
         // HTTP_RAW_REQUEST_DATA HTTP_RAW_POST_DATA
