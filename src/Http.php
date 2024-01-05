@@ -404,7 +404,7 @@ class Http
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['CONTENT_TYPE']) {
             match ($_SERVER['CONTENT_TYPE']) {
                 'multipart/form-data' => static::parseMultipart($http_body, $http_post_boundary),
-                'application/json' => $_POST = \json_decode($http_body, true) ?? [],
+                'application/json' => $_POST = \json_decode($http_body, true, flags: \JSON_THROW_ON_ERROR) ?? [],
                 'application/x-www-form-urlencoded' => \parse_str($http_body, $_POST),
                 default => ''
             };
@@ -415,10 +415,10 @@ class Http
             $data = [];
             match ($_SERVER['CONTENT_TYPE']) {
                 'application/x-www-form-urlencoded' => \parse_str($http_body, $data),
-                'application/json' => $data = \json_decode($http_body, true) ?? [],
+                'application/json' => $data = \json_decode($http_body, true, flags: \JSON_THROW_ON_ERROR) ?? [],
                 default => ''
             };
-            $_REQUEST = [...$_REQUEST, ...$data];
+            $_REQUEST = $data;
         }
 
         // HTTP_RAW_REQUEST_DATA HTTP_RAW_POST_DATA
