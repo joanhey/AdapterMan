@@ -434,7 +434,7 @@ class Http
         }
 
         // REQUEST
-        $_REQUEST = \array_merge($_GET, $_POST, $_REQUEST);
+        $_REQUEST = [...$_GET, ...$_POST, ...$_REQUEST];
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             static::$cache[$recv_buffer]['decode'] = [
