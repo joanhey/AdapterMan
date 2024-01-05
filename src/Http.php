@@ -250,13 +250,7 @@ class Http
 
     protected static function checkCookieSamesite(string $samesite): bool
     {
-        $valid = ['None', 'Lax', 'Strict'];
-
-        if(\in_array($samesite, $valid)) {
-            return true;
-        }
-
-        return false;
+        return \in_array($samesite, ['None', 'Lax', 'Strict']);
     }
 
     /**
