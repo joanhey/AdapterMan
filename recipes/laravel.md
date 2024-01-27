@@ -66,6 +66,7 @@ $kernel->terminate($request, $response);
 
 With this part:
 ```php
+<?php
 /*
 |--------------------------------------------------------------------------
 | Run The Application
