@@ -38,6 +38,7 @@ In the newly created `start.php`
 
 Replace this part:
 ```php
+<?php
 /*
 |--------------------------------------------------------------------------
 | Run The Application
