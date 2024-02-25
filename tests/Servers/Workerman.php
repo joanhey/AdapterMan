@@ -57,10 +57,10 @@ Worker::runAll();
 function cookies(Request $request): string
 {
     if ($request->get() === []) {
-        return new Response(body: json_encode($request->cookie()));
+        return encode($request->cookie());
     }
 
-    $response = new Response();
+    $response = new Response(headers: ['Content-Type' => 'application/json']);
     if ($set = $request->get('set')) {
         foreach ($set as $name => $value) {
             $response->cookie($name, $value);
@@ -73,10 +73,12 @@ function cookies(Request $request): string
         foreach ($delete as $name) {
             if ($request->cookie($name)) {
                 //unset($_COOKIE[$name]);
+                $cookies = $request->cookie();
+                unset($cookies[$name]);
                 $response->cookie($name, '', -1);
             }
         }
 
-        return $response->withBody(json_encode($request->cookie()));
+        return $response->withBody(json_encode($cookies));
     }
 }
