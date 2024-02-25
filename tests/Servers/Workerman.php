@@ -57,7 +57,7 @@ Worker::runAll();
 function cookies(Request $request): string
 {
     if ($request->get() === []) {
-        return encode($request->cookie());
+        return encode($request->cookie() ?? []);
     }
 
     $response = new Response(headers: ['Content-Type' => 'application/json']);
