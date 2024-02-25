@@ -54,10 +54,20 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
 
 Worker::runAll();
 
+function encode(mixed $data): Response
+{
+    //so we can change it later
+    return new Response(
+        200,
+        ['Content-Type' => 'application/json'],
+        json_encode($data, JSON_PRETTY_PRINT)
+    );
+}
+
 function cookies(Request $request): string
 {
     if ($request->get() === []) {
-        return encode($request->cookie() ?? []);
+        return encode($request->cookie());
     }
 
     $response = new Response(headers: ['Content-Type' => 'application/json']);
