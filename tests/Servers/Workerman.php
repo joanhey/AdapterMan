@@ -26,7 +26,7 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
             $request->session()->set('foo', 'bar');
             $connection->send('');
         })(),
-        '/session' => $connection->send($request->session()->pull('foo')),
+        '/session' => $connection->send(cookies($request)),
         '/sse' => (function () use ($connection) {
             $connection->send(new Response(200, ['Content-Type' => 'text/event-stream'], "\r\n"));
             $i = 0;
