@@ -222,8 +222,8 @@ trait Session
         }
         static::$sessionStarted = true;
         // Check session file path
-        if (isset($_COOKIE[HttpCache::$sessionName]) && !\preg_match('/^[a-zA-Z0-9]+$/', $_COOKIE[HttpCache::$sessionName])) {
-            unset($_COOKIE[HttpCache::$sessionName]);
+        if (isset($_COOKIE[static::$sessionName]) && !\preg_match('/^[a-zA-Z0-9]+$/', $_COOKIE[static::$sessionName])) {
+            unset($_COOKIE[static::$sessionName]);
         }
         // Generate a SID.
         if (! isset($_COOKIE[static::$sessionName]) || ! \is_file(static::$sessionSavePath.'/ses_'.$_COOKIE[static::$sessionName])) {
