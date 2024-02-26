@@ -8,7 +8,7 @@ dataset('UPLOAD', [
         'contents' => Psr7\Utils::tryFopen(__DIR__ .'/Stub/composer.json', 'r'),
         'expect'   => [
                 'name' => 'composer.json',
-                'full_path' => 'composer.json',
+                //'full_path' => 'composer.json', // PHP8.1
                 'size' => filesize(__DIR__ .'/Stub/composer.json'),
                 'error' => 0,
                 'type' => 'application/json',
