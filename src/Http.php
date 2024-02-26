@@ -45,6 +45,14 @@ class Http
     protected static array $cache = [];
 
     /**
+     * Send content in response
+     * to not send with HEAD request or 204 and 304 response
+     *
+     * @var boolean
+     */
+    protected static bool $responseContent = true;
+
+    /**
      * Phrases.
      *
      * @var array<int,string>
@@ -141,6 +149,7 @@ class Http
         static::$cookies = [];
         static::$sessionFile = '';
         static::$sessionStarted = false; 
+        static::$responseContent = true;
     }
 
     /**
@@ -293,6 +302,9 @@ class Http
 
         if ($method === 'GET' || $method === 'OPTIONS' || $method === 'HEAD') {
             static::$cache[$recv_buffer]['input'] = $head_len;
+            if ($method === 'HEAD') {
+                static::$responseContent = false;
+            }
 
             return $head_len;
         }
@@ -458,8 +470,6 @@ class Http
      */
     public static function encode(string $content, TcpConnection $connection): string
     {
-        //$content = (string) $content;
-
         // http-code status line.
         $header = static::$status . "\r\n";
 
@@ -474,6 +484,10 @@ class Http
         }
         // header
         $header .= 'Content-Length: ' . \strlen($content) . "\r\n\r\n";
+
+        if(!static::$responseContent) {
+            $content = "";
+        }
 
         // save session
         static::sessionWriteClose();
