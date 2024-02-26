@@ -26,7 +26,7 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
             $request->session()->set('foo', 'bar');
             $connection->send('');
         })(),
-        '/session' => $connection->send($request->session()->pull('foo')),
+        '/session' => $connection->send(cookies($request)),
         '/sse' => (function () use ($connection) {
             $connection->send(new Response(200, ['Content-Type' => 'text/event-stream'], "\r\n"));
             $i = 0;
@@ -54,13 +54,23 @@ $worker->onMessage = function (TcpConnection $connection, Request $request) {
 
 Worker::runAll();
 
+function encode(mixed $data): Response
+{
+    //so we can change it later
+    return new Response(
+        200,
+        ['Content-Type' => 'application/json'],
+        json_encode($data, JSON_PRETTY_PRINT)
+    );
+}
+
 function cookies(Request $request): string
 {
     if ($request->get() === []) {
-        return new Response(body: json_encode($request->cookie()));
+        return encode($request->cookie());
     }
 
-    $response = new Response();
+    $response = new Response(headers: ['Content-Type' => 'application/json']);
     if ($set = $request->get('set')) {
         foreach ($set as $name => $value) {
             $response->cookie($name, $value);
@@ -73,10 +83,12 @@ function cookies(Request $request): string
         foreach ($delete as $name) {
             if ($request->cookie($name)) {
                 //unset($_COOKIE[$name]);
+                $cookies = $request->cookie();
+                unset($cookies[$name]);
                 $response->cookie($name, '', -1);
             }
         }
 
-        return $response->withBody(json_encode($request->cookie()));
+        return $response->withBody(json_encode($cookies));
     }
 }
