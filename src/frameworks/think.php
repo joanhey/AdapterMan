@@ -1,4 +1,5 @@
 <?php
+
 use think\Cache;
 use think\Config;
 use think\Console;
@@ -22,8 +23,11 @@ class Http extends think\Http
     protected function loadMiddleware(): void
     {
         if (is_file($this->app->getBasePath() . 'middleware.php')) {
-            // Change include to include_once
-            $this->app->middleware->import(include_once $this->app->getBasePath() . 'middleware.php');
+            // Change include to include_once OnlyOne
+            $middleware = include_once $this->app->getBasePath() . 'middleware.php';
+            if (is_array($middleware)) {
+                $this->app->middleware->import($middleware);
+            }
         }
     }
 
