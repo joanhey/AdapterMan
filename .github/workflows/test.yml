@@ -35,4 +35,5 @@ jobs:
       - name: Execute tests
         run: |
           php -r "echo 'Curl/', curl_version()['version'];"
+          
           vendor/bin/pest --colors=always
