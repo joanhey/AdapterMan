@@ -2,8 +2,7 @@
   <img src="https://user-images.githubusercontent.com/249085/200214022-c2c45753-368c-4e28-8415-2b3cadca9907.png" />
   
 </p>
-
-[![tests](https://github.com/joanhey/AdapterMan/actions/workflows/test.yml/badge.svg)](https://github.com/joanhey/AdapterMan/actions/workflows/test.yml)
+[![Tests Adapterman](https://github.com/joanhey/AdapterMan/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/joanhey/AdapterMan/actions/workflows/test.yml)
 [![GitHub release](https://img.shields.io/github/release/joanhey/adapterman.svg)](https://github.com/joanhey/adapterman/releases/latest)
 [![GitHub](https://img.shields.io/github/license/joanhey/adapterman)](https://github.com/joanhey/AdapterMan/blob/master/LICENSE)
 
