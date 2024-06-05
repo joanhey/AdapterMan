@@ -385,7 +385,7 @@ class Http
                 case 'HOST':
                     $tmp = \explode(':', $value);
                     $_SERVER['SERVER_NAME'] = $tmp[0];
-                    $_SERVER['SERVER_PORT'] = $tmp[1] ?? 80;
+                    $_SERVER['SERVER_PORT'] = (int) ($tmp[1] ?? 80);
                     break;
                 // cookie
                 case 'COOKIE':
