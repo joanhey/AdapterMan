@@ -1,5 +1,7 @@
 
-Nginx config example. [nginx-config.md](nginx-config.md)
+Nginx config example [nginx-config.md](nginx-config.md)
+
+Caddy config example [caddy-config.md](caddy-config.md).
 
 Adapterman is for now an App Server.
 
