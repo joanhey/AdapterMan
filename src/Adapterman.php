@@ -16,6 +16,8 @@ namespace Adapterman;
 
 use Workerman\Worker;
 use Exception;
+use Workerman\Timer;
+use Workerman\Worker;
 
 class Adapterman
 {
@@ -29,7 +31,7 @@ class Adapterman
         'headers_sent',
         'headers_list',
         'http_response_code',
-        
+
         'setcookie',
 
         'session_create_id',
@@ -64,8 +66,50 @@ class Adapterman
             fwrite(STDERR, $e->getMessage());
             exit;
         }
+    }
 
-        fwrite(STDOUT, self::NAME . ' OK' . PHP_EOL);
+    public static function initWorker(
+        string $socketName = '',
+        array $socketOptions = [],
+        string $processName = 'AdapterMan',
+        int $workersCount = 1,
+        int $sessionTTL = 600,
+        callable $onMessage = null
+    ): Worker
+    {
+        try {
+            self::init();
+
+            $worker = new Worker($socketName, $socketOptions);
+            if ($processName) {
+                $worker->name = $processName;
+            }
+
+            if ($workersCount === 0) {
+                $worker->count = cpu_count();
+            } else {
+                $worker->count = $workersCount;
+            }
+
+            $worker->onWorkerStart = static function (Worker $worker) use ($sessionTTL) {
+                if ($worker->id === 0) {
+                    Timer::add($sessionTTL, static function () {
+                        Http::tryGcSessions();
+                    });
+                }
+            };
+
+            if ($onMessage) {
+                $worker->onMessage = $onMessage;
+            }
+
+            return $worker;
+
+        } catch (Exception $e) {
+            fwrite(STDERR, self::NAME . ' Error:' . PHP_EOL);
+            fwrite(STDERR, $e->getMessage());
+            exit;
+        }
     }
 
     /**
