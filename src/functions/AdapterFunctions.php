@@ -133,7 +133,7 @@ function set_time_limit(int $seconds): bool
  * 
  * @return bool Always false with Adapterman
  */
-function headers_sent(string &$filename = null, int &$line = null): bool
+function headers_sent(?string &$filename = null, ?int &$line = null): bool
 {
     return false;
 }
