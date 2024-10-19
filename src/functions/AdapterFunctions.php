@@ -45,7 +45,7 @@ function header_remove(?string $name = null): void
  *
  * @link https://www.php.net/manual/en/function.http-response-code.php
  */
-function http_response_code(int $code = null): int
+function http_response_code(?int $code = null): int
 { // int|bool
     return Http::responseCode($code); // Fix to return actual status when void
 }
