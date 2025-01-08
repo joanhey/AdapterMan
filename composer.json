@@ -27,7 +27,7 @@
     "require-dev": {
         "ext-curl": "*",
         "pestphp/pest": "^2.8",
-        "mockery/mockery": "2.0.x-dev",
+        "mockery/mockery": "^1.6",
         "guzzlehttp/guzzle": "^7.0"
     },
     "bin": ["adapterman"],
