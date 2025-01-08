@@ -19,7 +19,7 @@ use Exception;
 
 class Adapterman
 {
-    public const VERSION = "0.6.2";
+    public const VERSION = "0.7.0";
 
     public const NAME = 'Adapterman/'. self::VERSION. ' (Workerman/'. Worker::VERSION. ')';
 
