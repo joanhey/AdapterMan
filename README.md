@@ -22,6 +22,7 @@ Actually working with:
 - KumbiaPHP
 - ThinkPHP
 - Leaf
+- FlightPHP
 - ... (Your app?)
 
 Still testing with more fws and apps.
