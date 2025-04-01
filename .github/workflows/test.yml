@@ -34,4 +34,4 @@ jobs:
 
       - name: Execute tests
         run: |          
-          vendor/bin/pest --colors=always
+          pest --colors=always
