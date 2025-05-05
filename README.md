@@ -11,7 +11,7 @@ Faster and more scalable apps, also use it as Serverless.
 
 Run almost any PHP app with the async event driven [Workerman](https://github.com/walkor/workerman), without touch 1 line of code in your fw or app.
 
-If your app or fw use a Front Controller, 99% that will work. Requires minimun PHP 8.0.
+If your app or fw use a Front Controller, 99% that will work. Requires minimun PHP/8.0 and Adapterman/0.7 need PHP/8.1.
 
 Actually working with:
 - Symfony
