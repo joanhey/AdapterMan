@@ -96,10 +96,6 @@ trait Session
             static::$sessionCookie['samesite'] = \ini_get('session.cookie_samesite');
         }
             
-
-        Timer::add(static::$sessionGcInterval, function () {
-            static::tryGcSessions();
-        });
     }
 
     protected static function createSessionCookie(string $name, string $id): bool

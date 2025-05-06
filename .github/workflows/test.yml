@@ -33,7 +33,5 @@ jobs:
           composer update --prefer-dist --no-interaction --no-progress --ansi
 
       - name: Execute tests
-        run: |
-          php -r "echo 'Curl/', curl_version()['version'];"
-          
+        run: |          
           vendor/bin/pest --colors=always
