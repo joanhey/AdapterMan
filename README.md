@@ -176,7 +176,7 @@ To run your app.
 ```php server.php reload -g  ```
 
 Workerman documentation:
-[https://github.com/walkor/workerman-manual](https://github.com/walkor/workerman-manual/blob/master/english/SUMMARY.md)
+https://manual.workerman.net/doc/en/
 
 You can also select a diferent cli php.ini directly:
 
