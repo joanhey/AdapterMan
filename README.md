@@ -23,6 +23,8 @@ Actually working with:
 - ThinkPHP
 - Leaf
 - FlightPHP
+- Wolff
+- Phpixie
 - ... (Your app?)
 
 Still testing with more fws and apps.
