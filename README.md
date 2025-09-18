@@ -7,13 +7,17 @@
 [![GitHub release](https://img.shields.io/github/release/joanhey/adapterman.svg)](https://github.com/joanhey/adapterman/releases/latest)
 [![GitHub](https://img.shields.io/github/license/joanhey/adapterman)](https://github.com/joanhey/AdapterMan/blob/master/LICENSE.txt)
 
-Faster and more scalable apps, also use it as Serverless.
+**Faster, More Scalable Apps with Serverless Capabilities**  
 
-Run almost any PHP app with the async event driven [Workerman](https://github.com/walkor/workerman), without touch 1 line of code in your fw or app.
+Run nearly any PHP application seamlessly using the async, event-driven [Workerman](https://github.com/walkor/workerman) without modifying a single line of code in your framework or app.  
 
-If your app or fw use a Front Controller, 99% that will work. Requires minimun PHP/8.0 and Adapterman/0.7 need PHP/8.1.
+If your application or framework follows a Front Controller pattern, there’s a **99% chance it will work** out of the box.
 
-Actually working with:
+Minimum requirements:  
+- **PHP 8.0** (or higher)  
+- **Adapterman 0.7** (requires **PHP 8.1**)
+
+**Currently Compatible With:**  
 - Symfony
 - Laravel
 - CakePHP
@@ -25,10 +29,11 @@ Actually working with:
 - FlightPHP
 - Wolff
 - Phpixie
-- ... (Your app?)
+- ... *(Your app could be next!)* 
 
-Still testing with more fws and apps.
-Without touch a line of code.
+More frameworks and applications are being tested continuously, **all without requiring code changes**.
+
+Experience **enhanced performance and scalability** effortlessly.
 
 ### NEW !!! Workerman shared nothing mode
 We started to test it. Experimental still.
