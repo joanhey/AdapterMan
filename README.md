@@ -190,9 +190,9 @@ You can also select a diferent cli php.ini directly:
 ```php -c cli-php.ini server.php start```
 
 ### Help with session issues
-I was using this lib internally, for more than 2 years, to run legacy apps with Workerman.
+I have been using this library internally for over two years to run legacy applications with Workerman. Initially, we developed it primarily for APIs and microservices, so session handling wasn't a key focus during testing. As a result, the session functionality may not be as thoroughly tested or optimized as other features.
 
-We made it for APIs and microservices. So the session is not well tested.
+If you encounter any issues related to sessions, please let us know so we can investigate and improve compatibility.
 
 #### Login progress
 It's working with Symfony and Laravel
