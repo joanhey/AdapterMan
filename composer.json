@@ -26,7 +26,8 @@
     },
     "require-dev": {
         "ext-curl": "*",
-        "pestphp/pest": "^2.8",
+        "pestphp/pest": ">=2.8,<2.36.1",
+        "brianium/paratest": "^7.3.1,<7.4",
         "mockery/mockery": "^1.6",
         "guzzlehttp/guzzle": "^7.0"
     },
