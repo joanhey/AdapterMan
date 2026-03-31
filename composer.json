@@ -26,7 +26,8 @@
     },
     "require-dev": {
         "ext-curl": "*",
-        "pestphp/pest": "^2.36",
+        "pestphp/pest": "2.36.0",
+        "phpunit/phpunit": "10.5.36",
         "mockery/mockery": "^1.6",
         "guzzlehttp/guzzle": "^7.0"
     },
