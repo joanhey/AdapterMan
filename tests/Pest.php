@@ -56,12 +56,9 @@ function HttpClient(): Client
 }
 
 /**
- * Send a raw HTTP/1.1 request line (no libcurl normalization). Used to assert strict method tokens.
- *
- * Reads until the full message is received (per Content-Length) so we do not block on EOF when the
- * server keeps the connection open after sending 400.
+ * Send a raw HTTP/1.1 message and read the full response (uses Content-Length when present).
  */
-function rawTcpHttpRequest(string $method, string $path = '/method'): string
+function rawTcpHttpExchange(string $payload): string
 {
     $fp = @stream_socket_client('tcp://127.0.0.1:8080', $errno, $errstr, 5);
     if ($fp === false) {
@@ -70,7 +67,6 @@ function rawTcpHttpRequest(string $method, string $path = '/method'): string
     stream_set_timeout($fp, 3);
     stream_set_blocking($fp, true);
 
-    $payload = "{$method} {$path} HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nConnection: close\r\n\r\n";
     fwrite($fp, $payload);
 
     $response = '';
@@ -106,6 +102,50 @@ function rawTcpHttpRequest(string $method, string $path = '/method'): string
     fclose($fp);
 
     return $response;
+}
+
+/**
+ * Send a raw HTTP/1.1 request line (no libcurl normalization). Used to assert strict method tokens.
+ *
+ * Reads until the full message is received (per Content-Length) so we do not block on EOF when the
+ * server keeps the connection open after sending 400.
+ */
+function rawTcpHttpRequest(string $method, string $path = '/method'): string
+{
+    $payload = "{$method} {$path} HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nConnection: close\r\n\r\n";
+
+    return rawTcpHttpExchange($payload);
+}
+
+/**
+ * Build an HTTP/1.1 chunked payload (final zero chunk and empty trailers included).
+ *
+ * @param  array<int, string>  $dataChunks
+ */
+function httpChunkedEncode(array $dataChunks): string
+{
+    $out = '';
+    foreach ($dataChunks as $chunk) {
+        $out .= dechex(strlen($chunk)) . "\r\n" . $chunk . "\r\n";
+    }
+
+    return $out . "0\r\n\r\n";
+}
+
+function httpResponseStatus(string $raw): int
+{
+    if (preg_match('#^HTTP/1\.\d (\d+)#', $raw, $m)) {
+        return (int) $m[1];
+    }
+
+    return 0;
+}
+
+function httpResponseBody(string $raw): string
+{
+    $p = strpos($raw, "\r\n\r\n");
+
+    return $p === false ? '' : substr($raw, $p + 4);
 }
 
 /**
