@@ -56,6 +56,17 @@ function HttpClient(): Client
 }
 
 /**
+ * True when Feature HTTP tests target native Workerman (e.g. tests/Servers/Workerman.php), not AdaptermanServer.
+ * Set env ADAPTERMAN_TEST_HTTP_SERVER=workerman in that job; Workerman 5+ may accept non-uppercase standard methods.
+ */
+function featureHttpTestsTargetNativeWorkerman(): bool
+{
+    $v = getenv('ADAPTERMAN_TEST_HTTP_SERVER');
+
+    return ($v !== false && $v !== '') && strcasecmp((string) $v, 'workerman') === 0;
+}
+
+/**
  * Send a raw HTTP/1.1 request line (no libcurl normalization). Used to assert strict method tokens.
  *
  * Reads until the full message is received (per Content-Length) so we do not block on EOF when the
