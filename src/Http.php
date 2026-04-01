@@ -174,13 +174,18 @@ class Http
      */
     public static function header(string $content, bool $replace = true, int $http_response_code = 0): void
     {
-        if (\str_starts_with($content, 'HTTP')) {
-            static::$status = $content;
+        $normalized = self::normalizeHeaderLine($content);
+        if ($normalized === null) {
+            return;
+        }
+
+        if (\strlen($normalized) >= 5 && \strncasecmp($normalized, 'HTTP/', 5) === 0) {
+            static::$status = $normalized;
 
             return;
         }
 
-        $key = \strstr($content, ':', true);
+        $key = \strstr($normalized, ':', true);
         if (empty($key)) {
             return;
         }
@@ -193,9 +198,9 @@ class Http
         }
 
         if ($key === 'Set-Cookie') {
-            static::$cookies[] = $content;
+            static::$cookies[] = $normalized;
         } else {
-            static::$headers[$key] = $content;
+            static::$headers[$key] = $normalized;
         }
     }
 
@@ -504,6 +509,21 @@ class Http
         }
 
         return [$header . "\r\nContent-Length: " . \strlen($body) . "\r\n\r\n" . $body, $trailers];
+    }
+
+    /**
+     * Strip trailing whitespace then reject headers still containing CR, LF, or NUL.
+     *
+     * @return non-empty-string|null
+     */
+    private static function normalizeHeaderLine(string $content): ?string
+    {
+        $line = \rtrim($content);
+        if ($line === '' || \strpbrk($line, "\r\n\0") !== false) {
+            return null;
+        }
+
+        return $line;
     }
 
     /**
