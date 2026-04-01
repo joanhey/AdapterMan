@@ -38,8 +38,8 @@ it('get HTTP lowercase method return 400', function (string $method) {
     expect($headerBlock)->toStartWith('HTTP/1.1 400');
     expect($body)->toBe('');
 })->skip(
-    featureHttpTestsTargetNativeWorkerman(),
-    'Skipped when ADAPTERMAN_TEST_HTTP_SERVER=workerman (wire-level lowercase method semantics differ from Adapterman).'
+    fn () => httpTestServerAcceptsLowercaseStandardMethodOnWire(),
+    'Stack accepts non-uppercase standard methods on the wire; strict 400 does not apply.'
 )->with([
     'get',
     'Get',
