@@ -11,12 +11,4 @@ abstract class ServerTestCase extends TestCase
     {
         RunServer::start();
     }
-
-    public static function tearDownAfterClass(): void
-    {
-        //RunAdapterman::stop();
-    }
-    public function __destruct() {
-        RunServer::stop();
-    }
 }

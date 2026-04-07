@@ -35,18 +35,23 @@ it('tests GET Query string with complex array', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with([['complex_array' => [
-    'user' => [
-        'name' => 'Bob Smith',
-        'age'  => '47',
-        'sex'  => 'M',
-        'dob'  => '5/12/1956',
+})->with([
+    [
+        [
+            'complex_array' => [
+                'user' => [
+                    'name' => 'Bob Smith',
+                    'age'  => '47',
+                    'sex'  => 'M',
+                    'dob'  => '5/12/1956',
+                ],
+                'pastimes' => ['golf', 'opera', 'poker', 'rap'],
+                'children' => [
+                    'bobby' => ['age'=>'12', 'sex'=>'M'],
+                    'sally' => ['age'=>'8', 'sex'=>'F'],
+                ],
+                'CEO',
+            ],
+        ],
     ],
-    'pastimes' => ['golf', 'opera', 'poker', 'rap'],
-    'children' => [
-        'bobby' => ['age'=>'12', 'sex'=>'M'],
-        'sally' => ['age'=>'8', 'sex'=>'F'],
-    ],
-    'CEO',
-    ],]
 ]);

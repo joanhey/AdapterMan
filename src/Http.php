@@ -45,6 +45,16 @@ class Http
     protected static array $cache = [];
 
     /**
+     * Bad request (chunked / header validation).
+     */
+    private const HTTP_400 = "HTTP/1.1 400 Bad Request\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
+
+    /**
+     * Payload too large.
+     */
+    private const HTTP_413 = "HTTP/1.1 413 Payload Too Large\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
+
+    /**
      * Send content in response
      * to not send with HEAD request or 204 and 304 response
      *
@@ -164,13 +174,18 @@ class Http
      */
     public static function header(string $content, bool $replace = true, int $http_response_code = 0): void
     {
-        if (\str_starts_with($content, 'HTTP')) {
-            static::$status = $content;
+        $normalized = self::normalizeHeaderLine($content);
+        if ($normalized === null) {
+            return;
+        }
+
+        if (\strlen($normalized) >= 5 && \strncasecmp($normalized, 'HTTP/', 5) === 0) {
+            static::$status = $normalized;
 
             return;
         }
 
-        $key = \strstr($content, ':', true);
+        $key = \strstr($normalized, ':', true);
         if (empty($key)) {
             return;
         }
@@ -183,9 +198,9 @@ class Http
         }
 
         if ($key === 'Set-Cookie') {
-            static::$cookies[] = $content;
+            static::$cookies[] = $normalized;
         } else {
-            static::$headers[$key] = $content;
+            static::$headers[$key] = $normalized;
         }
     }
 
@@ -282,22 +297,59 @@ class Http
         }
         $recv_len = \strlen($recv_buffer);
         $crlf_post = \strpos($recv_buffer, "\r\n\r\n");
-        if (!$crlf_post) {
-            // Judge whether the package length exceeds the limit.
-            if ($recv_len >= $connection->maxPackageSize) {
-                $connection->close();
+        if ($crlf_post === false) {
+            if ($recv_len >= 16384) {
+                $connection->end(static::HTTP_413, true);
             }
 
             return 0;
         }
         $head_len = $crlf_post + 4;
 
-        $method = \substr($recv_buffer, 0, \strpos($recv_buffer, ' '));
+        $sp = \strpos($recv_buffer, ' ');
+        if ($sp === false) {
+            $connection->end(static::HTTP_400, true);
+
+            return 0;
+        }
+        $method = \substr($recv_buffer, 0, $sp);
         if (!\in_array($method, static::AVAILABLE_METHODS)) {
             $connection->send("HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\n\r\n", true);
             $connection->consumeRecvBuffer($recv_len);
 
             return 0;
+        }
+
+        $match = [];
+        if (\preg_match("/\r\nContent-Length: ?(\d+)/i", $recv_buffer, $match)) {
+            if (\preg_match('/\r\nTransfer-Encoding[ \t]*:/i', $recv_buffer)) {
+                $connection->end(static::HTTP_400, true);
+
+                return 0;
+            }
+            $content_length = $match[1] ?? 0;
+            $total_length = (int) $content_length + $head_len;
+            if ($total_length > $connection->maxPackageSize) {
+                $connection->end(static::HTTP_413, true);
+
+                return 0;
+            }
+            if (!isset($recv_buffer[1024])) {
+                static::$cache[$recv_buffer]['input'] = $total_length;
+            }
+
+            return $total_length;
+        }
+
+        $header = isset($recv_buffer[$head_len]) ? \substr($recv_buffer, 0, $head_len) : $recv_buffer;
+        if (\preg_match('~\r\nTransfer-Encoding[ \t]*:~i', $header)) {
+            $chunkedLen = static::inputChunked($recv_buffer, $connection, $header, $head_len);
+            if ($chunkedLen > 0) {
+                $connection->context ??= new \stdClass();
+                $connection->context->chunked = true;
+            }
+
+            return $chunkedLen;
         }
 
         if ($method === 'GET' || $method === 'OPTIONS' || $method === 'HEAD') {
@@ -309,18 +361,169 @@ class Http
             return $head_len;
         }
 
-        $match = [];
-        if (\preg_match("/\r\nContent-Length: ?(\d+)/i", $recv_buffer, $match)) {
-            $content_length = $match[1] ?? 0;
-            $total_length = (int) $content_length + $head_len;
-            if (!isset($recv_buffer[1024])) {
-                static::$cache[$recv_buffer]['input'] = $total_length;
-            }
+        return ($method === 'DELETE' || $method === 'PATCH') ? $head_len : 0;
+    }
 
-            return $total_length;
+    /**
+     * Check the integrity of a chunked transfer-encoded request.
+     */
+    protected static function inputChunked(string $buffer, TcpConnection $connection, string $header, int $headerLength): int
+    {
+        $pattern = '~\A'
+            . '(?![\s\S]*\r\nContent-Length[ \t]*:)'
+            . '(?![\s\S]*\r\nTransfer-Encoding[ \t]*:[\s\S]*\r\nTransfer-Encoding[ \t]*:)'
+            . '(?=[\s\S]*\r\nTransfer-Encoding[ \t]*:[ \t]*chunked[ \t]*\r\n)'
+            . '(?:GET|POST|OPTIONS|HEAD|DELETE|PUT|PATCH) +\/[^\x00-\x20\x7f]* +HTTP\/1\.[01]\r\n~i';
+
+        if (!\preg_match($pattern, $header)) {
+            $connection->end(static::HTTP_400, true);
+
+            return 0;
         }
 
-        return ($method === 'DELETE' || $method === 'PATCH') ? $head_len : 0;
+        $pos = $headerLength;
+        $bufLen = \strlen($buffer);
+        $maxSize = $connection->maxPackageSize;
+
+        while (true) {
+            $lineEnd = \strpos($buffer, "\r\n", $pos);
+            if ($lineEnd === false) {
+                return 0;
+            }
+
+            $semiPos = \strpos($buffer, ';', $pos);
+            $hexEnd = ($semiPos !== false && $semiPos < $lineEnd) ? $semiPos : $lineEnd;
+            $hexStr = \substr($buffer, $pos, $hexEnd - $pos);
+
+            if ($hexStr === '' || !\ctype_xdigit($hexStr) || isset($hexStr[16])) {
+                $connection->end(static::HTTP_400, true);
+
+                return 0;
+            }
+
+            $chunkSize = \hexdec($hexStr);
+            if (\is_float($chunkSize)) {
+                $connection->end(static::HTTP_400, true);
+
+                return 0;
+            }
+            $pos = $lineEnd + 2;
+
+            if ($chunkSize === 0) {
+                while (true) {
+                    $lineEnd = \strpos($buffer, "\r\n", $pos);
+                    if ($lineEnd === false) {
+                        return 0;
+                    }
+                    if ($lineEnd === $pos) {
+                        $totalLength = $pos + 2;
+                        if ($totalLength > $maxSize) {
+                            $connection->end(static::HTTP_413, true);
+
+                            return 0;
+                        }
+
+                        return $totalLength;
+                    }
+                    $pos = $lineEnd + 2;
+                }
+            }
+
+            if ($pos + $chunkSize + 2 > $bufLen) {
+                return 0;
+            }
+            if (\substr($buffer, $pos + $chunkSize, 2) !== "\r\n") {
+                $connection->end(static::HTTP_400, true);
+
+                return 0;
+            }
+            $pos += $chunkSize + 2;
+
+            if ($pos > $maxSize) {
+                $connection->end(static::HTTP_413, true);
+
+                return 0;
+            }
+        }
+    }
+
+    /**
+     * Decode a chunked transfer-encoded request into a normalized buffer (Content-Length body).
+     *
+     * @return array{string, array<string, string>}
+     */
+    protected static function decodeChunked(string $buffer, int $headerEnd): array
+    {
+        $header = \preg_replace('~\r\nTransfer-Encoding[ \t]*:[^\r]*~i', '', \substr($buffer, 0, $headerEnd), 1);
+        $body = '';
+        $trailers = [];
+        $pos = $headerEnd + 4;
+        $bufLen = \strlen($buffer);
+
+        while (true) {
+            $lineEnd = \strpos($buffer, "\r\n", $pos);
+            if ($lineEnd === false) {
+                break;
+            }
+
+            $semiPos = \strpos($buffer, ';', $pos);
+            $hexEnd = ($semiPos !== false && $semiPos < $lineEnd) ? $semiPos : $lineEnd;
+            $hexStr = \substr($buffer, $pos, $hexEnd - $pos);
+            if ($hexStr === '' || !\ctype_xdigit($hexStr) || isset($hexStr[16])) {
+                break;
+            }
+
+            $chunkSize = \hexdec($hexStr);
+            if (\is_float($chunkSize)) {
+                break;
+            }
+            $pos = $lineEnd + 2;
+
+            if ($chunkSize === 0) {
+                while (true) {
+                    $lineEnd = \strpos($buffer, "\r\n", $pos);
+                    if ($lineEnd === false) {
+                        break 2;
+                    }
+                    if ($lineEnd === $pos) {
+                        $pos += 2;
+                        break;
+                    }
+                    $colonPos = \strpos($buffer, ':', $pos);
+                    if ($colonPos !== false && $colonPos < $lineEnd) {
+                        $trailers[\strtolower(\substr($buffer, $pos, $colonPos - $pos))] = \ltrim(\substr($buffer, $colonPos + 1, $lineEnd - $colonPos - 1));
+                    }
+                    $pos = $lineEnd + 2;
+                }
+                break;
+            }
+
+            if ($pos + $chunkSize + 2 > $bufLen) {
+                break;
+            }
+            if (\substr($buffer, $pos + $chunkSize, 2) !== "\r\n") {
+                break;
+            }
+            $body .= \substr($buffer, $pos, $chunkSize);
+            $pos += $chunkSize + 2;
+        }
+
+        return [$header . "\r\nContent-Length: " . \strlen($body) . "\r\n\r\n" . $body, $trailers];
+    }
+
+    /**
+     * Strip trailing whitespace then reject headers still containing CR, LF, or NUL.
+     *
+     * @return non-empty-string|null
+     */
+    private static function normalizeHeaderLine(string $content): ?string
+    {
+        $line = \rtrim($content);
+        if ($line === '' || \strpbrk($line, "\r\n\0") !== false) {
+            return null;
+        }
+
+        return $line;
     }
 
     /**
@@ -335,11 +538,23 @@ class Http
             $_POST    = $cache['post'];
             $_GET     = $cache['get'];
             $_COOKIE  = $cache['cookie'];
+            $_FILES   = $cache['files'];
             $_REQUEST = $cache['request'];
             $GLOBALS['HTTP_RAW_POST_DATA'] = $GLOBALS['HTTP_RAW_REQUEST_DATA'] = '';
 
             return;
         }
+
+        $trailers = [];
+        $ctx = $connection->context ?? null;
+        if ($ctx !== null && isset($ctx->chunked)) {
+            unset($ctx->chunked);
+            $headerEnd = \strpos($recv_buffer, "\r\n\r\n");
+            if ($headerEnd !== false) {
+                [$recv_buffer, $trailers] = static::decodeChunked($recv_buffer, $headerEnd);
+            }
+        }
+
         // Init.
         $_POST = $_GET = $_COOKIE = $_REQUEST = $_SESSION = $_FILES = [];
         // $_SERVER
@@ -408,6 +623,11 @@ class Http
                     $_SERVER['CONTENT_LENGTH'] = $value;
                     break;
             }
+        }
+
+        foreach ($trailers as $name => $value) {
+            $key = \str_replace('-', '_', \strtoupper($name));
+            $_SERVER['HTTP_' . $key] = $value;
         }
 
         // Parse $_POST.

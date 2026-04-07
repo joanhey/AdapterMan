@@ -25,7 +25,7 @@
         "workerman/workerman": "^4.1"
     },
     "require-dev": {
-        "php": ">= 8.1.0",
+        "php": ">= 8.2.0",
         "ext-curl": "*",
         "pestphp/pest": "^2.8",
         "mockery/mockery": "2.0.x-dev",

@@ -21,12 +21,12 @@
         "source": "https://github.com/joanhey/adapterman"
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "workerman/workerman": "^4.1|^5.1"
     },
     "require-dev": {
         "ext-curl": "*",
-        "pestphp/pest": "^2.8",
+        "pestphp/pest": "^2.36",
         "mockery/mockery": "^1.6",
         "guzzlehttp/guzzle": "^7.0"
     },
