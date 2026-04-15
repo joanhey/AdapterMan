@@ -47,12 +47,12 @@ class Http
     /**
      * Bad request (chunked / header validation).
      */
-    private const HTTP_400 = "HTTP/1.1 400 Bad Request\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
+    private const HTTP_400 = "HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n";
 
     /**
      * Payload too large.
      */
-    private const HTTP_413 = "HTTP/1.1 413 Payload Too Large\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
+    private const HTTP_413 = "HTTP/1.1 413 Payload Too Large\r\nConnection: close\r\n\r\n";
 
     /**
      * Send content in response
