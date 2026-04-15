@@ -314,7 +314,7 @@ class Http
         }
         $method = \substr($recv_buffer, 0, $sp);
         if (!\in_array($method, static::AVAILABLE_METHODS)) {
-            $connection->send(HTTP_400, true);
+            $connection->send(static::HTTP_400, true);
             $connection->consumeRecvBuffer($recv_len);
 
             return 0;
