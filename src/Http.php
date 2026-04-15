@@ -540,7 +540,7 @@ class Http
             $_COOKIE  = $cache['cookie'];
             $_FILES   = $cache['files'];
             $_REQUEST = $cache['request'];
-            $HTTP_RAW_REQUEST_DATA = '';
+            $HTTP_RAW_POST_DATA = '';
 
             return;
         }
@@ -651,7 +651,7 @@ class Http
             $_REQUEST = $data;
         }
 
-        // HTTP_RAW_REQUEST_DATA HTTP_RAW_POST_DATA
+        // HTTP_RAW_POST_DATA
         $HTTP_RAW_POST_DATA = $http_body;
 
         // QUERY_STRING
