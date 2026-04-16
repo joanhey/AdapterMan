@@ -540,7 +540,7 @@ class Http
             $_COOKIE  = $cache['cookie'];
             $_FILES   = $cache['files'];
             $_REQUEST = $cache['request'];
-            $HTTP_RAW_POST_DATA = '';
+            $GLOBALS['HTTP_RAW_POST_DATA'] = '';
 
             return;
         }
@@ -582,7 +582,7 @@ class Http
         [$http_header, $http_body] = \explode("\r\n\r\n", $recv_buffer, 2);
         
         // HTTP_RAW_POST_DATA
-        $HTTP_RAW_POST_DATA = $http_body;
+        $GLOBALS['HTTP_RAW_POST_DATA'] = $http_body;
         
         $header_data = \explode("\r\n", $http_header);
 
