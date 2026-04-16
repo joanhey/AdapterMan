@@ -580,6 +580,10 @@ class Http
 
         // Parse headers.
         [$http_header, $http_body] = \explode("\r\n\r\n", $recv_buffer, 2);
+        
+        // HTTP_RAW_POST_DATA
+        $HTTP_RAW_POST_DATA = $http_body;
+        
         $header_data = \explode("\r\n", $http_header);
 
         [$_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'], $_SERVER['SERVER_PROTOCOL']] = \explode(' ', $header_data[0]);
@@ -650,9 +654,6 @@ class Http
             };
             $_REQUEST = $data;
         }
-
-        // HTTP_RAW_POST_DATA
-        $HTTP_RAW_POST_DATA = $http_body;
 
         // QUERY_STRING
         $_SERVER['QUERY_STRING'] = \parse_url($_SERVER['REQUEST_URI'], \PHP_URL_QUERY);
