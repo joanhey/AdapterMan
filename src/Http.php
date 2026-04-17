@@ -540,7 +540,6 @@ class Http
             $_COOKIE  = $cache['cookie'];
             $_FILES   = $cache['files'];
             $_REQUEST = $cache['request'];
-            $GLOBALS['HTTP_RAW_POST_DATA'] = '';
 
             return;
         }
@@ -576,13 +575,14 @@ class Http
             'HTTP_COOKIE' => '',
             'HTTP_CONNECTION' => '',
             'CONTENT_TYPE' => '',
+            'RAW_BODY' => '',
         ];
 
         // Parse headers.
         [$http_header, $http_body] = \explode("\r\n\r\n", $recv_buffer, 2);
         
         // HTTP_RAW_POST_DATA
-        $GLOBALS['HTTP_RAW_POST_DATA'] = $http_body;
+        $_SERVER['RAW_BODY'] = $http_body;
         
         $header_data = \explode("\r\n", $http_header);
 
