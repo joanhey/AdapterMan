@@ -35,7 +35,9 @@ it('tests GET Query string with complex array', function (array $data) {
         ->toBeJson()
         ->json()
         ->toBe($data);
-})->with([
+})
+->skip()
+->with([
     [
         [
             'complex_array' => [
@@ -54,4 +56,4 @@ it('tests GET Query string with complex array', function (array $data) {
             ],
         ],
     ],
-])->skip();
+]);
